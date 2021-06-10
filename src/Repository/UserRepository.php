@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+/**
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User[]    findAll()
+ * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
+    /**
+     * Used to upgrade (rehash) the user's password automatically over time.
+     */
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
+    /**
+     * @param $_page
+     * @param $_nb_max_page
+     * @param $_search
+     * @param $_order_by
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function userListArray($_page, $_nb_max_page, $_search, $_order_by)
+    {
+        $_order_by = $_order_by ? $_order_by : "user.id DESC";
+
+        $user = $this->getEntityName();
+
+        $_dql = "SELECT 
+                user.Profil ,
+                user.username,
+                user.email,
+                user.roles,
+                user.id
+                FROM $user user
+                WHERE user.is_deleted is null OR  user.is_deleted = 0
+                AND (user.username LIKE :search 
+                OR user.email LIKE :search 
+                OR user.roles LIKE :search)
+                ORDER BY $_order_by";
+
+        $_query = $this->_em->createQuery($_dql);
+        $_query->setParameter('search', "%$_search%")
+            ->setFirstResult($_page)
+            ->setMaxResults($_nb_max_page);
+
+        return [$_query->getResult(), $this->compteData($_search)];
+    }
+
+    /**
+     * @param $_search
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function compteData($_search)
+    {
+        $user = $this->getEntityName();
+
+        $_dql = "
+            SELECT COUNT (user) as nbTotal 
+            FROM $user user
+            WHERE user.is_deleted is null OR  user.is_deleted = 0
+            AND (user.username LIKE :search 
+                    OR user.email LIKE :search 
+                    OR user.roles LIKE :search)";
+
+        $_query = $this->_em->createQuery($_dql);
+        $_query->setParameter('search', "%$_search%");
+
+        return $_query->getOneOrNullResult()['nbTotal'];
+    }
+}

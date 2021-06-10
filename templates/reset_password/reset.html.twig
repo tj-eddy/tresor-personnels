@@ -1,0 +1,14 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}{{ 'reset.password'|trans }}{% endblock %}
+
+{% block body %}
+    {{ form_start(resetForm) }}
+    <div class="form-group">
+        {{ form_row(resetForm.plainPassword) }}
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary">{{ 'reset.password'|trans }}</button>
+    </div>
+    {{ form_end(resetForm) }}
+{% endblock %}

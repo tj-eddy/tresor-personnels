@@ -1,0 +1,63 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'users'|trans }}{% endblock %}
+
+{% set user_link = true %}
+
+{% block body %}
+    {% include 'admin/partials/header.html.twig' with
+        {
+            bc_title : 'users'|trans,
+            path_link : path('user_new') ,
+            title_link : 'create'|trans ,
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                                <span class="alert-text"> {{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="id-user-list">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'username'|trans }}</th>
+                                    <th>{{ 'email'|trans }}</th>
+                                    <th>{{ 'role'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var url_admin_user_ajax_list = "{{ path('admin_user_ajax_list') }}";
+        var edit_path = "{{ path('user_edit',{'id': 0}) }}";
+        var delete_path = "{{ path('user_delete',{'id': 0}) }}";
+        var path_uploaded = "{{ path_uploaded }}";
+        var path_default_image = "{{ asset('img/default_picture_profil.png') }}";
+        var id_current_user = "{{ app.user.id }}";
+        var confirm_delete = "{{ 'delete.confirm'|trans }}";
+    </script>
+    <script src="{{ asset('js/user.js') }}"></script>
+{% endblock %}

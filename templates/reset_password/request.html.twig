@@ -1,0 +1,20 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}{{ 'reset.password'|trans }}{% endblock %}
+
+{% set return_link_show = true %}
+
+{% block body %}
+    {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+    {{ form_start(requestForm) }}
+    <div class="form-group">
+        {{ form_row(requestForm.email) }}
+    </div>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+    <div class="text-center">
+        <button class="btn btn-primary">{{ 'send.email.verification'|trans }}</button>
+    </div>
+    {{ form_end(requestForm) }}
+{% endblock %}

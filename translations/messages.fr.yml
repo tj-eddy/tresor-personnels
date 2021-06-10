@@ -1,0 +1,81 @@
+create: Créer
+edit: Editer
+update: Modifier
+save: Enregistrer
+delete: Supprimer
+show: Afficher
+return: Retour
+dashboard: Tableau de bord
+pec.elabore: PEC elaboré
+employe.program: Programme d'Emploi
+to.log.in: Se connecter
+label: Libellé
+action: Action
+logout: Deconnecter
+users: Utilisateurs
+user: Utilisateur
+create.account: Créer un compte
+sign.in: connectez-vous avec vos identifiants
+email: Email
+with.your.login:
+auth: Authentification
+delete.confirm: Vous voulez vraiment supprimer ?
+general: Général
+feffi: FEFFI
+feffi.list: listes FEFFI
+operation: Operation
+operational: Operationnelle
+pec.implement:  PEC  MIS EN ŒUVRE
+activity.number:  Nombre d'activités dans le PEC
+activity.number.realised: Nombre d'activités  réalisées
+dreen: DREEN
+cisco: CISCO
+welcome: Bienvenue !
+send.email.verification: Envoyer un e-mail de réinitialisation
+reset.password: Réinitialiser le mot de passe
+reset.text: Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+check.mail.text: Un e-mail a été envoyé contenant un lien sur lequel vous pouvez cliquer pour réinitialiser votre mot de passe.Ce lien expirera dans 1 heure.Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou
+Reset.your.password : Réinitialiser votre mot de passe
+my.profil: Mon profile
+role: Rôle
+username: Nom
+password: Mot de passe
+try.again: réessayer .
+repeated.password: Confirmer votre mot de passe
+new.password: Nouveau mot de passe
+password.validation: Veuillez entrer un mot de passe
+password.reset.send: Email de réinitialisation du mot de passe envoyé
+basic.data: Données de base
+importation: Importation
+import: Importer
+select.xlsx.file: Selectionner un fichier excel
+choice.xlsx.file: Choisir un fichier
+validation.excel.file: Choisissez un fichier Excel, s'il vous plaît !
+data.alwready.import: Données déjà importées !
+data.success.import: Données importées avec succés !
+code.etab: Code Etablissement
+name.etab: Nom Etablissement
+ecole.account: Compte Ecole
+fokontany: Fokontany
+zap: ZAP
+cat.commune: Categorie commune
+commune: Commune
+president.name: President
+member: Membre
+question: Question
+direcror.name: Directeur
+treasurer.name: Tresorier
+const.pv: P.V const
+ordinary.pv: P.V Ordinaire
+recep.const: Récép const
+select: -- séléctionner --
+pv.ag.const: PV de l'AG de constitution
+pv.ag.ordinary: PV AG ordinaire/extraordinaire
+recep.const.level: Récépissé de constitution
+yes: Oui
+no: Non
+delete.succesfully: Supression avec succès !
+add.succesfully: Ajout avec succès !
+upade.succesfully: Modification avec succès !
+feffi.succesfully: Création FEFFI avec succès !
+

@@ -1,0 +1,29 @@
+{{ form_start(form) }}
+<div class="form-group">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {% if not is_granted('ROLE_SUPERADMIN') %}
+                    {{ form_row(form.password) }}
+                {% endif %}
+                {{ form_row(form.profil) }}
+            </div>
+            {% if app.user.Profil %}
+                <img width="300" height="300" alt="Image placeholder"
+                     src="{{ asset('/uploads/' ~ app.user.Profil) }}">
+            {% else %}
+                <div class="kl-preview d-none">
+                    <img width="300" height="300" id="id-preview" src="#" alt="profil"/>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="card-body">
+        <button class="btn btn-primary">{{ action_type == 'edit' ?  'update'|trans : 'save'|trans }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

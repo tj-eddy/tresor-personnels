@@ -1,0 +1,44 @@
+{% extends "admin/base.html.twig" %}
+
+{% set user_link = true %}
+
+{% block body %}
+    {% include 'admin/partials/header.html.twig' with
+        {
+            bc_title : 'user'|trans
+        }
+    %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {{ include('admin/user/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#id-preview').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#user_profil").change(function () {
+            $('.kl-preview').removeClass('d-none');
+            readURL(this);
+        });
+    </script>
+{% endblock %}

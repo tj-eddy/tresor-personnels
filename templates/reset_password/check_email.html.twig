@@ -1,0 +1,9 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}{{ 'password.reset.send'|trans }}{% endblock %}
+
+{% block body %}
+    <p>
+        {{ 'check.mail.text'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'try.again'|trans }}</a></p>
+    </p>
+{% endblock %}
