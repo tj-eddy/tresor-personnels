@@ -13,6 +13,7 @@ label: Libellé
 action: Action
 logout: Deconnecter
 users: Utilisateurs
+document.recrutement: Document de recrutement
 user: Utilisateur
 create.account: Créer un compte
 sign.in: Connectez-vous avec vos identifiants

@@ -98,4 +98,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $_query->getOneOrNullResult()['nbTotal'];
     }
+
+    /**
+     * @param $term
+     * @return mixed
+     */
+    public function userSelectArray($term)
+    {
+        $entity = $this->getEntityName();
+        $_dql = "SELECT u.id, u.username
+                FROM $entity u
+                WHERE u.username LIKE :term";
+
+        $_query = $this->_em->createQuery($_dql);
+        $_query->setParameter('term', "%$term%");
+
+        return $_query->getResult();
+    }
 }

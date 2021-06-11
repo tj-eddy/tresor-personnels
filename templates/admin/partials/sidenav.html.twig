@@ -39,6 +39,13 @@
                                 <span class="nav-link-text">{{ 'users'|trans }}</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if document_recrutement_link is defined %} active {% endif %}"
+                               href="{{ path('document_recrutement_index') }}">
+                                <i class="ni ni-settings-gear-65"></i>
+                                <span class="nav-link-text">{{ 'document.recrutement'|trans }}</span>
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>

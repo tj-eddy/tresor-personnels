@@ -21,7 +21,7 @@ $(document).ready(function () {
                 {
                     name: "user.profil", targets: 0,
                     render: function (data) {
-                        var img_src = '/tsitohina/uploads/' + data;
+                        var img_src = '/uploads/' + data;
                         var profil_pic = data ? img_src : path_default_image;
                         return "<span class='avatar avatar-sm rounded-circle'><img  src='" + profil_pic + "' /></span>"
                     },

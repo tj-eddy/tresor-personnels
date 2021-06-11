@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<title>DocumentRecrutement</title>
+
+{% block body %}
+    <h1>DocumentRecrutement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ document_recrutement.id }}</td>
+            </tr>
+            <tr>
+                <th>Num_doc</th>
+                <td>{{ document_recrutement.numDoc }}</td>
+            </tr>
+            <tr>
+                <th>Type_doc</th>
+                <td>{{ document_recrutement.typeDoc }}</td>
+            </tr>
+            <tr>
+                <th>Date_doc</th>
+                <td>{{ document_recrutement.dateDoc }}</td>
+            </tr>
+            <tr>
+                <th>Corps</th>
+                <td>{{ document_recrutement.corps }}</td>
+            </tr>
+            <tr>
+                <th>Indice</th>
+                <td>{{ document_recrutement.indice }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ document_recrutement.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td>{{ document_recrutement.grade }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('document_recrutement_index') }}">back to list</a>
+
+    <a href="{{ path('document_recrutement_edit', {'id': document_recrutement.id}) }}">edit</a>
+
+    {{ include('document_recrutement/_delete_form.html.twig') }}
+{% endblock %}

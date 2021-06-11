@@ -78,10 +78,16 @@ class User implements UserInterface
      */
     private $matricule;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DocumentRecrutement::class, mappedBy="user")
+     */
+    private $documentRecrutements;
+
 
     public function __construct()
     {
         $this->date_create_or_update = new \DateTime();
+        $this->documentRecrutements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +258,36 @@ class User implements UserInterface
     public function setMatricule(?string $matricule): self
     {
         $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DocumentRecrutement[]
+     */
+    public function getDocumentRecrutements(): Collection
+    {
+        return $this->documentRecrutements;
+    }
+
+    public function addDocumentRecrutement(DocumentRecrutement $documentRecrutement): self
+    {
+        if (!$this->documentRecrutements->contains($documentRecrutement)) {
+            $this->documentRecrutements[] = $documentRecrutement;
+            $documentRecrutement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocumentRecrutement(DocumentRecrutement $documentRecrutement): self
+    {
+        if ($this->documentRecrutements->removeElement($documentRecrutement)) {
+            // set the owning side to null (unless already changed)
+            if ($documentRecrutement->getUser() === $this) {
+                $documentRecrutement->setUser(null);
+            }
+        }
 
         return $this;
     }

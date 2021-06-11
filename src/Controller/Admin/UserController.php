@@ -161,4 +161,16 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+    /**
+     * @Route("/user-ajax-select2", name="admin_user_ajax_select2")
+     */
+    public function userAjaxSelect2(Request $_request, UserRepository $userRepository)
+    {
+        $t = $_request->query->get('search');
+
+        $term = $userRepository->userSelectArray($t);
+
+        return new JsonResponse($term);
+    }
 }
