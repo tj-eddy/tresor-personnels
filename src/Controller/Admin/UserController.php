@@ -88,6 +88,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $user->setPassword(password_hash('123456789', 'argon2i'));
             $user->setRoles(["ROLE_EMPLOYE"]);
+            $user->setDateStartService(new \DateTime());
             $entityManager->persist($user);
             $entityManager->flush();
 

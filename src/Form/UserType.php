@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,6 +43,22 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('email', EmailType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('cin', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('matricule', TextType::class, [
+                'attr' => [
+                    'class'    => 'form-control',
+                    'readonly' => true
+                ]
+            ])
+            ->add('childNumber', IntegerType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ]
