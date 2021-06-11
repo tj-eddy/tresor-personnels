@@ -15,7 +15,7 @@ logout: Deconnecter
 users: Utilisateurs
 user: Utilisateur
 create.account: Créer un compte
-sign.in: connectez-vous avec vos identifiants
+sign.in: Connectez-vous avec vos identifiants
 email: Email
 with.your.login:
 auth: Authentification
