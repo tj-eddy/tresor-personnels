@@ -5,7 +5,35 @@
             <div class="col-6">
                 {{ form_row(form.username) }}
                 <br>
-                {{ form_row(form.matricule) }}
+                <div class="row">
+                    <div class="col-5">
+                        <label class="form-control-label"
+                               for="example3cols1Input">Numéro matricule ?</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="custom-control custom-radio mb-3">
+                                    <input checked name="hasmatricule" class="custom-control-input" value="0"
+                                           id="customRadio11"
+                                           type="radio">
+                                    <label class="custom-control-label"
+                                           for="customRadio11">{{ 'no'|trans }}</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="custom-control custom-radio mb-3">
+                                    <input name="hasmatricule" class="custom-control-input" value="1"
+                                           id="customRadio12"
+                                           type="radio">
+                                    <label class="custom-control-label"
+                                           for="customRadio12">{{ 'yes'|trans }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.matricule) }}
+                    </div>
+                </div>
                 <br>
                 {{ form_row(form.email) }}
             </div>
@@ -20,7 +48,7 @@
                <div class="row">
                    <div class="col-5">
                        <label class="form-control-label"
-                              for="example3cols1Input">Vous avez des enfants ?</label>
+                              for="example3cols1Input">Enfant(s) ?</label>
                        <div class="row">
                            <div class="col">
                                <div class="custom-control custom-radio mb-3">

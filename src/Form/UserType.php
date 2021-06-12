@@ -40,31 +40,38 @@ class UserType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Nom',
                 'attr'  => [
-                    'class' => 'form-control'
-                ]
+                    'class'       => 'form-control',
+                    'placeholder' => "Nom complet ... "
+                ],
+
             ])
             ->add('email', EmailType::class, [
                 "label" => "Adresse email",
                 'attr'  => [
-                    'class' => 'form-control'
+                    'class'       => 'form-control',
+                    "placeholder" => "Addresse email ..."
                 ]
             ])
             ->add('cin', TextType::class, [
                 'label' => 'Numéro CIN',
                 'attr'  => [
-                    'class' => 'form-control'
+                    'class'       => 'form-control',
+                    "placeholder" => "Carte d'Identité Nationale ..."
                 ]
             ])
             ->add('matricule', TextType::class, [
-                'label' => "Matricule",
-                'attr'  => [
-                    'class'    => 'form-control',
-                    'readonly' => true
+                'label'    => "Matricule",
+                'required' => false,
+                'attr'     => [
+                    'class'       => 'form-control d-none',
+                    'readonly'    => true,
+                    "placeholder" => "Numéro matricule ... "
                 ]
             ])
             ->add('childNumber', IntegerType::class, [
                 'attr'     => [
-                    'class' => 'form-control d-none'
+                    'class'       => 'form-control d-none',
+                    "placeholder" => "Nombre d'enfant ... "
                 ],
                 'required' => false,
                 'label'    => "Nombre d'enfant"

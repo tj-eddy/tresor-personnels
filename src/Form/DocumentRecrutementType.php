@@ -18,35 +18,36 @@ class DocumentRecrutementType extends AbstractType
     {
         $builder
             ->add('num_doc', TextType::class, [
-                'attr' => [
+                'attr'  => [
                     'class'    => 'form-control',
                     'readonly' => true
                 ],
-                'label'=> "Numero de document"
+                'label' => "Numero de document"
             ])
             ->add('type_doc', TextType::class, [
-                'attr' => [
+                'attr'  => [
                     'class' => 'form-control'
                 ],
-                'label'=> "Type du document"
+                'label' => "Type du document"
             ])
             ->add('date_doc', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
+                'attr'  => [
+                    'class'    => 'form-control',
+                    'readonly' => true
                 ],
-                'label'=> "Date"
+                'label' => "Date"
             ])
             ->add('corps', TextType::class, [
-                'attr' => [
+                'attr'  => [
                     'class' => 'form-control'
                 ],
-                'label'=> "Corps"
+                'label' => "Corps"
             ])
             ->add('indice', IntegerType::class, [
-                'attr' => [
+                'attr'  => [
                     'class' => 'form-control'
                 ],
-                'label'=> "Indice"
+                'label' => "Indice"
             ])
             ->add('categorie', ChoiceType::class, [
                 'attr'    => [
@@ -63,13 +64,13 @@ class DocumentRecrutementType extends AbstractType
                     'Cat VIII' => 'VIII',
                     'Cat XI'   => 'XI',
                 ],
-                'label'=> "Catégorie"
+                'label'   => "Catégorie"
             ])
             ->add('grade', TextType::class, [
-                'attr' => [
+                'attr'  => [
                     'class' => 'form-control'
                 ],
-                'label'=> "Grade"
+                'label' => "Grade"
             ]);
     }
 

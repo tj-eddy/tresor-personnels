@@ -3,7 +3,7 @@
 {% set user_link = true %}
 
 {% block body %}
-    {% include 'admin/partials/header.html.twig' with
+    {% include 'partials/header.html.twig' with
         {
             bc_title : 'user'|trans,
             path_link : path('user_index') ,
@@ -17,7 +17,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        {{ include('admin/user/_form.html.twig') }}
+                        {{ include('user/_form.html.twig') }}
                     </div>
                 </div>
             </div>

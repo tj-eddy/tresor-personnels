@@ -5,7 +5,7 @@
 {% set user_link = true %}
 
 {% block body %}
-    {% include 'admin/partials/header.html.twig' with
+    {% include 'partials/header.html.twig' with
         {
             bc_title : 'users'|trans,
             path_link : path('user_new') ,

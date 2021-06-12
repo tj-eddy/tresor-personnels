@@ -1,11 +1,11 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{{ 'document.recrutement'|trans }}{% endblock %}
 
 {% set document_recrutement_link = true %}
 
 {% block body %}
-    {% include 'admin/partials/header.html.twig' with
+    {% include 'partials/header.html.twig' with
         {
             bc_title : 'document.recrutement'|trans,
             path_link : path('document_recrutement_new') ,
