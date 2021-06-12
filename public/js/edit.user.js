@@ -18,11 +18,10 @@ $(document).ready(function () {
             children_number.attr("required",false)
         } else {
             children_number.removeClass('d-none');
-            children_number.val(" ")
+            children_number.val() > 0 ? children_number.val() : children_number.val(" ")
             children_number.prev().removeClass('d-none');
             children_number.attr("required",true)
         }
     })
-
 })
 
