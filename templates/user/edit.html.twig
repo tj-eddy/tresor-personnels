@@ -1,15 +1,13 @@
-{% extends "admin/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% set user_link = true %}
 
 {% block body %}
     {% include 'admin/partials/header.html.twig' with
         {
-            bc_title : 'user'|trans,
-            path_link : path('user_index') ,
-            title_link : 'return'|trans ,
-        } %}
-    <!-- Page content -->
+            bc_title : 'user'|trans
+        }
+    %}
     <!-- Page content -->
     <div class="container-fluid mt--6">
         <div class="row">
@@ -43,6 +41,5 @@
             readURL(this);
         });
     </script>
-    <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/edit.user.js') }}"></script>
 {% endblock %}

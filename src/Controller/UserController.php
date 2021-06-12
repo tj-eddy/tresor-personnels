@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -32,7 +32,7 @@ class UserController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('admin/user/index.html.twig', [
+        return $this->render('user/index.html.twig', [
             'path_uploaded' => $this->getParameter('upload_dir_profil')
         ]);
     }
@@ -97,7 +97,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('admin/user/new.html.twig', [
+        return $this->render('user/new.html.twig', [
             'user'        => $user,
             'form'        => $form->createView(),
             'action_type' => 'new',
@@ -135,12 +135,12 @@ class UserController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', $this->translator->trans('update.succesfully'));
+            $this->addFlash('success', "Modification avec succés !");
 
             return $this->redirectToRoute('admin_dashboard');
         }
 
-        return $this->render('admin/user/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'user'        => $user,
             'form'        => $form->createView(),
             'action_type' => 'edit',

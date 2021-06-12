@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +17,6 @@ class DashboardController extends AbstractController
         $session = new Session();
         $session->set('user_id', $this->getUser()->getId());
 
-        return $this->render('admin/dashboard/index.html.twig');
+        return $this->render('dashboard/index.html.twig');
     }
 }
