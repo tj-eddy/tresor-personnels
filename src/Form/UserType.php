@@ -67,7 +67,9 @@ class UserType extends AbstractType
                     'class'       => 'form-control date-picker',
                     "placeholder" => "Date de naissance ...",
                 ]
-            ])
+            ]);
+        if (in_array('ROLE_SUPERADMIN', $roles)) {
+            $builder
             ->add('dateStartService', TextType::class, [
                 'label' => 'Date prise de service',
                 'attr'  => [
@@ -91,7 +93,9 @@ class UserType extends AbstractType
                 ],
                 'required' => false,
                 'label'    => "Nombre d'enfant"
-            ])
+            ]);
+        }
+          $builder
             ->add('profil', FileType::class, [
                 'label'    => "Photo de profil",
                 'attr'     => [

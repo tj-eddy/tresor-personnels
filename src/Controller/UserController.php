@@ -17,7 +17,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @Route("/admin/user")
+ * @Route("/user")
  */
 class UserController extends AbstractController
 {

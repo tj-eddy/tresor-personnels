@@ -10,10 +10,12 @@
                         {% endif %}
                     </h6>
                 </div>
-                {% if path_link is defined %}
-                    <div class="col-lg-6 col-5 text-right">
-                        <a href="{{ path_link }}" class="btn btn-sm btn-neutral">{{ title_link }}</a>
-                    </div>
+                {% if is_granted('ROLE_SUPERADMIN') %}
+                    {% if path_link is defined %}
+                        <div class="col-lg-6 col-5 text-right">
+                            <a href="{{ path_link }}" class="btn btn-sm btn-neutral">{{ title_link }}</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

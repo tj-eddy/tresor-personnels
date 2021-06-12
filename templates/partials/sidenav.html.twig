@@ -4,7 +4,7 @@
         <!-- Brand -->
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
-{#                <img src="{{ asset('img/logo.PNG') }}" class="navbar-brand-img" alt="...">#}
+                {#                <img src="{{ asset('img/logo.PNG') }}" class="navbar-brand-img" alt="...">#}
             </a>
             <div class="ml-auto">
                 <!-- Sidenav toggler -->
@@ -30,7 +30,13 @@
                         </a>
                     </li>
                     {% if not is_granted('ROLE_SUPERADMIN') %}
-
+                        <li class="nav-item">
+                            <a class="nav-link {% if user_link is defined %} active {% endif %}"
+                               href="{{ path('admin_user_show',{'id': app.user.id}) }}">
+                                <i class="ni ni-books"></i>
+                                <span class="nav-link-text">Mes informations</span>
+                            </a>
+                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link {% if user_link is defined %} active {% endif %}"
