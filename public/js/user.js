@@ -30,13 +30,10 @@ $(document).ready(function () {
                 {name: "user.matricule", targets: 1},
                 {name: "user.username", targets: 2},
                 {name: "user.cin", targets: 3},
-                {
-                    name: "user.date_start_service", targets: 4,
-                },
-                {name: "user.roles", targets: 5},
+                {name: "user.date_start_service", targets: 4},
                 {
                     name: "user.id",
-                    targets: 6,
+                    targets: 5,
                     render: function (data) {
                         href_edit = edit_path.replace('0', data);
                         href_delete = delete_path.replace('0', data);

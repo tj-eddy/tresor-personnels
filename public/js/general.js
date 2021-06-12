@@ -3,7 +3,7 @@ $(function () {
         opens: 'top',
         autoclose: true,
         language: 'fr',
-        format: 'dd/mm/yyyy',
+        format: 'dd-mm-yyyy',
         defaultDate: new Date()
     });
 });

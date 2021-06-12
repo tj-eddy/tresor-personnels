@@ -55,8 +55,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 user.matricule ,
                 user.username ,
                 user.cin,
-                DATE_FORMAT(user.date_start_service, '%d-%m-%Y'),
-                user.roles,
+                user.date_start_service,
                 user.id
                 FROM $user user
                 WHERE user.is_deleted is null OR  user.is_deleted = 0
@@ -89,9 +88,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             AND (user.username LIKE :search 
                     OR user.matricule LIKE :search 
                     OR user.cin LIKE :search 
-                    OR DATE_FORMAT(user.date_start_service, '%d-%m-%Y') LIKE :search 
-                    OR user.email LIKE :search 
-                    OR user.roles LIKE :search)";
+                    OR user.date_start_service LIKE :search 
+                    OR user.email LIKE :search)";
 
         $_query = $this->_em->createQuery($_dql);
         $_query->setParameter('search', "%$_search%");

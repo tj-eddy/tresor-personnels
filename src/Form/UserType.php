@@ -56,7 +56,9 @@ class UserType extends AbstractType
                 'label' => 'Numéro CIN',
                 'attr'  => [
                     'class'       => 'form-control',
-                    "placeholder" => "Carte d'Identité Nationale ..."
+                    "placeholder" => "Carte d'Identité Nationale ...",
+                    "maxlength"   => 12,
+                    "minlength"   => 12
                 ]
             ])
             ->add('dateNaissance', TextType::class, [

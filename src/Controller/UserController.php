@@ -96,7 +96,6 @@ class UserController extends AbstractController
             }
             $entityManager = $this->getDoctrine()->getManager();
             $user->setPassword(password_hash('123456789', 'argon2i'));
-            $user->setRoles(["ROLE_EMPLOYE"]);
             $user->setDateStartService((new \DateTime())->format("d-m-Y"));
             $entityManager->persist($user);
             $entityManager->flush();
@@ -137,6 +136,7 @@ class UserController extends AbstractController
 
                 $user->setProfil($newFilename);
             }
+
             if (!in_array('ROLE_SUPERADMIN', $user->getRoles())) {
                 $user->setPassword($user->getPassword());
             } else {

@@ -45,7 +45,9 @@ class DocumentRecrutementType extends AbstractType
             ])
             ->add('indice', IntegerType::class, [
                 'attr'  => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    "maxlength"   => 3,
+                    "minlength"   => 3
                 ],
                 'label' => "Indice"
             ])
