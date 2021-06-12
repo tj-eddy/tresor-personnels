@@ -38,22 +38,26 @@ class UserType extends AbstractType
 
         $builder
             ->add('username', TextType::class, [
-                'attr' => [
+                'label' => 'Nom',
+                'attr'  => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'attr' => [
+                "label" => "Adresse email",
+                'attr'  => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('cin', TextType::class, [
-                'attr' => [
+                'label' => 'Numéro CIN',
+                'attr'  => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('matricule', TextType::class, [
-                'attr' => [
+                'label' => "Matricule",
+                'attr'  => [
                     'class'    => 'form-control',
                     'readonly' => true
                 ]
@@ -66,6 +70,7 @@ class UserType extends AbstractType
                 'label'    => "Nombre d'enfant"
             ])
             ->add('profil', FileType::class, [
+                'label'    => "Photo de profil",
                 'attr'     => [
                     'class' => 'form-control'
                 ],
