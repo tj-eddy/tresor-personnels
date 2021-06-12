@@ -5,6 +5,21 @@
             <div class="col-6">
                 {{ form_row(form.username) }}
                 <br>
+                {{ form_row(form.dateNaissance) }}
+                <br>
+                {{ form_row(form.email) }}
+                <br>
+                {{ form_row(form.cin) }}
+                <br>
+                {{ form_row(form.dateStartService) }}
+            </div>
+            <div class="col-6">
+                {% if not is_granted('ROLE_SUPERADMIN') %}
+                    {{ form_row(form.password) }}
+                {% endif %}
+                <br>
+                {{ form_row(form.profil) }}
+                <br>
                 <div class="row">
                     <div class="col-5">
                         <label class="form-control-label"
@@ -35,16 +50,6 @@
                     </div>
                 </div>
                 <br>
-                {{ form_row(form.email) }}
-            </div>
-            <div class="col-6">
-                {{ form_row(form.cin) }}
-                <br>
-                {% if not is_granted('ROLE_SUPERADMIN') %}
-                    {{ form_row(form.password) }}
-                {% endif %}
-                {{ form_row(form.profil) }}
-                <br>
                <div class="row">
                    <div class="col-5">
                        <label class="form-control-label"
@@ -74,6 +79,7 @@
                        {{ form_row(form.childNumber) }}
                    </div>
                </div>
+
             </div>
 
             </div>
@@ -87,10 +93,11 @@
             {% endif %}
         </div>
     </div>
-</div>
+
 <div class="form-group">
     <div class="card-body">
         <button class="btn btn-primary">{{ action_type == 'edit' ?  'update'|trans : 'save'|trans }}</button>
     </div>
+</div>
 </div>
 {{ form_end(form) }}

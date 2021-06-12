@@ -36,4 +36,13 @@ class Tools
         $this->security      = $security;
     }
 
+    /**
+     * @param $date_value
+     * @return string
+     * @throws \Exception
+     */
+    public function getAge($date_value)
+    {
+        return (new \DateTime())->format('Y') - (new \DateTime($date_value))->format('Y') ;
+    }
 }

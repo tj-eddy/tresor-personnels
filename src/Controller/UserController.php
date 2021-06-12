@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\Tools;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -21,9 +22,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     private $translator;
-    public function __construct(TranslatorInterface $translator)
+    private $tools;
+
+    /**
+     * UserController constructor.
+     * @param TranslatorInterface $translator
+     * @param Tools $tools
+     */
+    public function __construct(TranslatorInterface $translator, Tools $tools)
     {
         $this->translator = $translator;
+        $this->tools      = $tools;
     }
 
     /**
@@ -88,7 +97,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $user->setPassword(password_hash('123456789', 'argon2i'));
             $user->setRoles(["ROLE_EMPLOYE"]);
-            $user->setDateStartService(new \DateTime());
+            $user->setDateStartService((new \DateTime())->format("d-m-Y"));
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -160,6 +169,22 @@ class UserController extends AbstractController
         $this->addFlash('success', $this->translator->trans('delete.succesfully'));
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * @Route("/{id}/show", name="admin_user_show")
+     * @param User $user
+     */
+    public function show(User $user)
+    {
+        $date_naissance     = $user && $user->getDateNaissance() ? $user->getDateNaissance() : new \DateTime();
+        $date_start_service = $user && $user->getDateStartService() ? $user->getDateStartService() : new \DateTime();
+
+        return $this->render('user/show.html.twig', [
+            'user'       => $user,
+            'age'        => $this->tools->getAge($date_naissance),
+            'anciennete' => $this->tools->getAge($date_start_service)
+        ]);
     }
 
     /**

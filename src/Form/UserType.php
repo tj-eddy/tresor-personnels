@@ -59,6 +59,20 @@ class UserType extends AbstractType
                     "placeholder" => "Carte d'Identité Nationale ..."
                 ]
             ])
+            ->add('dateNaissance', TextType::class, [
+                'label' => 'Date de naissance',
+                'attr'  => [
+                    'class'       => 'form-control date-picker',
+                    "placeholder" => "Date de naissance ...",
+                ]
+            ])
+            ->add('dateStartService', TextType::class, [
+                'label' => 'Date prise de service',
+                'attr'  => [
+                    'class'       => 'form-control date-picker',
+                    "placeholder" => "Date prise de service ...",
+                ]
+            ])
             ->add('matricule', TextType::class, [
                 'label'    => "Matricule",
                 'required' => false,

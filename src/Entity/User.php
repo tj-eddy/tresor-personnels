@@ -58,10 +58,7 @@ class User implements UserInterface
      */
     private $date_create_or_update;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $date_start_service ;
+
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -82,6 +79,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=DocumentRecrutement::class, mappedBy="user")
      */
     private $documentRecrutements;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $date_naissance;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $date_start_service;
 
 
     public function __construct()
@@ -214,17 +221,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDateStartService(): ?\DateTimeInterface
-    {
-        return $this->date_start_service;
-    }
-
-    public function setDateStartService(\DateTimeInterface $date_start_service): self
-    {
-        $this->date_start_service = $date_start_service;
-
-        return $this;
-    }
 
     public function getChildNumber(): ?int
     {
@@ -288,6 +284,30 @@ class User implements UserInterface
                 $documentRecrutement->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?string
+    {
+        return $this->date_naissance;
+    }
+
+    public function setDateNaissance(?string $date_naissance): self
+    {
+        $this->date_naissance = $date_naissance;
+
+        return $this;
+    }
+
+    public function getDateStartService(): ?string
+    {
+        return $this->date_start_service;
+    }
+
+    public function setDateStartService(?string $date_start_service): self
+    {
+        $this->date_start_service = $date_start_service;
 
         return $this;
     }

@@ -32,7 +32,7 @@ class DocumentRecrutementType extends AbstractType
             ])
             ->add('date_doc', TextType::class, [
                 'attr'  => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control date-picker',
                     'readonly' => true
                 ],
                 'label' => "Date"
