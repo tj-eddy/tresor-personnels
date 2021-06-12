@@ -59,9 +59,11 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('childNumber', IntegerType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
+                'attr'     => [
+                    'class' => 'form-control d-none'
+                ],
+                'required' => false,
+                'label'    => "Nombre d'enfant"
             ])
             ->add('profil', FileType::class, [
                 'attr'     => [

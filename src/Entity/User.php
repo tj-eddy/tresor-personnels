@@ -66,7 +66,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $child_number;
+    private $child_number = 0;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
