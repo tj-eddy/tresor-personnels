@@ -95,6 +95,11 @@ class User implements UserInterface
      */
     private $demandeConges;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $conge_initial;
+
 
     public function __construct()
     {
@@ -344,6 +349,18 @@ class User implements UserInterface
                 $demandeConge->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCongeInitial(): ?int
+    {
+        return $this->conge_initial;
+    }
+
+    public function setCongeInitial(?int $conge_initial): self
+    {
+        $this->conge_initial = $conge_initial;
 
         return $this;
     }

@@ -18,7 +18,6 @@ class DemandeCongeType extends AbstractType
             ->add('motif')
             ->add('nom_interim')
             ->add('num_demande')
-            ->add('user')
         ;
     }
 

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    demandeConge();
     validateConge();
 });
 
@@ -20,4 +21,58 @@ function validateConge() {
             })
         }
     });
+}
+
+function emptyInput() {
+    $('#date-debut').val("")
+    $('#lieu-jouissance').val("")
+    $('#conge-type').val("")
+    $('#nom-interim').val("")
+    $('#motif').val("")
+    $('#nombre_jour').val("")
+}
+
+function demandeConge() {
+    $('.send-conge').on('click', function (ev) {
+        if (
+            $('#date-debut').val() !== "" &&
+            $('#lieu-jouissance').val() !== "" &&
+            $('#conge-type').val() !== "" &&
+            $('#nom-interim').val() !== "" &&
+            $('#motif').val() !== "" &&
+            $('#nombre_jour').val() !== ""
+        ) {
+            $.ajax({
+                method: 'post',
+                data: {
+                    date_debut: $('#date-debut').val(),
+                    lieu_jouissance: $('#lieu-jouissance').val(),
+                    type_conge: $('#conge-type').val(),
+                    nom_interim: $('#nom-interim').val(),
+                    user_id: $('#user_id').val(),
+                    motif: $('#motif').val(),
+                    nombre_jour: $('#nombre_jour').val()
+                },
+                datatype: 'json',
+                url: url_demande_conge_ajax,
+                success: function (response) {
+                    if (response.status == true && response.has_conge_attente == false && response.nombre_jour_restant > 0) {
+                        $('.message-success').modal('show')
+                        emptyInput()
+                    } else if (
+                        response.status == true && response.has_conge_attente == false &&
+                        response.nombre_jour_restant <= 0) {
+                        $('.message-erreur').modal('show')
+                    } else {
+                        $('.solde-restant').html(response.nombre_jour_restant);
+                        $('.message-has-validation-inprogress').modal('show');
+                    }
+                },
+                error: function (err) {
+                }
+            })
+        } else {
+            $('.message-validation').modal('show')
+        }
+    })
 }

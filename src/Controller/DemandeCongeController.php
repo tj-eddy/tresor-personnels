@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DemandeConge;
 use App\Form\DemandeCongeType;
 use App\Repository\DemandeCongeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -128,6 +129,58 @@ class DemandeCongeController extends AbstractController
         return new JsonResponse([
             'status'   => true,
             'conge_id' => $conge_id
+        ]);
+    }
+
+    /**
+     * @Route("/demande-conge", name="ajax_demande_conge")
+     * @param Request $request
+     */
+    public function demandeConge(Request $request,
+                                 UserRepository $userRepository,
+                                 DemandeCongeRepository $demandeCongeRepository)
+    {
+        $date_debut      = $request->request->get('date_debut');
+        $modif           = $request->request->get('date_debut');
+        $lieu_jouissance = $request->request->get('lieu_jouissance');
+        $type_conge      = $request->request->get('type_conge');
+        $nom_interim     = $request->request->get('nom_interim');
+        $user_id         = $request->request->get('user_id');
+        $nombre_jour     = $request->request->get('nombre_jour');
+
+        $user = $userRepository->find($user_id);
+
+        $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
+
+        $nombre_jour_restant = $jour_conge !== 0 ? $jour_conge - $nombre_jour : 0;
+
+        $user_has_conge    = $demandeCongeRepository->findBy([
+            'user'   => $user,
+            'status' => 0
+        ]);
+        $has_conge_attente = false;
+        if ($nombre_jour_restant >= 1) {
+            if ($user_has_conge) {
+                $has_conge_attente = true;
+            } else {
+                $demande_conge = new DemandeConge();
+
+                $demande_conge->setUser($user ? $user : null);
+                $demande_conge->setDateDebut(new \DateTime($date_debut));
+                $demande_conge->setMotif($modif ? $modif : null);
+                $demande_conge->setLieuJouissance($lieu_jouissance ? $lieu_jouissance : null);
+                $demande_conge->setTypeConge($type_conge ? $type_conge : null);
+                $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($demande_conge);
+                $entityManager->flush();
+            }
+        }
+        return new JsonResponse([
+            'status'              => true,
+            'has_conge_attente'   => $has_conge_attente,
+            'nombre_jour_restant' => $nombre_jour_restant
         ]);
     }
 }

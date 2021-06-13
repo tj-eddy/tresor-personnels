@@ -1,11 +1,157 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}New DemandeConge{% endblock %}
+{% set conge_link = true %}
 
 {% block body %}
-    <h1>Create new DemandeConge</h1>
-
-    {{ include('demande_conge/_form.html.twig') }}
-
-    <a href="{{ path('demande_conge_index') }}">back to list</a>
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Demander de congé',
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <span class="card-header border-0">
+                        Solde restant : <span class="solde-restant"> {{ app.user.congeInitial }} </span> Jours
+                        <hr>
+                        <br>
+                        <form>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <input type="hidden" id="user_id" value="{{ app.user.id }}">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Date de début</label>
+                                            <input type="datetime-local" id="date-debut"
+                                                   class="form-control datetime-picker"
+                                                   placeholder="Date de début"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Nombre de
+                                                jours</label>
+                                            <input type="number" maxlength="2" id="nombre_jour" class="form-control"
+                                                   placeholder="Nombre de jour"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">Type de
+                                                congé</label>
+                                            <input type="text" id="conge-type" class="form-control"
+                                                   placeholder="Type de congé"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">Nom de
+                                                l'interim</label>
+                                            <input type="text" id="nom-interim" class="form-control"
+                                                   placeholder="Nom de l'interim"/>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Motif</label>
+                                            <textarea id="motif" rows="6" class="form-control"
+                                                      placeholder="Votre motifs ..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Lieu jouissance</label>
+                                            <input type="text" id="lieu-jouissance" class="form-control"
+                                                   placeholder="Lieu jouissance">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-lg-4">
+                                <button type="button" class="btn btn-success send-conge">Envoyer votre demande</button>
+                            </div>
+                        </form>
+                        <div class="modal message-validation" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p class="text text-info">Veuillez verifier votre champs , s'il vous plait
+                                            ! </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal message-success" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p class="text text-success">Demande envoyé avec succés !</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal message-erreur" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p class="text text-danger">Solde de congé insuffisant !</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal message-has-validation-inprogress" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p class="text text-info">Vous avez déjà une congé en <span
+                                                    class="badge badge-info">attente de validation</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.basic-data-select2').select2({
+            placeholder: '{{ 'select'|trans }}',
+            ajax: {
+                url: "{{ path('admin_user_ajax_select2') }}",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public',
+                    };
+
+                    return query;
+                },
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return {id: obj.id, text: obj.username};
+                        })
+                    };
+                },
+                minimumInputLength: 3,
+            }
+        })
+
+        var url_demande_conge_ajax = "{{ path('ajax_demande_conge') }}";
+
+    </script>
+    <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/edit.conge.js') }}"></script>
+{% endblock %}
+
