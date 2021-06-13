@@ -20,10 +20,23 @@ $(document).ready(function () {
             "columnDefs": [
                 {
                     name: "dc.status", targets: 0, render: function (status, type, row) {
-                        let color = status == 0 ? 'danger' : 'success';
-                        let text = status == 0 ? 'En attente de validation' : 'Validé'
-                        let is_disabled = status == 1 ? 'disabled' : '';
-                        let question = "Voulez-vous vraiment valider ce congé ? "
+                        let color;
+                        if (status == 0) {
+                            color = 'danger';
+                        } else if (status == 2) {
+                            color = 'warning';
+                        } else {
+                            color = 'success';
+                        }
+                        let text;
+                        if (status == 0) {
+                            text = 'En attente';
+                        } else if (status == 2) {
+                            text = 'Annulé';
+                        } else {
+                            text = 'Validé';
+                        }
+                        let is_disabled = status == 1 || status == 2 ? 'disabled' : '';
                         return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" + text + "</button>";
                     }
                 },

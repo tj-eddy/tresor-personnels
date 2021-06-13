@@ -49,7 +49,7 @@ class DemandeCongeController extends AbstractController
     /**
      * @Route("/new", name="demande_conge_new", methods={"GET","POST"})
      */
-    public function new(Request $request,DemandeCongeRepository $demandeCongeRepository): Response
+    public function new(Request $request, DemandeCongeRepository $demandeCongeRepository): Response
     {
         $demandeConge = new DemandeConge();
         $form         = $this->createForm(DemandeCongeType::class, $demandeConge);
@@ -122,13 +122,32 @@ class DemandeCongeController extends AbstractController
                                   DemandeCongeRepository $demandeCongeRepository)
     {
         $conge_id = $request->request->get('conge_id');
-        $demandeCongeRepository->find($conge_id)->setStatus(true);
+        $demandeCongeRepository->find($conge_id)->setStatus(1);
         $entityManager = $this->getDoctrine()->getManager();
 
         $entityManager->flush();
 
         return new JsonResponse([
-            'status'   => true,
+            'status'   => 1,
+            'conge_id' => $conge_id
+        ]);
+    }
+
+    /**
+     * @Route("/annule-conge", name="ajax_annulation_conge")
+     * @param Request $request
+     */
+    public function annulerConge(Request $request,
+                                 DemandeCongeRepository $demandeCongeRepository)
+    {
+        $conge_id = $request->request->get('conge_id');
+        $demandeCongeRepository->find($conge_id)->setStatus(2);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'status'   => 2,
             'conge_id' => $conge_id
         ]);
     }

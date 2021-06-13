@@ -53,7 +53,7 @@ class DemandeConge
     private $user;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $status = 0;
 
@@ -146,12 +146,12 @@ class DemandeConge
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
