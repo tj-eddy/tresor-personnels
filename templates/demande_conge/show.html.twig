@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandeConge{% endblock %}
+
+{% block body %}
+    <h1>DemandeConge</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demande_conge.id }}</td>
+            </tr>
+            <tr>
+                <th>Date_debut</th>
+                <td>{{ demande_conge.dateDebut ? demande_conge.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Lieu_jouissance</th>
+                <td>{{ demande_conge.lieuJouissance }}</td>
+            </tr>
+            <tr>
+                <th>Type_conge</th>
+                <td>{{ demande_conge.typeConge }}</td>
+            </tr>
+            <tr>
+                <th>Motif</th>
+                <td>{{ demande_conge.motif }}</td>
+            </tr>
+            <tr>
+                <th>Nom_interim</th>
+                <td>{{ demande_conge.nomInterim }}</td>
+            </tr>
+            <tr>
+                <th>Num_demande</th>
+                <td>{{ demande_conge.numDemande }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('demande_conge_index') }}">back to list</a>
+
+    <a href="{{ path('demande_conge_edit', {'id': demande_conge.id}) }}">edit</a>
+
+    {{ include('demande_conge/_delete_form.html.twig') }}
+{% endblock %}

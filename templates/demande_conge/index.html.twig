@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de demande de congé{% endblock %}
+
+{% set document_recrutement_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Liste des demandes de congé',
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                                <span class="alert-text"> {{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="id-conge-list">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>N° demande</th>
+                                    <th>Employé</th>
+                                    <th>Nom interim</th>
+                                    <th>Date de début</th>
+                                    <th>Motifs</th>
+                                    <th>Type de congé</th>
+                                    <th>Lieu de jouissance</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var url_admin_conge_ajax_list = "{{ path('admin_conge_ajax_list') }}";
+        var validate_conge = "{{ path('ajax_validation_conge') }}";
+        var edit_path = "{{ path('demande_conge_edit',{'id': 0}) }}";
+        var show_path = "{{ path('demande_conge_show',{'id': 0}) }}";
+        var id_current_user = "{{ app.user.id }}";
+    </script>
+    <script src="{{ asset('js/conge.js') }}"></script>
+    <script src="{{ asset('js/edit.conge.js') }}"></script>
+{% endblock %}
