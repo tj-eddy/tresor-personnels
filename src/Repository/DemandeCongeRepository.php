@@ -92,4 +92,19 @@ class DemandeCongeRepository extends ServiceEntityRepository
 
         return $_query->getOneOrNullResult()['nbTotal'];
     }
+
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getMaxID()
+    {
+        $document_recrutement = $this->getEntityName();
+
+        $_query = $this->_em->createQuery("select 
+                                            max(dc.id) 
+                                            from $document_recrutement dc ");
+
+        return $_query->getOneOrNullResult()[1];
+    }
 }

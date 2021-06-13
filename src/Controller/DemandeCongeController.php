@@ -49,7 +49,7 @@ class DemandeCongeController extends AbstractController
     /**
      * @Route("/new", name="demande_conge_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,DemandeCongeRepository $demandeCongeRepository): Response
     {
         $demandeConge = new DemandeConge();
         $form         = $this->createForm(DemandeCongeType::class, $demandeConge);
@@ -66,6 +66,7 @@ class DemandeCongeController extends AbstractController
         return $this->render('demande_conge/new.html.twig', [
             'demande_conge' => $demandeConge,
             'form'          => $form->createView(),
+            'last_id'       => $demandeCongeRepository->getMaxID()
         ]);
     }
 
@@ -147,6 +148,7 @@ class DemandeCongeController extends AbstractController
         $nom_interim     = $request->request->get('nom_interim');
         $user_id         = $request->request->get('user_id');
         $nombre_jour     = $request->request->get('nombre_jour');
+        $numero_demande  = $request->request->get('num_demande');
 
         $user = $userRepository->find($user_id);
 
@@ -171,6 +173,7 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setLieuJouissance($lieu_jouissance ? $lieu_jouissance : null);
                 $demande_conge->setTypeConge($type_conge ? $type_conge : null);
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
+                $demande_conge->setNumDemande($numero_demande);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);

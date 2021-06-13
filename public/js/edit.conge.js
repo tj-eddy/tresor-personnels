@@ -51,7 +51,8 @@ function demandeConge() {
                     nom_interim: $('#nom-interim').val(),
                     user_id: $('#user_id').val(),
                     motif: $('#motif').val(),
-                    nombre_jour: $('#nombre_jour').val()
+                    nombre_jour: $('#nombre_jour').val(),
+                    num_demande: generateNumDemandeConge(last_id)
                 },
                 datatype: 'json',
                 url: url_demande_conge_ajax,
@@ -75,4 +76,9 @@ function demandeConge() {
             $('.message-validation').modal('show')
         }
     })
+}
+
+function generateNumDemandeConge(conge_id) {
+    let current_date = new Date();
+    return conge_id + "/" + current_date.getFullYear();
 }
