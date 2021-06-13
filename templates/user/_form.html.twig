@@ -3,6 +3,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-6">
+                <br>
                 {{ form_row(form.username) }}
                 <br>
                 {{ form_row(form.dateNaissance) }}
@@ -21,6 +22,8 @@
                 {% endif %}
                 <br>
                 {{ form_row(form.profil) }}
+                <br>
+                {{ form_row(form.congeInitial) }}
                 <br>
                 {% if is_granted('ROLE_SUPERADMIN') %}
                 <div class="row">

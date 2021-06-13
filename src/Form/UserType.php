@@ -70,32 +70,40 @@ class UserType extends AbstractType
             ]);
         if (in_array('ROLE_SUPERADMIN', $roles)) {
             $builder
-            ->add('dateStartService', TextType::class, [
-                'label' => 'Date prise de service',
-                'attr'  => [
-                    'class'       => 'form-control date-picker',
-                    "placeholder" => "Date prise de service ...",
-                ]
-            ])
-            ->add('matricule', TextType::class, [
-                'label'    => "Matricule",
-                'required' => false,
-                'attr'     => [
-                    'class'       => 'form-control d-none',
-                    'readonly'    => true,
-                    "placeholder" => "Numéro matricule ... "
-                ]
-            ])
-            ->add('childNumber', IntegerType::class, [
-                'attr'     => [
-                    'class'       => 'form-control d-none',
-                    "placeholder" => "Nombre d'enfant ... "
-                ],
-                'required' => false,
-                'label'    => "Nombre d'enfant"
-            ]);
+                ->add('dateStartService', TextType::class, [
+                    'label' => 'Date prise de service',
+                    'attr'  => [
+                        'class'       => 'form-control date-picker',
+                        "placeholder" => "Date prise de service ...",
+                    ]
+                ])
+                ->add('congeInitial', IntegerType::class, [
+                    'label'    => 'Nombre de congé initial',
+                    'attr'     => [
+                        'class'       => 'form-control',
+                        "placeholder" => "Nombre de congé ...",
+                    ],
+                    'required' => false
+                ])
+                ->add('matricule', TextType::class, [
+                    'label'    => "Matricule",
+                    'required' => false,
+                    'attr'     => [
+                        'class'       => 'form-control d-none',
+                        'readonly'    => true,
+                        "placeholder" => "Numéro matricule ... "
+                    ]
+                ])
+                ->add('childNumber', IntegerType::class, [
+                    'attr'     => [
+                        'class'       => 'form-control d-none',
+                        "placeholder" => "Nombre d'enfant ... "
+                    ],
+                    'required' => false,
+                    'label'    => "Nombre d'enfant"
+                ]);
         }
-          $builder
+        $builder
             ->add('profil', FileType::class, [
                 'label'    => "Photo de profil",
                 'attr'     => [
