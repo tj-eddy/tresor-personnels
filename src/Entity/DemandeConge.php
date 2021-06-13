@@ -53,9 +53,9 @@ class DemandeConge
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $status;
+    private $status = 0;
 
     public function getId(): ?int
     {
@@ -146,12 +146,12 @@ class DemandeConge
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 

@@ -34,15 +34,15 @@ class DemandeCongeRepository extends ServiceEntityRepository
         $demande_conge = $this->getEntityName();
 
         $_dql = "SELECT 
-                dc.id,
                 dc.status,
                 dc.num_demande,
                 u.username,
                 dc.nom_interim,
-                dc.date_debut,
+                DATE_FORMAT(dc.date_debut,'%d-%m-%Y à %h:%i'),
                 dc.motif,
                 dc.type_conge,
-                dc.lieu_jouissance
+                dc.lieu_jouissance,
+                dc.id
                 FROM $demande_conge dc
                 LEFT JOIN dc.user u
                 WHERE (
@@ -84,7 +84,7 @@ class DemandeCongeRepository extends ServiceEntityRepository
                     OR dc.nom_interim LIKE :search
                     OR dc.date_debut LIKE :search
                     OR dc.motif LIKE :search
-                    OR dc.lieu_jouissance LIKE :search
+                     OR dc.lieu_jouissance LIKE :search
                 )";
 
         $_query = $this->_em->createQuery($_dql);

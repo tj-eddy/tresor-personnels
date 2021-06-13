@@ -18,15 +18,23 @@ $(document).ready(function () {
                 }
             },
             "columnDefs": [
-                {name: "dc.id", targets: 0},
-                {name: "dc.status", targets: 1},
-                {name: "dc.num_demande", targets: 2},
-                {name: "u.username", targets: 3},
-                {name: "dc.nom_interim", targets: 4},
-                {name: "dc.date_debut", targets: 5},
-                {name: "dc.motif", targets: 6},
-                {name: "dc.type_conge", targets: 7},
-                {name: "dc.lieu_jouissance", targets: 8}
+                {
+                    name: "dc.status", targets: 0, render: function (status, type, row) {
+                        let color = status == 0 ? 'danger' : 'success';
+                        let text = status == 0 ? 'En attente de validation' : 'Validé'
+                        let is_disabled = status == 1 ? 'disabled' : '';
+                        let question = "Voulez-vous vraiment valider ce congé ? "
+                        return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" + text + "</button>";
+                    }
+                },
+                {name: "dc.num_demande", targets: 1},
+                {name: "u.username", targets: 2},
+                {name: "dc.nom_interim", targets: 3},
+                {name: "dc.date_debut", targets: 4},
+                {name: "dc.motif", targets: 5},
+                {name: "dc.type_conge", targets: 6},
+                {name: "dc.lieu_jouissance", targets: 7},
+                {name: "dc.id", targets: 8, visible: false}
             ]
         }
     );

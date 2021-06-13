@@ -51,7 +51,7 @@ class DemandeCongeController extends AbstractController
     public function new(Request $request): Response
     {
         $demandeConge = new DemandeConge();
-        $form = $this->createForm(DemandeCongeType::class, $demandeConge);
+        $form         = $this->createForm(DemandeCongeType::class, $demandeConge);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,7 +64,7 @@ class DemandeCongeController extends AbstractController
 
         return $this->render('demande_conge/new.html.twig', [
             'demande_conge' => $demandeConge,
-            'form' => $form->createView(),
+            'form'          => $form->createView(),
         ]);
     }
 
@@ -94,7 +94,7 @@ class DemandeCongeController extends AbstractController
 
         return $this->render('demande_conge/edit.html.twig', [
             'demande_conge' => $demandeConge,
-            'form' => $form->createView(),
+            'form'          => $form->createView(),
         ]);
     }
 
@@ -103,12 +103,31 @@ class DemandeCongeController extends AbstractController
      */
     public function delete(Request $request, DemandeConge $demandeConge): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$demandeConge->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $demandeConge->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($demandeConge);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('demande_conge_index');
+    }
+
+    /**
+     * @Route("/validate-conge", name="ajax_validation_conge")
+     * @param Request $request
+     */
+    public function validateConge(Request $request,
+                                  DemandeCongeRepository $demandeCongeRepository)
+    {
+        $conge_id = $request->request->get('conge_id');
+        $demandeCongeRepository->find($conge_id)->setStatus(true);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'status'   => true,
+            'conge_id' => $conge_id
+        ]);
     }
 }
