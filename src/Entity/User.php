@@ -90,11 +90,17 @@ class User implements UserInterface
      */
     private $date_start_service;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DemandeConge::class, mappedBy="user")
+     */
+    private $demandeConges;
+
 
     public function __construct()
     {
         $this->date_create_or_update = new \DateTime();
         $this->documentRecrutements = new ArrayCollection();
+        $this->demandeConges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,6 +314,36 @@ class User implements UserInterface
     public function setDateStartService(?string $date_start_service): self
     {
         $this->date_start_service = $date_start_service;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DemandeConge[]
+     */
+    public function getDemandeConges(): Collection
+    {
+        return $this->demandeConges;
+    }
+
+    public function addDemandeConge(DemandeConge $demandeConge): self
+    {
+        if (!$this->demandeConges->contains($demandeConge)) {
+            $this->demandeConges[] = $demandeConge;
+            $demandeConge->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandeConge(DemandeConge $demandeConge): self
+    {
+        if ($this->demandeConges->removeElement($demandeConge)) {
+            // set the owning side to null (unless already changed)
+            if ($demandeConge->getUser() === $this) {
+                $demandeConge->setUser(null);
+            }
+        }
 
         return $this;
     }
