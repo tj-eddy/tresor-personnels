@@ -12,7 +12,9 @@ function validateConge() {
             $.ajax({
                 method: 'post',
                 data: {
-                    conge_id: row[8]
+                    conge_id: row[9],
+                    user_id: row[10],
+                    jour_demande: row[5]
                 },
                 datatype: 'json',
                 url: validate_conge,
@@ -25,7 +27,9 @@ function validateConge() {
                 $.ajax({
                     method: 'post',
                     data: {
-                        conge_id: row[8]
+                        conge_id: row[9],
+                        user_id: row[10],
+                        jour_demande: row[5]
                     },
                     datatype: 'json',
                     url: annulation_conge,
@@ -73,12 +77,12 @@ function demandeConge() {
                 datatype: 'json',
                 url: url_demande_conge_ajax,
                 success: function (response) {
-                    if (response.status == true && response.has_conge_attente == false && response.nombre_jour_restant > 0) {
+                    if (response.status == true && response.has_conge_attente == false && response.nombre_jour_restant >= 0) {
                         $('.message-success').modal('show')
                         emptyInput()
                     } else if (
                         response.status == true && response.has_conge_attente == false &&
-                        response.nombre_jour_restant <= 0) {
+                        response.nombre_jour_restant < 0) {
                         $('.message-erreur').modal('show')
                     } else {
                         $('.solde-restant').html(response.nombre_jour_restant);

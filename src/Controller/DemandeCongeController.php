@@ -10,7 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/demande/conge")
@@ -119,9 +121,16 @@ class DemandeCongeController extends AbstractController
      * @param Request $request
      */
     public function validateConge(Request $request,
-                                  DemandeCongeRepository $demandeCongeRepository)
+                                  DemandeCongeRepository $demandeCongeRepository,
+                                  UserRepository $userRepository
+    )
     {
-        $conge_id = $request->request->get('conge_id');
+        $conge_id     = $request->request->get('conge_id');
+        $jour_demande = $request->request->get('jour_demande');
+        $user_id      = $request->request->get('user_id');
+        $user         = $userRepository->find($user_id);
+
+        $user->setCongeInitial($user->getCongeInitial() - $jour_demande);
         $demandeCongeRepository->find($conge_id)->setStatus(1);
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -173,14 +182,14 @@ class DemandeCongeController extends AbstractController
 
         $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
 
-        $nombre_jour_restant = $jour_conge !== 0 ? $jour_conge - $nombre_jour : 0;
+        $nombre_jour_restant = $jour_conge - $nombre_jour ;
 
         $user_has_conge    = $demandeCongeRepository->findBy([
             'user'   => $user,
             'status' => 0
         ]);
         $has_conge_attente = false;
-        if ($nombre_jour_restant >= 1) {
+        if ($nombre_jour_restant > -1) {
             if ($user_has_conge) {
                 $has_conge_attente = true;
             } else {
@@ -193,6 +202,7 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setTypeConge($type_conge ? $type_conge : null);
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
                 $demande_conge->setNumDemande($numero_demande);
+                $demande_conge->setNombreDeJourDemande($nombre_jour);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);

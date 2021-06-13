@@ -44,10 +44,12 @@ $(document).ready(function () {
                 {name: "u.username", targets: 2},
                 {name: "dc.nom_interim", targets: 3},
                 {name: "dc.date_debut", targets: 4},
-                {name: "dc.motif", targets: 5},
-                {name: "dc.type_conge", targets: 6},
-                {name: "dc.lieu_jouissance", targets: 7},
-                {name: "dc.id", targets: 8, visible: false}
+                {name: "dc.nombre_de_jour_demande", targets: 5},
+                {name: "dc.motif", targets: 6},
+                {name: "dc.type_conge", targets: 7},
+                {name: "dc.lieu_jouissance", targets: 8},
+                {name: "dc.id", targets: 9, visible: false},
+                {name: "user_id", targets: 10, visible: false}
             ]
         }
     );

@@ -56,6 +56,10 @@ class DemandeConge
      * @ORM\Column(type="integer", nullable=true)
      */
     private $status = 0;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nombre_de_jour_demande;
 
     public function getId(): ?int
     {
@@ -156,5 +160,21 @@ class DemandeConge
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreDeJourDemande()
+    {
+        return $this->nombre_de_jour_demande;
+    }
+
+    /**
+     * @param mixed $nombre_de_jour_demande
+     */
+    public function setNombreDeJourDemande($nombre_de_jour_demande): void
+    {
+        $this->nombre_de_jour_demande = $nombre_de_jour_demande;
     }
 }

@@ -39,10 +39,12 @@ class DemandeCongeRepository extends ServiceEntityRepository
                 u.username,
                 dc.nom_interim,
                 DATE_FORMAT(dc.date_debut,'%d-%m-%Y à %h:%i'),
+                dc.nombre_de_jour_demande,
                 dc.motif,
                 dc.type_conge,
                 dc.lieu_jouissance,
-                dc.id
+                dc.id,
+                u.id as user_id
                 FROM $demande_conge dc
                 LEFT JOIN dc.user u
                 WHERE (
