@@ -90,7 +90,7 @@ class UserType extends AbstractType
                     'required' => false,
                     'attr'     => [
                         'class'       => 'form-control d-none',
-                        'readonly'    => true,
+                        'maxlength'   => 6,
                         "placeholder" => "Numéro matricule ... "
                     ]
                 ])

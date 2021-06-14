@@ -36,7 +36,7 @@ $(document).ready(function () {
                         } else {
                             text = 'Validé';
                         }
-                        let is_disabled = status == 1 || status == 2 ? 'disabled' : '';
+                        let is_disabled = status == 1  ? 'disabled' : '';
                         return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" + text + "</button>";
                     }
                 },

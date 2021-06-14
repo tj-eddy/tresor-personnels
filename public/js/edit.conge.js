@@ -8,7 +8,7 @@ function validateConge() {
     $('#id-conge-list tbody').on('click', 'tr', function () {
         let row = table.row(this).data();
 
-        if (row[0] == 0 && confirm('Voulez-vous vraiment validé ce congé ? ')) {
+        if ((row[0] == 0 || row[0] == 2) && confirm('Voulez-vous vraiment validé ce congé ? ')) {
             $.ajax({
                 method: 'post',
                 data: {

@@ -20,15 +20,18 @@ class DocumentRecrutementType extends AbstractType
             ->add('num_doc', TextType::class, [
                 'attr'  => [
                     'class'    => 'form-control',
-                    'readonly' => true
                 ],
                 'label' => "Numero de document"
             ])
-            ->add('type_doc', TextType::class, [
-                'attr'  => [
-                    'class' => 'form-control'
+            ->add('typeDoc', ChoiceType::class, [
+                'attr'    => [
+                    'class' => 'form-control select-2'
                 ],
-                'label' => "Type du document"
+                'choices' => [
+                    'Contrat de travail'    => 'Contrat de travail',
+                    'Arrêté'   => 'Arrêté',
+                ],
+                'label'   => "Catégorie"
             ])
             ->add('date_doc', TextType::class, [
                 'attr'  => [
