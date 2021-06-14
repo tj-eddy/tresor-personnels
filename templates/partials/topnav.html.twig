@@ -45,11 +45,6 @@
                         <div class="dropdown-header noti-title">
                             <h6 class="text-overflow m-0">{{ 'welcome'|trans }}</h6>
                         </div>
-                        <a href="{{ path('user_edit', {'id': app.user and app.user.id ? app.user.id : 0}) }}"
-                           class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
-                            <span>{{ 'my.profil'|trans }}</span>
-                        </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ path('app_logout') }}" class="dropdown-item">
                             <i class="ni ni-user-run"></i>

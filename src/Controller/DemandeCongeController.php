@@ -182,12 +182,13 @@ class DemandeCongeController extends AbstractController
 
         $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
 
-        $nombre_jour_restant = $jour_conge - $nombre_jour ;
+        $nombre_jour_restant = $jour_conge - $nombre_jour;
 
-        $user_has_conge    = $demandeCongeRepository->findBy([
+        $user_has_conge = $demandeCongeRepository->findBy([
             'user'   => $user,
             'status' => 0
         ]);
+
         $has_conge_attente = false;
         if ($nombre_jour_restant > -1) {
             if ($user_has_conge) {
@@ -203,6 +204,7 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
                 $demande_conge->setNumDemande($numero_demande);
                 $demande_conge->setNombreDeJourDemande($nombre_jour);
+                $demande_conge->setDateFin();
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);

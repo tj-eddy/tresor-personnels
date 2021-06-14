@@ -40,6 +40,7 @@ class DemandeCongeRepository extends ServiceEntityRepository
                 dc.nom_interim,
                 DATE_FORMAT(dc.date_debut,'%d-%m-%Y à %h:%i'),
                 dc.nombre_de_jour_demande,
+                dc.date_fin,
                 dc.motif,
                 dc.type_conge,
                 dc.lieu_jouissance,
@@ -52,6 +53,7 @@ class DemandeCongeRepository extends ServiceEntityRepository
                     OR dc.num_demande LIKE :search
                     OR u.username LIKE :search
                     OR dc.nom_interim LIKE :search
+                    OR dc.date_fin LIKE :search
                     OR dc.date_debut LIKE :search
                     OR dc.motif LIKE :search
                     OR dc.lieu_jouissance LIKE :search
@@ -84,6 +86,7 @@ class DemandeCongeRepository extends ServiceEntityRepository
                     OR dc.num_demande LIKE :search
                     OR u.username LIKE :search
                     OR dc.nom_interim LIKE :search
+                    OR dc.date_fin LIKE :search
                     OR dc.date_debut LIKE :search
                     OR dc.motif LIKE :search
                      OR dc.lieu_jouissance LIKE :search

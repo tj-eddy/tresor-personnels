@@ -43,8 +43,14 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Type de
                                                 congé</label>
-                                            <input type="text" id="conge-type" class="form-control"
-                                                   placeholder="Type de congé"/>
+                                            <select name="" class="select-2 form-control" id="conge-type">
+                                                <option disabled="" value="" selected>-- Sélectionner --</option>
+                                                <option value="">Annuelle</option>
+                                                <option value="">Education</option>
+                                                <option value="">Maladie</option>
+                                                <option value="">Maternité</option>
+                                                <option value="">Paternité</option>
+                                           </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Nom de
@@ -113,11 +119,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

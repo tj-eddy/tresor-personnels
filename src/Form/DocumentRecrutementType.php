@@ -19,44 +19,49 @@ class DocumentRecrutementType extends AbstractType
         $builder
             ->add('num_doc', TextType::class, [
                 'attr'  => [
-                    'class'    => 'form-control',
+                    'class' => 'form-control',
+                    'placeholder'=> 'Numéro de document'
                 ],
                 'label' => "Numero de document"
             ])
             ->add('typeDoc', ChoiceType::class, [
                 'attr'    => [
-                    'class' => 'form-control select-2'
+                    'class' => 'form-control select-2',
                 ],
                 'choices' => [
-                    'Contrat de travail'    => 'Contrat de travail',
-                    'Arrêté'   => 'Arrêté',
+                    'Contrat de travail' => 'Contrat de travail',
+                    'Arrêté'             => 'Arrêté',
                 ],
-                'label'   => "Catégorie"
+                'label'   => "Type de document"
             ])
             ->add('date_doc', TextType::class, [
                 'attr'  => [
                     'class'    => 'form-control date-picker',
-                    'readonly' => true
+                    'readonly' => true,
+                    'placeholder'=> 'Date document'
                 ],
                 'label' => "Date"
             ])
             ->add('corps', TextType::class, [
                 'attr'  => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder'=> 'Corps'
                 ],
                 'label' => "Corps"
             ])
             ->add('indice', IntegerType::class, [
                 'attr'  => [
-                    'class' => 'form-control',
-                    "maxlength"   => 3,
-                    "minlength"   => 3
+                    'class'     => 'form-control',
+                    "maxlength" => 3,
+                    "minlength" => 3,
+                    'placeholder'=> 'Indice'
                 ],
                 'label' => "Indice"
             ])
             ->add('categorie', ChoiceType::class, [
                 'attr'    => [
-                    'class' => 'form-control select-2'
+                    'class' => 'form-control select-2',
+                    'placeholder'=> 'Catégorie'
                 ],
                 'choices' => [
                     'Cat I'    => 'I',
@@ -73,7 +78,8 @@ class DocumentRecrutementType extends AbstractType
             ])
             ->add('grade', TextType::class, [
                 'attr'  => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder'=> 'Grade'
                 ],
                 'label' => "Grade"
             ]);

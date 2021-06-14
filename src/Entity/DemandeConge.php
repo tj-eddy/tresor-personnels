@@ -61,6 +61,11 @@ class DemandeConge
      */
     private $nombre_de_jour_demande;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $date_fin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,5 +181,17 @@ class DemandeConge
     public function setNombreDeJourDemande($nombre_de_jour_demande): void
     {
         $this->nombre_de_jour_demande = $nombre_de_jour_demande;
+    }
+
+    public function getDateFin(): ?string
+    {
+        return $this->date_fin;
+    }
+
+    public function setDateFin(?string $date_fin): self
+    {
+        $this->date_fin = $date_fin;
+
+        return $this;
     }
 }
