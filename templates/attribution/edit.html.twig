@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% set user_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'user'|trans,
+            path_link : path('user_index') ,
+            title_link : 'return'|trans ,
+        } %}
+    <!-- Page content -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {{ include('attribution/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ parent() }}
+    <script>
+        $('.basic-data-select2').select2({
+            placeholder: '{{ 'select'|trans }}',
+            ajax: {
+                url: "{{ path('admin_user_ajax_select2') }}",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public',
+                    };
+
+                    return query;
+                },
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return {id: obj.id, text: obj.username};
+                        })
+                    };
+                },
+                minimumInputLength: 3,
+            }
+        })
+    </script>
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('js/edit.attribution.js') }}"></script>
+    <script src="{{ asset('js/attribution.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col">
+        {{ form_widget(form) }}
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label class="form-control-label"
+                   for="example3cols1Input">Attribué à
+            </label>
+            <select name="user_id" required
+                    class="form-control basic-data-select2">
+            </select>
+        </div>
+    </div>
+</div>
+<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(form) }}

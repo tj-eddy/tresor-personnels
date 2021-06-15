@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Attribution'|trans }}{% endblock %}
+
+{% set attribution_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Attributions'|trans,
+            path_link : path('attribution_new') ,
+            title_link : 'create'|trans ,
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                                <span class="alert-text"> {{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="id-attribution-list">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Numero tâche</th>
+                                    <th>Nom tâche</th>
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
+                                    <th>Employé</th>
+                                    <th>Attribué à</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var url_admin_attribution_ajax_list = "{{ path('admin_attribution_ajax_list') }}";
+        var change_attribution_ajax = "{{ path('change_attribution_ajax') }}";
+        var edit_path = "{{ path('user_edit',{'id': 0}) }}";
+        var delete_path = "{{ path('user_delete',{'id': 0}) }}";
+        var confirm_delete = "{{ 'delete.confirm'|trans }}";
+        var url_select_user_ajax  = "{{ path('admin_user_ajax_select2') }}";
+    </script>
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('js/attribution.js') }}"></script>
+{% endblock %}

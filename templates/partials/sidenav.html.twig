@@ -44,7 +44,13 @@
                                 <span class="nav-link-text">Faire une demande de congé</span>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link {% if attribution_link is defined %} active {% endif %}"
+                               href="{{ path('attribution_index') }}">
+                                <i class="ni ni-watch-time"></i>
+                                <span class="nav-link-text">Mes tâches</span>
+                            </a>
+                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link {% if user_link is defined %} active {% endif %} "
@@ -74,6 +80,13 @@
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if attribution_link is defined %} active {% endif %}"
+                               href="{{ path('attribution_index') }}">
+                                <i class="ni ni-watch-time"></i>
+                                <span class="nav-link-text">Attribution</span>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"

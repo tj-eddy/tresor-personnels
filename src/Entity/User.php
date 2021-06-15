@@ -100,12 +100,23 @@ class User implements UserInterface
      */
     private $conge_initial;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Attribution::class, mappedBy="user")
+     */
+    private $attributions;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $status_tache;
+
 
     public function __construct()
     {
         $this->date_create_or_update = new \DateTime();
         $this->documentRecrutements = new ArrayCollection();
         $this->demandeConges = new ArrayCollection();
+        $this->attributions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +372,48 @@ class User implements UserInterface
     public function setCongeInitial(?int $conge_initial): self
     {
         $this->conge_initial = $conge_initial;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attribution[]
+     */
+    public function getAttributions(): Collection
+    {
+        return $this->attributions;
+    }
+
+    public function addAttribution(Attribution $attribution): self
+    {
+        if (!$this->attributions->contains($attribution)) {
+            $this->attributions[] = $attribution;
+            $attribution->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttribution(Attribution $attribution): self
+    {
+        if ($this->attributions->removeElement($attribution)) {
+            // set the owning side to null (unless already changed)
+            if ($attribution->getUser() === $this) {
+                $attribution->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatusTache(): ?int
+    {
+        return $this->status_tache;
+    }
+
+    public function setStatusTache(?int $status_tache): self
+    {
+        $this->status_tache = $status_tache;
 
         return $this;
     }
