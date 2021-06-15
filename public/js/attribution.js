@@ -35,16 +35,15 @@ $(document).ready(function () {
                         selectUser(old_employe, row[7]);
                         $('#id-attribution-list tbody').on('click', 'tr', function () {
                             let table = $('#id-attribution-list').DataTable();
-                            let row = table.row(this).data();
+                            let row_t = table.row(this).data();
                             $('.basic-data-select2').on('change', function () {
-                                let table = $('#id-attribution-list').DataTable();
                                 let nouveau_employe = $(this).val();
                                 $.ajax({
                                     method: 'post',
                                     data: {
                                         nouveau_employe: nouveau_employe,
                                         old_employe: old_employe,
-                                        id_attribution: row[7]
+                                        id_attribution: row_t[7]
                                     },
                                     datatype: 'json',
                                     url: change_attribution_ajax,
@@ -52,6 +51,7 @@ $(document).ready(function () {
                                         table.ajax.reload(null, false);
                                     },
                                 })
+
                             })
                         });
 

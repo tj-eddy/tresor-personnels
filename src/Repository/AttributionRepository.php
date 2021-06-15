@@ -41,7 +41,7 @@ class AttributionRepository extends ServiceEntityRepository
         $attributin = $this->getEntityName();
 
         $_dql = "SELECT 
-                u.status_tache,
+                a.status,
                 a.numero_tache,
                 a.nom_tache,
                 DATE_FORMAT(a.date_debut,'%d-%d-%Y %h:%i'),

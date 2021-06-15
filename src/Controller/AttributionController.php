@@ -62,6 +62,8 @@ class AttributionController extends AbstractController
             $attribution->setUser($user);
             $attribution->setNumeroTache('Tache n°:' . $user->getId());
             $attribution->setDateDebut(new \DateTime());
+            $attribution->setStatus(0);
+            $user->setStatusTache(0);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attribution);
             $entityManager->flush();
