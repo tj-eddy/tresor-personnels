@@ -51,13 +51,17 @@ class AttributionController extends AbstractController
     /**
      * @Route("/new", name="attribution_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $userRepository): Response
     {
         $attribution = new Attribution();
         $form        = $this->createForm(AttributionType::class, $attribution);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $userRepository->find($request->request->get('user_id'));
+            $attribution->setUser($user);
+            $attribution->setNumeroTache('Tache n°:' . $user->getId());
+            $attribution->setDateDebut(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attribution);
             $entityManager->flush();
@@ -134,7 +138,7 @@ class AttributionController extends AbstractController
         $attr = $attributionRepository->find($attr_id);
         if ($attr) {
             $attr->setUser($user_new);
-            $attributionRepository->updateStatusAttribution($user_new,$attr_id,$user_old);
+            $attributionRepository->updateStatusAttribution($user_new, $attr_id, $user_old);
         }
         $entityManager = $this->getDoctrine()->getManager();
 

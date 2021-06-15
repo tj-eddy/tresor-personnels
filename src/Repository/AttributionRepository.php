@@ -44,8 +44,8 @@ class AttributionRepository extends ServiceEntityRepository
                 u.status_tache,
                 a.numero_tache,
                 a.nom_tache,
-                DATE_FORMAT(a.date_debut,'%d-%d-%Y'),
-                DATE_FORMAT(a.date_fin,'%d-%d-%Y'),
+                DATE_FORMAT(a.date_debut,'%d-%d-%Y %h:%i'),
+                DATE_FORMAT(a.date_fin,'%d-%d-%Y %h:%i'),
                 u.username,
                 u.id,
                 a.id as id_attribution
@@ -93,7 +93,7 @@ class AttributionRepository extends ServiceEntityRepository
     public function updateStatusAttribution($new, $attr_id, $old)
     {
         $queryBuilder_new = $this->createQueryBuilder('a');
-        $query_new    = $queryBuilder_new->update('App:Attribution', 'a')
+        $query_new        = $queryBuilder_new->update('App:Attribution', 'a')
             ->set('a.date_fin', ':date_fin')
             ->set('a.user', ':user')
             ->where('a.id = :id_attr')
@@ -102,7 +102,7 @@ class AttributionRepository extends ServiceEntityRepository
             ->setParameter('user', $new)
             ->getQuery();
         $queryBuilder_old = $this->createQueryBuilder('a');
-        $query_old = $queryBuilder_old  ->update('App:Attribution', 'a')
+        $query_old        = $queryBuilder_old->update('App:Attribution', 'a')
             ->set('a.date_debut', ':date_debut')
             ->set('a.user', ':user')
             ->where('a.id = :id_attr')
