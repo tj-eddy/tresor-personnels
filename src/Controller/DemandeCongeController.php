@@ -130,7 +130,7 @@ class DemandeCongeController extends AbstractController
         $user_id      = $request->request->get('user_id');
         $user         = $userRepository->find($user_id);
 
-        $user->setCongeInitial($user->getCongeInitial() - $jour_demande);
+        $user->setCongeInitial((int)$user->getCongeInitial() - (int)$jour_demande);
         $demandeCongeRepository->find($conge_id)->setStatus(1);
         $entityManager = $this->getDoctrine()->getManager();
 

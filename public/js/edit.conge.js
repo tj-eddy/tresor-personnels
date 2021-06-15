@@ -12,8 +12,8 @@ function validateConge() {
             $.ajax({
                 method: 'post',
                 data: {
-                    conge_id: row[9],
-                    user_id: row[10],
+                    conge_id: row[10],
+                    user_id: row[11],
                     jour_demande: row[5]
                 },
                 datatype: 'json',
@@ -27,8 +27,8 @@ function validateConge() {
                 $.ajax({
                     method: 'post',
                     data: {
-                        conge_id: row[9],
-                        user_id: row[10],
+                        conge_id: row[10],
+                        user_id: row[11],
                         jour_demande: row[5]
                     },
                     datatype: 'json',
