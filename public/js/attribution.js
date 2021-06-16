@@ -31,7 +31,10 @@ $(document).ready(function () {
                 {name: "a.date_fin", targets: 4},
                 {name: "a.username", targets: 5, visible: is_superadmin ? true : false},
                 {
-                    name: "u.id", visible: is_superadmin ? true : false, targets: 6, render: function (old_employe, type, row) {
+                    name: "u.id",
+                    visible: is_superadmin ? true : false,
+                    targets: 6,
+                    render: function (old_employe, type, row) {
                         selectUser(old_employe, row[7]);
                         $('#id-attribution-list tbody').on('click', 'tr', function () {
                             let row_t = table.row(this).data();
@@ -39,16 +42,16 @@ $(document).ready(function () {
                                 $.ajax({
                                     method: 'post',
                                     data: {
-                                        nouveau_employe:  $(this).val(),
+                                        nouveau_employe: $(this).val(),
                                         old_employe: old_employe,
                                         id_attribution: row_t[7]
                                     },
                                     datatype: 'json',
                                     url: change_attribution_ajax,
-                                    complete:function () {
-                                       $(document).ajaxStop(function () {
-                                           window.location.reload();
-                                       })
+                                    complete: function () {
+                                        $(document).ajaxStop(function () {
+                                            window.location.reload();
+                                        })
                                     }
                                 })
                             })
@@ -58,7 +61,7 @@ $(document).ready(function () {
                         return action;
                     }
                 },
-                {name: "id_attribution", targets: 7, visible: false}
+                {name: "id_attribution", targets: 7, visible: false},
             ]
         }
     );

@@ -204,7 +204,7 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
                 $demande_conge->setNumDemande($numero_demande);
                 $demande_conge->setNombreDeJourDemande($nombre_jour);
-                $demande_conge->setDateFin();
+//                $demande_conge->setDateFin();
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);

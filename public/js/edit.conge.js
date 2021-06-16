@@ -54,6 +54,7 @@ function emptyInput() {
 
 function demandeConge() {
     $('.send-conge').on('click', function (ev) {
+        console.log($('#conge-type').val());
         if (
             $('#date-debut').val() !== "" &&
             $('#lieu-jouissance').val() !== "" &&
