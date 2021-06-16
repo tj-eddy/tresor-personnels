@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#id-attribution-list').DataTable(
+    let table = $('#id-attribution-list').DataTable(
         {
             "language": {
                 url: datatable_language
@@ -34,24 +34,23 @@ $(document).ready(function () {
                     name: "u.id", visible: is_superadmin ? true : false, targets: 6, render: function (old_employe, type, row) {
                         selectUser(old_employe, row[7]);
                         $('#id-attribution-list tbody').on('click', 'tr', function () {
-                            let table = $('#id-attribution-list').DataTable();
                             let row_t = table.row(this).data();
                             $('.basic-data-select2').on('change', function () {
-                                let nouveau_employe = $(this).val();
                                 $.ajax({
                                     method: 'post',
                                     data: {
-                                        nouveau_employe: nouveau_employe,
+                                        nouveau_employe:  $(this).val(),
                                         old_employe: old_employe,
                                         id_attribution: row_t[7]
                                     },
                                     datatype: 'json',
                                     url: change_attribution_ajax,
-                                    success: function (data) {
-                                        table.ajax.reload(null, false);
-                                    },
+                                    complete:function () {
+                                       $(document).ajaxStop(function () {
+                                           window.location.reload();
+                                       })
+                                    }
                                 })
-
                             })
                         });
 
