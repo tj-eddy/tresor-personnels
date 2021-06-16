@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Attribution;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Attribution|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,8 +15,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AttributionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
+        $this->security = $security;
         parent::__construct($registry, Attribution::class);
     }
 
@@ -37,8 +41,18 @@ class AttributionRepository extends ServiceEntityRepository
     public function attributionListArray($_page, $_nb_max_page, $_search, $_order_by)
     {
         $_order_by = $_order_by ? $_order_by : "a.id DESC";
-
         $attributin = $this->getEntityName();
+
+
+        $user      = $this->security->getUser();
+        $roles     = $user->getRoles();
+        $is_admin  = in_array('ROLE_SUPERADMIN', $roles);
+
+        $where      = "";
+        if (!$is_admin) {
+            $id_user = $user->getId();
+            $where   .= " AND u.id = $id_user";
+        }
 
         $_dql = "SELECT 
                 a.status,
@@ -54,7 +68,7 @@ class AttributionRepository extends ServiceEntityRepository
                 WHERE (a.numero_tache LIKE :search 
                 OR a.nom_tache LIKE :search 
                 OR a.date_debut LIKE :search 
-                OR a.date_fin LIKE :search )
+                OR a.date_fin LIKE :search ) $where
                 ORDER BY $_order_by";
 
         $_query = $this->_em->createQuery($_dql);
@@ -74,6 +88,15 @@ class AttributionRepository extends ServiceEntityRepository
     {
         $attribution = $this->getEntityName();
 
+        $user      = $this->security->getUser();
+        $roles     = $user->getRoles();
+        $is_admin  = in_array('ROLE_SUPERADMIN', $roles);
+
+        $where      = "";
+        if (!$is_admin) {
+            $id_user = $user->getId();
+            $where   .= " AND u.id = $id_user";
+        }
         $_dql = "
             SELECT COUNT (a) as nbTotal 
             FROM $attribution a
@@ -82,7 +105,7 @@ class AttributionRepository extends ServiceEntityRepository
                 OR a.nom_tache LIKE :search 
                 OR u.username LIKE :search 
                 OR a.date_debut LIKE :search 
-                OR a.date_fin LIKE :search )";
+                OR a.date_fin LIKE :search ) $where";
 
         $_query = $this->_em->createQuery($_dql);
         $_query->setParameter('search', "%$_search%");

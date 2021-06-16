@@ -29,9 +29,9 @@ $(document).ready(function () {
                 {name: "a.nom_tache", targets: 2},
                 {name: "a.date_debut", targets: 3},
                 {name: "a.date_fin", targets: 4},
-                {name: "a.username", targets: 5},
+                {name: "a.username", targets: 5, visible: is_superadmin ? true : false},
                 {
-                    name: "u.id", targets: 6, render: function (old_employe, type, row) {
+                    name: "u.id", visible: is_superadmin ? true : false, targets: 6, render: function (old_employe, type, row) {
                         selectUser(old_employe, row[7]);
                         $('#id-attribution-list tbody').on('click', 'tr', function () {
                             let table = $('#id-attribution-list').DataTable();

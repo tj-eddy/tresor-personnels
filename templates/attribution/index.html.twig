@@ -16,7 +16,6 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-
                     <!-- Card header -->
                     <div class="card-header border-0">
                         {% for message in app.flashes('success') %}
@@ -58,7 +57,8 @@
         var edit_path = "{{ path('user_edit',{'id': 0}) }}";
         var delete_path = "{{ path('user_delete',{'id': 0}) }}";
         var confirm_delete = "{{ 'delete.confirm'|trans }}";
-        var url_select_user_ajax  = "{{ path('admin_user_ajax_select2') }}";
+        var url_select_user_ajax = "{{ path('admin_user_ajax_select2') }}";
+        var is_superadmin = "{{ is_granted('ROLE_SUPERADMIN') }}"
     </script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>

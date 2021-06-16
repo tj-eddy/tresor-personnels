@@ -20,11 +20,9 @@ class AttributionController extends AbstractController
     /**
      * @Route("/", name="attribution_index", methods={"GET"})
      */
-    public function index(AttributionRepository $attributionRepository): Response
+    public function index(Request $request): Response
     {
-        return $this->render('attribution/index.html.twig', [
-            'attributions' => $attributionRepository->findAll(),
-        ]);
+        return $this->render('attribution/index.html.twig');
     }
 
     /**
@@ -51,7 +49,7 @@ class AttributionController extends AbstractController
     /**
      * @Route("/new", name="attribution_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, AttributionRepository $attributionRepository): Response
     {
         $attribution = new Attribution();
         $form        = $this->createForm(AttributionType::class, $attribution);
@@ -60,7 +58,7 @@ class AttributionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $userRepository->find($request->request->get('user_id'));
             $attribution->setUser($user);
-            $attribution->setNumeroTache('Tache n°:' . $user->getId());
+            $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
             $attribution->setDateDebut(new \DateTime());
             $attribution->setStatus(0);
             $user->setStatusTache(0);
