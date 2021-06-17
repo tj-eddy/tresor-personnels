@@ -31,17 +31,39 @@
                     </li>
                     {% if not is_granted('ROLE_SUPERADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link {% if user_link is defined %} active {% endif %}"
-                               href="{{ path('admin_user_show',{'id': app.user.id}) }}">
-                                <i class="ni ni-books"></i>
+                            <a class="nav-link {% if user_link is defined %} active {% endif %} "
+                               href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false"
+                               aria-controls="navbar-dashboards">
+                                <i class="ni ni-settings-gear-65"></i>
                                 <span class="nav-link-text">Mes informations</span>
                             </a>
+                            <div class="collapse {% if info_link is defined or diplome_link is defined %} show {% endif %} "
+                                 id="navbar-dashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if info_link is defined %} active {% endif %}"
+                                           href="{{ path('admin_user_show',{'id': app.user.id}) }}">
+                                            <i class="ni ni-circle-08"></i>
+                                            <span class="nav-link-text">Information personnel</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if diplome_link is defined %} active {% endif %}"
+                                           href="{{ path('diplome_index') }}">
+                                            <i class="ni ni-books"></i>
+                                            <span class="nav-link-text">Mes diplômes</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"
                                href="{{ path('demande_conge_new') }}">
                                 <i class="ni ni-user-run"></i>
-                                <span class="nav-link-text">Faire une demande de congé</span>
+                                <span class="nav-link-text">demander un congé</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -51,6 +73,7 @@
                                 <span class="nav-link-text">Mes tâches</span>
                             </a>
                         </li>
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link {% if user_link is defined %} active {% endif %} "
@@ -96,8 +119,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if cv_link is defined %} active {% endif %}"
-                               href="{{ path('user_index') }}">
+                            <a class="nav-link {% if diplome_link is defined %} active {% endif %}"
+                               href="{{ path('diplome_index') }}">
                                 <i class="ni ni-hat-3"></i>
                                 <span class="nav-link-text">CV simplifié</span>
                             </a>

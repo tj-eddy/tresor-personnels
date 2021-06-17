@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Diplome{% endblock %}
+
+{% block body %}
+    <h1>Diplome</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ diplome.id }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ diplome.numero }}</td>
+            </tr>
+            <tr>
+                <th>Annee</th>
+                <td>{{ diplome.annee }}</td>
+            </tr>
+            <tr>
+                <th>Nom_diplome</th>
+                <td>{{ diplome.nomDiplome }}</td>
+            </tr>
+            <tr>
+                <th>Etablissement</th>
+                <td>{{ diplome.etablissement }}</td>
+            </tr>
+            <tr>
+                <th>Scan</th>
+                <td>{{ diplome.scan }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('diplome_index') }}">back to list</a>
+
+    <a href="{{ path('diplome_edit', {'id': diplome.id}) }}">edit</a>
+
+    {{ include('diplome/_delete_form.html.twig') }}
+{% endblock %}

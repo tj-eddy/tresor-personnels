@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'diplome'|trans }}{% endblock %}
+
+{% set diplome_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Diplomes'|trans,
+            path_link : path('diplome_new') ,
+            title_link : 'create'|trans ,
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                                <span class="alert-text"> {{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        {% if not is_granted('ROLE_SUPERADMIN') %}
+                        <a href="{{ path('diplome_new') }}" class="btn btn-success">Ajouter un diplôme</a>
+                        {% endif %}
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush table-bordered">
+                                <thead>
+                                <tr>
+                                    {% if is_granted('ROLE_SUPERADMIN') %}
+                                        <th>Employé</th>
+                                    {% endif %}
+                                    <th>Numéro</th>
+                                    <th>Année d'obtention</th>
+                                    <th>Nom du diplôme</th>
+                                    <th>Etablissement</th>
+                                    <th>actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for diplome in diplomes %}
+                                    <tr>
+                                        {% if is_granted('ROLE_SUPERADMIN') %}
+                                            <td>{{ diplome.user.username }}</td>
+                                        {% endif %}
+                                        <td>{{ diplome.numero }}</td>
+                                        <td>{{ diplome.annee }}</td>
+                                        <td>{{ diplome.nomDiplome }}</td>
+                                        <td>{{ diplome.etablissement }}</td>
+                                        <td>
+                                            <a class="btn btn-warning btn-sm"
+                                               href="{{ path('diplome_edit', {'id': diplome.id}) }}">Modifier</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" style="text-align: center">Aucune donnée disponible dans le
+                                            tableau
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

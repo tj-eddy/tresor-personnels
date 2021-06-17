@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+<div class="form-group">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.numero) }}
+                <br>
+                {{ form_row(form.nom_diplome) }}
+                <br>
+                {{ form_row(form.annee) }}
+                <br>
+                {{ form_row(form.etablissement) }}
+                <br>
+                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

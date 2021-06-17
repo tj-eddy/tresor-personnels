@@ -110,6 +110,11 @@ class User implements UserInterface
      */
     private $status_tache;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Diplome::class, mappedBy="user")
+     */
+    private $diplomes;
+
 
     public function __construct()
     {
@@ -117,6 +122,7 @@ class User implements UserInterface
         $this->documentRecrutements = new ArrayCollection();
         $this->demandeConges = new ArrayCollection();
         $this->attributions = new ArrayCollection();
+        $this->diplomes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -414,6 +420,36 @@ class User implements UserInterface
     public function setStatusTache(?int $status_tache): self
     {
         $this->status_tache = $status_tache;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Diplome[]
+     */
+    public function getDiplomes(): Collection
+    {
+        return $this->diplomes;
+    }
+
+    public function addDiplome(Diplome $diplome): self
+    {
+        if (!$this->diplomes->contains($diplome)) {
+            $this->diplomes[] = $diplome;
+            $diplome->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiplome(Diplome $diplome): self
+    {
+        if ($this->diplomes->removeElement($diplome)) {
+            // set the owning side to null (unless already changed)
+            if ($diplome->getUser() === $this) {
+                $diplome->setUser(null);
+            }
+        }
 
         return $this;
     }
