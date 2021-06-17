@@ -170,7 +170,7 @@ class DemandeCongeController extends AbstractController
                                  DemandeCongeRepository $demandeCongeRepository)
     {
         $date_debut      = $request->request->get('date_debut');
-        $modif           = $request->request->get('date_debut');
+        $modif           = $request->request->get('motif');
         $lieu_jouissance = $request->request->get('lieu_jouissance');
         $type_conge      = $request->request->get('type_conge');
         $nom_interim     = $request->request->get('nom_interim');

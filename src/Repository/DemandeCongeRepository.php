@@ -40,7 +40,7 @@ class DemandeCongeRepository extends ServiceEntityRepository
                 dc.nom_interim,
                 DATE_FORMAT(dc.date_debut,'%d-%m-%Y à %h:%i'),
                 dc.nombre_de_jour_demande,
-                dc.date_fin,
+                DATE_FORMAT(dc.date_fin,'%d-%m-%Y à %h:%i'),
                 dc.motif,
                 dc.type_conge,
                 dc.lieu_jouissance,
