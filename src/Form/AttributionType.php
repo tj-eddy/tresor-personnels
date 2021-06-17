@@ -16,7 +16,8 @@ class AttributionType extends AbstractType
         $builder
             ->add('nom_tache', ChoiceType::class, [
                 'attr'    => [
-                    'class' => 'form-control select-2'
+                    'class'    => 'form-control select-2',
+                    'multiple' => 'multiple',
                 ],
                 'choices' => $this->getTaskName()
             ]);

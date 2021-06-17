@@ -52,8 +52,13 @@
             }
         })
     </script>
+    <script>
+        $('#attribution_nom_tache').on('change',function (ev) {
+            $("#task-selected").val($(this).val())
+        });
+    </script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
     <script src="{{ asset('js/edit.attribution.js') }}"></script>
-    <script src="{{ asset('js/attribution.js') }}"></script>
+{#    <script src="{{ asset('js/attribution.js') }}"></script>#}
 {% endblock %}

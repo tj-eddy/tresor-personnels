@@ -3,6 +3,7 @@
     <div class="col">
         {{ form_widget(form) }}
     </div>
+    <input type="hidden" id="task-selected" value="" name="task_selected[]"/>
     <div class="col">
         <div class="form-group">
             <label class="form-control-label"
@@ -14,6 +15,7 @@
         </div>
     </div>
 </div>
+<br>
 <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 
 {{ form_end(form) }}

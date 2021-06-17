@@ -49,22 +49,40 @@ class AttributionController extends AbstractController
     /**
      * @Route("/new", name="attribution_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, AttributionRepository $attributionRepository): Response
+    public function new(Request $request,
+                        UserRepository $userRepository,
+                        AttributionRepository $attributionRepository
+    ): Response
     {
         $attribution = new Attribution();
         $form        = $this->createForm(AttributionType::class, $attribution);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $userRepository->find($request->request->get('user_id'));
-            $attribution->setUser($user);
-            $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
-            $attribution->setDateDebut(new \DateTime());
-            $attribution->setStatus(0);
-            $user->setStatusTache(0);
+            $user            = $userRepository->find($request->request->get('user_id'));
+            $tasks           = $request->request->get('task_selected')[0];
+            $taches          = explode(',', $tasks);
+
+
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($attribution);
-            $entityManager->flush();
+            $user->setStatusTache(0);
+
+            foreach ($taches as $k => $v) {
+                $count_user_task = $attributionRepository->findBy([
+                    'user' => $user
+                ]);
+                if (count($count_user_task) < 4) {
+                    $attribution = new Attribution();
+                    $attribution->setUser($user);
+                    $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
+                    $attribution->setDateDebut(new \DateTime());
+                    $attribution->setStatus(0);
+                    $attribution->setNomTache($v);
+                    $entityManager->persist($attribution);
+                    $entityManager->flush();
+                }
+            }
 
             return $this->redirectToRoute('attribution_index');
         }
