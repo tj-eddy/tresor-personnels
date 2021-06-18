@@ -194,12 +194,12 @@ class DemandeCongeController extends AbstractController
                                  MailerInterface $mailer)
     {
         $date_debut      = $request->request->get('date_debut');
-        $date_fin        = $request->request->get('date_fin');
         $modif           = $request->request->get('motif');
         $lieu_jouissance = $request->request->get('lieu_jouissance');
         $type_conge      = $request->request->get('type_conge');
         $nom_interim     = $request->request->get('nom_interim');
         $user_id         = $request->request->get('user_id');
+        $nombre_jour     = $request->request->get('nombre_jour');
         $numero_demande  = $request->request->get('num_demande');
 
         $user = $userRepository->find($user_id);
@@ -207,9 +207,11 @@ class DemandeCongeController extends AbstractController
         $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
 
 
-        $interval            = (new \DateTime($date_debut))->diff(new \DateTime($date_fin));
-        $nombre_jour_restant = $jour_conge - $interval->days;
-        $user_has_conge      = $demandeCongeRepository->findBy([
+        $nombre_jour_restant = $jour_conge - $nombre_jour;
+
+        $date_fin = $this->getDateFin($date_debut, $nombre_jour);
+
+        $user_has_conge = $demandeCongeRepository->findBy([
             'user'   => $user,
             'status' => 0
         ]);
@@ -225,7 +227,7 @@ class DemandeCongeController extends AbstractController
                 Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
                 des congés " . $type_conge . " pour la période allant du
                 « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
-                 soit « " . $interval->days . " » jours ouvrables <br> <br> Cordialement.";
+                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
 
                 $email_toadmin = (new Email())
                     ->from($this->getUser()->getEmail())
@@ -243,7 +245,7 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setTypeConge($type_conge ? $type_conge : null);
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
                 $demande_conge->setNumDemande($numero_demande);
-                $demande_conge->setNombreDeJourDemande($interval->days);
+                $demande_conge->setNombreDeJourDemande($nombre_jour);
                 $demande_conge->setDateFin($date_fin);
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -267,5 +269,114 @@ class DemandeCongeController extends AbstractController
             'has_conge_attente'   => $has_conge_attente,
             'nombre_jour_restant' => $nombre_jour_restant
         ]);
+    }
+
+    protected function getDateFin($date_debut, $nombre_jour)
+    {
+        $month_clicke = (new \DateTime($date_debut))->format('m');
+        $day_clicke   = (new \DateTime($date_debut))->format('d');
+        $year_clicke  = (new \DateTime($date_debut))->format('Y');
+
+        $jour  = (int)'';
+        $mois  = (int)'';
+        $annee = (int)'';
+
+        // tester le mois
+        if ($month_clicke == '02') {
+            // tester l'annee
+            if ($year_clicke % 4 == 0) {
+                if ((int)$day_clicke + (int)$nombre_jour > 29) {
+                    $jour = ((int)$day_clicke + (int)$nombre_jour) - 30;
+                    if ($jour == 0) {
+                        $jour  = 29;
+                        $mois  = $month_clicke;
+                        $annee = (int)$year_clicke;
+                    } else {
+                        $jour  = ((int)$day_clicke + (int)$nombre_jour) - 30;
+                        $mois  = $month_clicke + 1;
+                        $annee = (int)$year_clicke;
+                    }
+
+                } else {
+                    $jour  = (int)$day_clicke + $nombre_jour - 1;
+                    $mois  = $month_clicke;
+                    $annee = (int)$year_clicke;
+                }
+            } else {
+                if ((int)$day_clicke + (int)$nombre_jour > 28) {
+                    $jour = ((int)$day_clicke + (int)$nombre_jour) - 29;
+                    if ($jour == 0) {
+                        $jour  = 28;
+                        $mois  = $month_clicke;
+                        $annee = (int)$year_clicke;
+                    } else {
+                        $jour  = ((int)$day_clicke + (int)$nombre_jour) - 29;
+                        $mois  = $month_clicke + 1;
+                        $annee = (int)$year_clicke;
+                    }
+
+                } else {
+                    $jour  = (int)$day_clicke + $nombre_jour - 1;
+                    $mois  = $month_clicke;
+                    $annee = (int)$year_clicke;
+                }
+            }
+        } elseif (in_array($month_clicke, ["04", "06", "09", "11"])) {
+            if ((int)$day_clicke + (int)$nombre_jour > 30) {
+                $jour = ((int)$day_clicke + (int)$nombre_jour) - 31;
+                if ($jour == 0) {
+                    $jour  = 30;
+                    $mois  = $month_clicke;
+                    $annee = (int)$year_clicke;
+                } else {
+                    $jour  = ((int)$day_clicke + (int)$nombre_jour) - 31;
+                    $mois  = $month_clicke + 1;
+                    $annee = (int)$year_clicke;
+                }
+
+            } else {
+                $jour  = (int)$day_clicke + $nombre_jour - 1;
+                $mois  = $month_clicke;
+                $annee = (int)$year_clicke;
+            }
+        } elseif (in_array($month_clicke, ["01", "03", "05", "07", "08", "10"])) {
+            if ((int)$day_clicke + (int)$nombre_jour > 31) {
+                $jour = ((int)$day_clicke + (int)$nombre_jour) - 32;
+                if ($jour == 0) {
+                    $jour  = 31;
+                    $mois  = $month_clicke;
+                    $annee = (int)$year_clicke;
+                } else {
+                    $jour  = ((int)$day_clicke + (int)$nombre_jour) - 32;
+                    $mois  = $month_clicke + 1;
+                    $annee = (int)$year_clicke;
+                }
+            } else {
+                $jour  = (int)$day_clicke + $nombre_jour - 1;
+                $mois  = $month_clicke;
+                $annee = (int)$year_clicke;
+            }
+        } else {
+            if ((int)$day_clicke + (int)$nombre_jour > 31) {
+                $jour = ((int)$day_clicke + (int)$nombre_jour) - 32;
+                if ($jour == 0) {
+                    $jour  = 31;
+                    $mois  = 12;
+                    $annee = (int)$year_clicke;
+                } else {
+                    $jour  = ((int)$day_clicke + (int)$nombre_jour) - 32;
+                    $mois  = 01;
+                    $annee = (int)$year_clicke + 1;
+                }
+            } else {
+                $jour  = (int)$day_clicke + $nombre_jour - 1;
+                $mois  = $month_clicke;
+                $annee = (int)$year_clicke;
+            }
+        }
+
+        $dat_fin = (string)($jour . '-' . $mois . '-' . $annee);
+
+        return $dat_fin;
     }
 }

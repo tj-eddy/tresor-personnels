@@ -37,8 +37,9 @@ $(document).ready(function () {
                             text = 'Validé';
                         }
                         let is_disabled = status == 1 ? 'disabled' : '';
+                        let is_valid_status = status == 1 ? 'd-none' : '';
                         return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" +
-                            "<span id='spin" + row[10] + "' class='loading-spin fa fa-spinner fa-spin d-none '>" +
+                            "<span id='spin" + row[10] + "' class='loading-spin fa fa-spinner fa-spin d-none' '>" +
                             "</span> " + text + "</button>";
                     }
                 },

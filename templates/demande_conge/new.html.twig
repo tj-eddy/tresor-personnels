@@ -17,33 +17,24 @@
                         Solde restant : <span class="solde-restant"> {{ app.user.congeInitial }} </span> Jours
                         <hr>
                         <br>
-                        <form><input type="hidden" id="user_id" value="{{ app.user.id }}">
+                        <form>
                             <div class="pl-lg-4">
-                                <div class="input-daterange datepicker row align-items-center">
-                                    <div class="col">
+                                <div class="row">
+                                    <input type="hidden" id="user_id" value="{{ app.user.id }}">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
-                                            <div class="input-group input-group-alternative">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i
-                                                                class="ni ni-calendar-grid-58"></i></span>
-                                                </div>
-                                                <input required class="form-control" id="date-debut"
-                                                       placeholder="Date de début"
-                                                       type="text" value="">
-                                            </div>
+                                            <label class="form-control-label" for="input-username">Date de début</label>
+                                            <input type="datetime-local" id="date-debut"
+                                                   class="form-control datetime-picker"
+                                                   placeholder="Date de début"/>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
-                                            <div class="input-group input-group-alternative">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i
-                                                                class="ni ni-calendar-grid-58"></i></span>
-                                                </div>
-                                                <input required class="form-control" id="date-fin"
-                                                       placeholder="Date de fin"
-                                                       type="text" value="">
-                                            </div>
+                                            <label class="form-control-label" for="input-username">Nombre de
+                                                jours</label>
+                                            <input type="number" maxlength="2" id="nombre_jour" class="form-control"
+                                                   placeholder="Nombre de jour"/>
                                         </div>
                                     </div>
                                 </div>

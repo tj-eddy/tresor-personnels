@@ -7,8 +7,12 @@ function validateConge() {
     var table = $('#id-conge-list').DataTable();
     $('#id-conge-list tbody').on('click', 'tr', function () {
         let id_span = $(this).find('button').children('span').attr('id')
-        $('span[id="' + id_span + '"]').removeClass('d-none');
         let row = table.row(this).data();
+
+        if (row[0] !== 1){
+            $('span[id="' + id_span + '"]').removeClass('d-none');
+        }
+
         if ((row[0] == 0 || row[0] == 2) && confirm('Voulez-vous vraiment validé ce congé ? ')) {
             $.ajax({
                 method: 'post',
@@ -70,7 +74,6 @@ function demandeConge() {
             $('#date-debut').val() !== "" &&
             $('#lieu-jouissance').val() !== "" &&
             $('#conge-type').val() !== "" &&
-            $('#date-fin').val("") !== "" &&
             $('#nom-interim').val() !== "" &&
             $('#motif').val() !== "" &&
             $('#nombre_jour').val() !== ""
@@ -79,7 +82,6 @@ function demandeConge() {
                 method: 'post',
                 data: {
                     date_debut: $('#date-debut').val(),
-                    date_fin: $('#date-fin').val(),
                     lieu_jouissance: $('#lieu-jouissance').val(),
                     type_conge: $('#conge-type').val(),
                     nom_interim: $('#nom-interim').val(),
