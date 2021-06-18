@@ -133,14 +133,14 @@ class DemandeCongeController extends AbstractController
         $user_id      = $request->request->get('user_id');
         $user         = $userRepository->find($user_id);
 
-//        $email = (new Email())
-//            ->from('dtsitohina@yahoo.fr')
-//            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
-//            ->subject('Demande de congé')
-//            ->text('Demande de congé payé')
-//            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
-//
-//        $mailer->send($email);
+        $email = (new Email())
+            ->from('dtsitohina@yahoo.fr')
+            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
+            ->subject('Demande de congé')
+            ->text('Demande de congé payé')
+            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
+
+        $mailer->send($email);
 
         $user->setCongeInitial((int)$user->getCongeInitial() - (int)$jour_demande);
         $demandeCongeRepository->find($conge_id)->setStatus(1);
