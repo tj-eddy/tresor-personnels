@@ -127,25 +127,26 @@ class DemandeCongeController extends AbstractController
                                   UserRepository $userRepository, MailerInterface $mailer
     )
     {
+
         $conge_id     = $request->request->get('conge_id');
         $jour_demande = $request->request->get('jour_demande');
         $user_id      = $request->request->get('user_id');
         $user         = $userRepository->find($user_id);
+
+//        $email = (new Email())
+//            ->from('dtsitohina@yahoo.fr')
+//            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
+//            ->subject('Demande de congé')
+//            ->text('Demande de congé payé')
+//            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
+//
+//        $mailer->send($email);
 
         $user->setCongeInitial((int)$user->getCongeInitial() - (int)$jour_demande);
         $demandeCongeRepository->find($conge_id)->setStatus(1);
         $entityManager = $this->getDoctrine()->getManager();
 
         $entityManager->flush();
-
-        $email = (new Email())
-            ->from('dtsitohina@yahoo.fr')
-            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
-            ->subject('Demande de congé')
-            ->text('Demande de congé payé')
-            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
-
-        $mailer->send($email);
 
         return new JsonResponse([
             'status'   => 1,
@@ -193,6 +194,7 @@ class DemandeCongeController extends AbstractController
                                  MailerInterface $mailer)
     {
         $date_debut      = $request->request->get('date_debut');
+        $date_fin        = $request->request->get('date_fin');
         $modif           = $request->request->get('motif');
         $lieu_jouissance = $request->request->get('lieu_jouissance');
         $type_conge      = $request->request->get('type_conge');
@@ -206,8 +208,8 @@ class DemandeCongeController extends AbstractController
         $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
 
         $nombre_jour_restant = $jour_conge - $nombre_jour;
-
-        $user_has_conge = $demandeCongeRepository->findBy([
+        $interval            = (new \DateTime($date_debut))->diff(new \DateTime($date_fin));
+        $user_has_conge      = $demandeCongeRepository->findBy([
             'user'   => $user,
             'status' => 0
         ]);
@@ -220,9 +222,9 @@ class DemandeCongeController extends AbstractController
                 $demande_conge = new DemandeConge();
 
                 $template_send_toadmin = "
-                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre 
-                des congés " . $type_conge . " pour la période allant du 
-                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » inclus, 
+                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
+                des congés " . $type_conge . " pour la période allant du
+                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » inclus,
                  soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
 
                 $email_toadmin = (new Email())
@@ -241,8 +243,8 @@ class DemandeCongeController extends AbstractController
                 $demande_conge->setTypeConge($type_conge ? $type_conge : null);
                 $demande_conge->setNomInterim($nom_interim ? $nom_interim : null);
                 $demande_conge->setNumDemande($numero_demande);
-                $demande_conge->setNombreDeJourDemande($nombre_jour);
-//                $demande_conge->setDateFin();
+                $demande_conge->setNombreDeJourDemande($interval->days);
+                $demande_conge->setDateFin($date_fin);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);

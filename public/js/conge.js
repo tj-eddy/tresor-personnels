@@ -36,8 +36,10 @@ $(document).ready(function () {
                         } else {
                             text = 'Validé';
                         }
-                        let is_disabled = status == 1  ? 'disabled' : '';
-                        return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" + text + "</button>";
+                        let is_disabled = status == 1 ? 'disabled' : '';
+                        return "<button " + is_disabled + " class='validate-btn btn btn-" + color + " btn-sm'>" +
+                            "<span id='spin" + row[10] + "' class='loading-spin fa fa-spinner fa-spin d-none '>" +
+                            "</span> " + text + "</button>";
                     }
                 },
                 {name: "dc.num_demande", targets: 1},

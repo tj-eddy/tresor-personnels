@@ -17,24 +17,33 @@
                         Solde restant : <span class="solde-restant"> {{ app.user.congeInitial }} </span> Jours
                         <hr>
                         <br>
-                        <form>
+                        <form><input type="hidden" id="user_id" value="{{ app.user.id }}">
                             <div class="pl-lg-4">
-                                <div class="row">
-                                    <input type="hidden" id="user_id" value="{{ app.user.id }}">
-                                    <div class="col-lg-6">
+                                <div class="input-daterange datepicker row align-items-center">
+                                    <div class="col">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">Date de début</label>
-                                            <input type="datetime-local" id="date-debut"
-                                                   class="form-control datetime-picker"
-                                                   placeholder="Date de début"/>
+                                            <div class="input-group input-group-alternative">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                                class="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <input required class="form-control" id="date-debut"
+                                                       placeholder="Date de début"
+                                                       type="text" value="">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">Nombre de
-                                                jours</label>
-                                            <input type="number" maxlength="2" id="nombre_jour" class="form-control"
-                                                   placeholder="Nombre de jour"/>
+                                            <div class="input-group input-group-alternative">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                                class="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <input required class="form-control" id="date-fin"
+                                                       placeholder="Date de fin"
+                                                       type="text" value="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,49 +84,52 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="pl-lg-4">
-                                <button type="button" class="btn btn-success send-conge">Envoyer votre demande</button>
-                            </div>
-                        </form>
-                        <div class="modal message-validation" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p class="text text-info">Veuillez verifier votre champs , s'il vous plait
-                                            ! </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal message-success" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p class="text text-success">Demande envoyé avec succés !</p>
-                                    </div>
-                                </div>
+                </div>
+                <div class="pl-lg-4">
+                    <button type="button" class="btn btn-success send-conge"> <div
+                                class="fa fa-spinner fa-spin conge-loading d-none">
+                        </div> <span class="loading-text">Envoyer votre demande</span>
+                    </button>
+                </div>
+                </form>
+                <div class="modal message-validation" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p class="text text-info">Veuillez verifier votre champs , s'il vous plait
+                                    ! </p>
                             </div>
                         </div>
-                        <div class="modal message-erreur" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p class="text text-danger">Solde de congé insuffisant !</p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal message-success" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p class="text text-success">Demande envoyé avec succés !</p>
                             </div>
                         </div>
-                        <div class="modal message-has-validation-inprogress" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p class="text text-info">Vous avez déjà une congé en <span
-                                                    class="badge badge-info">attente de validation</span></p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal message-erreur" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p class="text text-danger">Solde de congé insuffisant !</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="modal message-has-validation-inprogress" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p class="text text-info">Vous avez déjà une congé en <span
+                                            class="badge badge-info">attente de validation</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -157,6 +169,9 @@
         var last_id = "{{ last_id }}";
 
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/general.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/edit.conge.js') }}"></script>
