@@ -67,6 +67,7 @@ class AttributionRepository extends ServiceEntityRepository
                 LEFT JOIN a.user u 
                 WHERE (a.numero_tache LIKE :search 
                 OR a.nom_tache LIKE :search 
+                OR u.username LIKE :search 
                 OR a.date_debut LIKE :search 
                 OR a.date_fin LIKE :search ) $where
                 ORDER BY $_order_by";

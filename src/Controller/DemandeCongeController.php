@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -122,7 +124,7 @@ class DemandeCongeController extends AbstractController
      */
     public function validateConge(Request $request,
                                   DemandeCongeRepository $demandeCongeRepository,
-                                  UserRepository $userRepository
+                                  UserRepository $userRepository, MailerInterface $mailer
     )
     {
         $conge_id     = $request->request->get('conge_id');
@@ -136,6 +138,15 @@ class DemandeCongeController extends AbstractController
 
         $entityManager->flush();
 
+        $email = (new Email())
+            ->from('admin@codeddy.mg')
+            ->to($this->getUser()->getEmail())
+            ->subject('Demande de congé')
+            ->text('Demande de congé payé')
+            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
+
+        $mailer->send($email);
+
         return new JsonResponse([
             'status'   => 1,
             'conge_id' => $conge_id
@@ -147,13 +158,24 @@ class DemandeCongeController extends AbstractController
      * @param Request $request
      */
     public function annulerConge(Request $request,
-                                 DemandeCongeRepository $demandeCongeRepository)
+                                 DemandeCongeRepository $demandeCongeRepository,
+                                 MailerInterface $mailer
+    )
     {
         $conge_id = $request->request->get('conge_id');
         $demandeCongeRepository->find($conge_id)->setStatus(2);
         $entityManager = $this->getDoctrine()->getManager();
 
         $entityManager->flush();
+
+        $email = (new Email())
+            ->from('admin@codeddy.mg')
+            ->to($this->getUser()->getEmail())
+            ->subject('Demande de congé')
+            ->text('Demande de congé payé')
+            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est annulé ! </p>');
+
+        $mailer->send($email);
 
         return new JsonResponse([
             'status'   => 2,
@@ -167,7 +189,8 @@ class DemandeCongeController extends AbstractController
      */
     public function demandeConge(Request $request,
                                  UserRepository $userRepository,
-                                 DemandeCongeRepository $demandeCongeRepository)
+                                 DemandeCongeRepository $demandeCongeRepository,
+                                 MailerInterface $mailer)
     {
         $date_debut      = $request->request->get('date_debut');
         $modif           = $request->request->get('motif');
@@ -209,8 +232,18 @@ class DemandeCongeController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($demande_conge);
                 $entityManager->flush();
+
+                $email = (new Email())
+                    ->from('admin@codeddy.mg')
+                    ->to($this->getUser()->getEmail())
+                    ->subject('Demande de congé')
+                    ->text('Demande de congé payé')
+                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande est en cours de validation !</p>');
+
+                $mailer->send($email);
             }
         }
+
         return new JsonResponse([
             'status'              => true,
             'has_conge_attente'   => $has_conge_attente,
