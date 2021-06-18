@@ -90,9 +90,11 @@ function demandeConge() {
                 },
                 datatype: 'json',
                 url: url_demande_conge_ajax,
-                success: function (response) {
+                beforeSend:function(){
                     $('.conge-loading').removeClass('d-none');
                     $('.loading-text').text('En cours ...');
+                },
+                success: function (response) {
                     if (response.status == true && response.has_conge_attente == false && response.nombre_jour_restant >= 0) {
                         $('.message-success').modal('show')
                         emptyInput()
