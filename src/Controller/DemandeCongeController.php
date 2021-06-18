@@ -139,8 +139,8 @@ class DemandeCongeController extends AbstractController
         $entityManager->flush();
 
         $email = (new Email())
-            ->from('admin@codeddy.mg')
-            ->to($this->getUser()->getEmail())
+            ->from('dtsitohina@yahoo.fr')
+            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
             ->subject('Demande de congé')
             ->text('Demande de congé payé')
             ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
@@ -169,8 +169,8 @@ class DemandeCongeController extends AbstractController
         $entityManager->flush();
 
         $email = (new Email())
-            ->from('admin@codeddy.mg')
-            ->to($this->getUser()->getEmail())
+            ->from('dtsitohina@yahoo.fr')
+            ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
             ->subject('Demande de congé')
             ->text('Demande de congé payé')
             ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est annulé ! </p>');
@@ -219,6 +219,21 @@ class DemandeCongeController extends AbstractController
             } else {
                 $demande_conge = new DemandeConge();
 
+                $template_send_toadmin = "
+                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre 
+                des congés " . $type_conge . " pour la période allant du 
+                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » inclus, 
+                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
+
+                $email_toadmin = (new Email())
+                    ->from($this->getUser()->getEmail())
+                    ->to('3ddy.rakoto@gmail.com')
+                    ->subject('Demande de congé')
+                    ->text('Demande de congé payé')
+                    ->html($template_send_toadmin);
+
+                $mailer->send($email_toadmin);
+
                 $demande_conge->setUser($user ? $user : null);
                 $demande_conge->setDateDebut(new \DateTime($date_debut));
                 $demande_conge->setMotif($modif ? $modif : null);
@@ -238,9 +253,10 @@ class DemandeCongeController extends AbstractController
                     ->to($this->getUser()->getEmail())
                     ->subject('Demande de congé')
                     ->text('Demande de congé payé')
-                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande est en cours de validation !</p>');
+                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est en cours de validation !</p>');
 
                 $mailer->send($email);
+
             }
         }
 
