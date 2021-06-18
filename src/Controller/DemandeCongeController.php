@@ -200,15 +200,15 @@ class DemandeCongeController extends AbstractController
         $type_conge      = $request->request->get('type_conge');
         $nom_interim     = $request->request->get('nom_interim');
         $user_id         = $request->request->get('user_id');
-        $nombre_jour     = $request->request->get('nombre_jour');
         $numero_demande  = $request->request->get('num_demande');
 
         $user = $userRepository->find($user_id);
 
         $jour_conge = $user && $user->getCongeInitial() ? $user->getCongeInitial() : 0;
 
-        $nombre_jour_restant = $jour_conge - $nombre_jour;
+
         $interval            = (new \DateTime($date_debut))->diff(new \DateTime($date_fin));
+        $nombre_jour_restant = $jour_conge - $interval->days;
         $user_has_conge      = $demandeCongeRepository->findBy([
             'user'   => $user,
             'status' => 0
@@ -224,8 +224,8 @@ class DemandeCongeController extends AbstractController
                 $template_send_toadmin = "
                 Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
                 des congés " . $type_conge . " pour la période allant du
-                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » inclus,
-                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
+                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
+                 soit « " . $interval->days . " » jours ouvrables <br> <br> Cordialement.";
 
                 $email_toadmin = (new Email())
                     ->from($this->getUser()->getEmail())
