@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/facture/soin")
@@ -19,10 +20,15 @@ class FactureSoinController extends AbstractController
     /**
      * @Route("/", name="facture_soin_index", methods={"GET"})
      */
-    public function index(FactureSoinRepository $factureSoinRepository): Response
+    public function index(FactureSoinRepository $factureSoinRepository, Security $security): Response
     {
+        $diplome   = $factureSoinRepository->findBy([
+            'user' => $this->getUser()
+        ]);
+        $_is_admin = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
+
         return $this->render('facture_soin/index.html.twig', [
-            'facture_soins' => $factureSoinRepository->findAll(),
+            'facture_soins' => $_is_admin ? $factureSoinRepository->findAll() : $diplome,
         ]);
     }
 
@@ -106,13 +112,15 @@ class FactureSoinController extends AbstractController
      */
     public function validerFactureSoin(FactureSoin $factureSoin)
     {
+        if (!$this->isGranted('ROLE_SUPERADMIN')) {
+            return $this->redirectToRoute('facture_soin_index');
+        }
         if ($factureSoin) {
             $factureSoin->setStatus(1);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-
         }
-        return $this->redirectToRoute('facture_soin_index');
 
+        return $this->redirectToRoute('facture_soin_index');
     }
 }
