@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FactureSoin{% endblock %}
+
+{% block body %}
+    <h1>FactureSoin</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ facture_soin.id }}</td>
+            </tr>
+            <tr>
+                <th>Num_fact</th>
+                <td>{{ facture_soin.numFact }}</td>
+            </tr>
+            <tr>
+                <th>Date_fact</th>
+                <td>{{ facture_soin.dateFact }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ facture_soin.montant }}</td>
+            </tr>
+            <tr>
+                <th>Pharmacie</th>
+                <td>{{ facture_soin.pharmacie }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('facture_soin_index') }}">back to list</a>
+
+    <a href="{{ path('facture_soin_edit', {'id': facture_soin.id}) }}">edit</a>
+
+    {{ include('facture_soin/_delete_form.html.twig') }}
+{% endblock %}

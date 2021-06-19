@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Facture des soins'|trans }}{% endblock %}
+
+{% set fs_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Factures des soins'|trans,
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                                <span class="alert-text"> {{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        {% if not is_granted('ROLE_SUPERADMIN') %}
+                            <a href="{{ path('facture_soin_new') }}" class="btn btn-success">Ajouter un facture de
+                                soins</a>
+                        {% endif %}
+                        <div class="table-responsive py-4 table table-flush">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Numéro facture</th>
+                                    <th>Date de facture</th>
+                                    <th>Montant</th>
+                                    <th>Nom du pharmacie</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for facture_soin in facture_soins %}
+                                    <tr>
+                                        {% set status = 'En attente' %}
+                                        {% set color = 'danger' %}
+                                        {% if facture_soin.status == 1 %}
+                                            {% set status = 'Validé' %}
+                                            {% set color = 'success' %}
+                                        {% elseif facture_soin.status == 2 %}
+                                            {% set status = 'Annulé' %}
+                                            {% set color = 'warning' %}
+                                        {% endif %}
+                                        <td><span class="badge badge-{{ color }}">{{ status }}</span></td>
+                                        <td>{{ facture_soin.numFact }}</td>
+                                        <td>{{ facture_soin.dateFact }}</td>
+                                        <td>{{ facture_soin.montant }}</td>
+                                        <td>{{ facture_soin.pharmacie }}</td>
+                                        <td>
+                                            {% if is_granted('ROLE_SUPERADMIN') and facture_soin.status == 0 %}
+                                                <a onclick="return confirm('Vous voulez vraiment validé  ?')"
+                                                   class="btn btn-sm btn-outline-secondary"
+                                                   href="{{ path('facture_soin_valide', {'id': facture_soin.id}) }}">Valider</a>
+                                            {% endif %}
+                                            {% if  facture_soin.status == 0 %}
+                                                <a class="btn btn-sm btn-warning"
+                                                   href="{{ path('facture_soin_edit', {'id': facture_soin.id}) }}">Modifier</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" style="text-align: center">Aucune donnée disponible dans le
+                                            tableau
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -68,6 +68,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if fs_link is defined %} active {% endif %}"
+                               href="{{ path('facture_soin_index') }}">
+                                <i class="ni ni-ambulance"></i>
+                                <span class="nav-link-text">Facture des soins</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if attribution_link is defined %} active {% endif %}"
                                href="{{ path('attribution_index') }}">
                                 <i class="ni ni-watch-time"></i>
@@ -135,7 +142,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if fs_link is defined %} active {% endif %}"
-                               href="{{ path('user_index') }}">
+                               href="{{ path('facture_soin_index') }}">
                                 <i class="ni ni-ambulance"></i>
                                 <span class="nav-link-text">État de decompte de la facture de soins</span>
                             </a>

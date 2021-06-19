@@ -115,6 +115,11 @@ class User implements UserInterface
      */
     private $diplomes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FactureSoin::class, mappedBy="user")
+     */
+    private $factureSoins;
+
 
     public function __construct()
     {
@@ -123,6 +128,7 @@ class User implements UserInterface
         $this->demandeConges = new ArrayCollection();
         $this->attributions = new ArrayCollection();
         $this->diplomes = new ArrayCollection();
+        $this->factureSoins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -448,6 +454,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($diplome->getUser() === $this) {
                 $diplome->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FactureSoin[]
+     */
+    public function getFactureSoins(): Collection
+    {
+        return $this->factureSoins;
+    }
+
+    public function addFactureSoin(FactureSoin $factureSoin): self
+    {
+        if (!$this->factureSoins->contains($factureSoin)) {
+            $this->factureSoins[] = $factureSoin;
+            $factureSoin->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFactureSoin(FactureSoin $factureSoin): self
+    {
+        if ($this->factureSoins->removeElement($factureSoin)) {
+            // set the owning side to null (unless already changed)
+            if ($factureSoin->getUser() === $this) {
+                $factureSoin->setUser(null);
             }
         }
 

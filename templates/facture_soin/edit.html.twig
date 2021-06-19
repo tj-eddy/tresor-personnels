@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% set fs_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Modification de la facture de soins'|trans,
+            path_link : path('facture_soin_index') ,
+            title_link : 'return'|trans ,
+        } %}
+    <!-- Page content -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {{ include('facture_soin/_form.html.twig') }}
+                        {{ include('facture_soin/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/general.js') }}"></script>
+{% endblock %}
+
