@@ -18,6 +18,9 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
+                        <div  class="alert attribution-wait d-none alert-warning alert-dismissible fade show" role="alert">
+                          <span class="alert-text"><span style="font-size: 20px" class="fa fa-spinner fa-spin"></span>  Attribution en cours , Veuillez patienter s'il vous plaît ..... </span>
+                        </div>
                         {% for message in app.flashes('success') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <span class="alert-icon"><i class="ni ni-like-2"></i></span>

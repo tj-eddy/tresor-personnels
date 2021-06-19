@@ -48,8 +48,12 @@ $(document).ready(function () {
                                     },
                                     datatype: 'json',
                                     url: change_attribution_ajax,
+                                    beforeSend:function(){
+                                        $('.attribution-wait').removeClass('d-none')
+                                    },
                                     complete: function () {
                                         $(document).ajaxStop(function () {
+                                            $('.attribution-wait').addClass('d-none')
                                             window.location.reload();
                                         })
                                     }
