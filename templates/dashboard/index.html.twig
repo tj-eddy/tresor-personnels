@@ -10,18 +10,73 @@
             bc_title : 'dashboard'|trans
         } %}
     <!-- Page content -->
-{#    <div class="container-fluid mt--6">#}
-{#        <div class="row">#}
-{#            <div class="col">#}
-{#                <div class="card">#}
-{#                    <!-- Card header -->#}
-{#                    <div class="card-header border-0">#}
-
-
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0"><a href="{{ path('user_index') }}">Total des employés</a></h5>
+                                <span class="h2 font-weight-bold mb-0">{{ total_emp }}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span style="font-size: 50px" class="ni ni-circle-08 text-warning"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Congé validé</h5>
+                                <span class="h2 font-weight-bold mb-0">{{ conge_encours }}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span style="font-size: 50px" class="ni ni-user-run text-success"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Congé annulé</h5>
+                                <span class="h2 font-weight-bold mb-0">{{ conge_annule }}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span style="font-size: 50px" class="ni ni-user-run text-warning"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Congé en attente</h5>
+                                <span class="h2 font-weight-bold mb-0">{{ conge_attente }}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span style="font-size: 50px" class="ni ni-user-run text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
