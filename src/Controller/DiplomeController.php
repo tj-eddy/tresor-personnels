@@ -35,6 +35,9 @@ class DiplomeController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if ($this->isGranted('ROLE_SUPERADMIN')) {
+            return $this->redirectToRoute('diplome_index');
+        }
         $diplome = new Diplome();
         $form    = $this->createForm(DiplomeType::class, $diplome);
         $form->handleRequest($request);

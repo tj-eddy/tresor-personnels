@@ -26,6 +26,9 @@ class DemandeCongeController extends AbstractController
      */
     public function index(DemandeCongeRepository $demandeCongeRepository): Response
     {
+        if (!$this->isGranted('ROLE_SUPERADMIN')) {
+            return $this->redirectToRoute('demande_conge_new');
+        }
         return $this->render('demande_conge/index.html.twig');
     }
 
@@ -55,6 +58,10 @@ class DemandeCongeController extends AbstractController
      */
     public function new(Request $request, DemandeCongeRepository $demandeCongeRepository): Response
     {
+        if ($this->isGranted('ROLE_SUPERADMIN')) {
+           return $this->redirectToRoute('demande_conge_index');
+        }
+
         $demandeConge = new DemandeConge();
         $form         = $this->createForm(DemandeCongeType::class, $demandeConge);
         $form->handleRequest($request);

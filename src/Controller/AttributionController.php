@@ -54,6 +54,10 @@ class AttributionController extends AbstractController
                         AttributionRepository $attributionRepository
     ): Response
     {
+        if (!$this->isGranted('ROLE_SUPERADMIN')) {
+            return $this->redirectToRoute('attribution_index');
+        }
+
         $attribution = new Attribution();
         $form        = $this->createForm(AttributionType::class, $attribution);
         $form->handleRequest($request);

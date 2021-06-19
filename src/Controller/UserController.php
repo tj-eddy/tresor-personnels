@@ -36,11 +36,13 @@ class UserController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_SUPERADMIN")
      * @Route("/", name="user_index", methods={"GET"})
      */
     public function index(): Response
     {
+        if (!$this->isGranted('ROLE_SUPERADMIN')) {
+            return $this->redirectToRoute('admin_user_show', ['id' => $this->getUser()->getId()]);
+        }
         return $this->render('user/index.html.twig', [
             'path_uploaded' => $this->getParameter('upload_dir_profil')
         ]);

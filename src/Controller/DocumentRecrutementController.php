@@ -23,7 +23,6 @@ class DocumentRecrutementController extends AbstractController
      */
     public function index(DocumentRecrutementRepository $documentRecrutementRepository): Response
     {
-        ;
         return $this->render('document_recrutement/index.html.twig');
     }
 
