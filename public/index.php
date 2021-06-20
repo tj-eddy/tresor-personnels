@@ -22,7 +22,7 @@ $kernel   = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 $request  = Request::createFromGlobals();
 $response = $kernel->handle($request);
 if ($request->attributes->get('_route') == null) {
-    return header('Location:http://'.$_SERVER['HTTP_HOST'].'/dashboard');
+    return header('Location:http://'.$_SERVER['HTTP_HOST']);
     exit;
 }
 $response->send();
