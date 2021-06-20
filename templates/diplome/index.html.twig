@@ -29,10 +29,10 @@
                             </div>
                         {% endfor %}
                         {% if not is_granted('ROLE_SUPERADMIN') %}
-                        <a href="{{ path('diplome_new') }}" class="btn btn-success">Ajouter un diplôme</a>
+                            <a href="{{ path('diplome_new') }}" class="btn btn-success">Ajouter un diplôme</a>
                         {% endif %}
                         <div class="table-responsive py-4">
-                            <table class="table table-flush table-bordered">
+                            <table class="table table-flush" id="list-diplome">
                                 <thead>
                                 <tr>
                                     {% if is_granted('ROLE_SUPERADMIN') %}
@@ -75,4 +75,20 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('#list-diplome').dataTable({
+                "language": {
+                    url: datatable_language
+                },
+                "aaSorting": [],
+                "bFilter": true,
+                "lengthMenu": [[10, 50, 100, 500, 1000, 5000, 10000], [10, 50, 100, 500, '1 000', '5 000', '10 000']],
+                "iDisplayLength": 10,
+            })
+        })
+    </script>
 {% endblock %}

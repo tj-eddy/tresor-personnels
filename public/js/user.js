@@ -37,8 +37,8 @@ $(document).ready(function () {
                     render: function (data) {
                         href_edit = edit_path.replace('0', data);
                         href_delete = delete_path.replace('0', data);
-                        return id_current_user == data ? '' : '<a href="' + href_edit + '" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>' +
-                            '<a onclick="return confirm(confirm_delete)"  href="' + href_delete + '" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>'
+                        return id_current_user == data ? '' : '<a href="' + href_edit + '" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Modifier</a>' +
+                            '<a onclick="return confirm(confirm_delete)"  href="' + href_delete + '" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Supprimer</a>'
                     },
                     orderable: false
                 },
