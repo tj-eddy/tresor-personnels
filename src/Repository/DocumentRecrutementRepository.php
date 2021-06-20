@@ -45,7 +45,8 @@ class DocumentRecrutementRepository extends ServiceEntityRepository
                 dm.indice,
                 dm.categorie,
                 dm.grade,
-                dm.id
+                dm.id,
+                dm.scan_doc
                 FROM $document_recrutement dm
                 LEFT JOIN dm.user u
                 WHERE dm.is_deleted = 0

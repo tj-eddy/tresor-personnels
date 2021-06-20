@@ -29,17 +29,18 @@ $(document).ready(function () {
                 {
                     name: "dm.id",
                     targets: 8,
-                    render: function (data) {
-                        let message_confirm = "Voulez-vous vraiment télécharger ce document ? "
+                    render: function (data, type, row) {
                         href_edit = edit_path.replace('0', data);
                         href_show = show_path.replace('0', data);
                         href_download = download_file_path.replace('0', data);
+                        let has_scan = row[9] == "" ? 'd-none' : '';
                         return '<a href="' + href_edit + '" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i>Modifier</a>' +
                             '<a href="' + href_show + '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>Voir</a>' +
-                            '<a onclick="return confirm(confirm_download)" href="' + href_download + '" class="btn btn-dark btn-sm"><i class="fa fa-download"></i>Télécharger</a>'
+                            '<a   onclick="return confirm(confirm_download)" href="' + href_download + '" class="' + has_scan + ' btn btn-dark btn-sm"><i class="fa fa-download"></i>Télécharger</a>'
                     },
                     orderable: false
                 },
+                {name: "dm.grade", targets: 9,visible:false},
 
             ]
         }
