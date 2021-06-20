@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     upload_dir: '%kernel.project_dir%/public/'
+    upload_scan_doc: '%kernel.project_dir%/public/uploads/scan/doc/'
+    upload_scan_decision_conge: '%kernel.project_dir%/public/uploads/scan/decision_conge/'
+    upload_scan_facture_soin: '%kernel.project_dir%/public/uploads/scan/facture_soin/'
+    upload_scan_diplome: '%kernel.project_dir%/public/uploads/scan/diplome/'
     upload_dir_profil: '%kernel.project_dir%/public/uploads/'
 services:
     # default configuration for services in *this* file

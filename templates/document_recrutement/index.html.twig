@@ -40,7 +40,7 @@
                                     <th>Indice</th>
                                     <th>Catégorie</th>
                                     <th>Grade</th>
-                                    <th>actions</th>
+                                    <th>actions | scan doc</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -58,7 +58,9 @@
         var url_admin_dm_ajax_list = "{{ path('admin_document_recrutement_ajax_list') }}";
         var edit_path = "{{ path('document_recrutement_edit',{'id': 0}) }}";
         var show_path = "{{ path('document_recrutement_show',{'id': 0}) }}";
+        var download_file_path = "{{ path('download_doc_file',{'id': 0}) }}";
         var id_current_user = "{{ app.user.id }}";
+        var confirm_download = "Voulez-vous vraiment télécharger ce document ? ";
     </script>
     <script src="{{ asset('js/document.recrutement.js') }}"></script>
 {% endblock %}

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\DocumentRecrutement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -95,4 +97,28 @@ class DocumentRecrutementRepository extends ServiceEntityRepository
         return $_query->getOneOrNullResult()['nbTotal'];
     }
 
+    /**
+     * @param $form
+     * @param $slugger
+     * @param $documentRecrutement
+     */
+    public function ScanDocument($form, $slugger, $documentRecrutement,$params)
+    {
+        $file = $form->get('scanDoc')->getData();
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename     = $slugger->slug($originalFilename);
+            $newFilename      = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            try {
+                $file->move(
+                    $params,
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                print($e);
+            }
+
+            $documentRecrutement->setScanDoc($newFilename);
+        }
+    }
 }

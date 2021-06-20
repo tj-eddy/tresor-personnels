@@ -7,11 +7,16 @@ use App\Entity\User;
 use App\Form\DocumentRecrutementType;
 use App\Repository\DocumentRecrutementRepository;
 use App\Repository\UserRepository;
+use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("admin/document/recrutement")
@@ -50,7 +55,9 @@ class DocumentRecrutementController extends AbstractController
     /**
      * @Route("/new", name="document_recrutement_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request,
+                        DocumentRecrutementRepository $documentRecrutementRepository,
+                        UserRepository $userRepository, SluggerInterface $slugger): Response
     {
         $documentRecrutement = new DocumentRecrutement();
         $form                = $this->createForm(DocumentRecrutementType::class, $documentRecrutement);
@@ -61,6 +68,7 @@ class DocumentRecrutementController extends AbstractController
             $user    = $userRepository->find($user_id);
             $documentRecrutement->setUser($user);
             $entityManager = $this->getDoctrine()->getManager();
+            $documentRecrutementRepository->ScanDocument($form, $slugger, $documentRecrutement, $this->getParameter('upload_scan_doc'));
             $entityManager->persist($documentRecrutement);
             $entityManager->flush();
 
@@ -87,15 +95,20 @@ class DocumentRecrutementController extends AbstractController
     /**
      * @Route("/{id}/edit", name="document_recrutement_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, UserRepository $userRepository, DocumentRecrutement $documentRecrutement): Response
+    public function edit(SluggerInterface $slugger,
+                         DocumentRecrutementRepository $documentRecrutementRepository,
+                         Request $request, UserRepository $userRepository,
+                         DocumentRecrutement $documentRecrutement): Response
     {
         $form = $this->createForm(DocumentRecrutementType::class, $documentRecrutement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $user_id = $request->request->get('user_id');
             $user    = $userRepository->find($user_id);
             $documentRecrutement->setUser($user);
+            $documentRecrutementRepository->ScanDocument($form, $slugger, $documentRecrutement, $this->getParameter('upload_scan_doc'));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('document_recrutement_index');
@@ -120,5 +133,38 @@ class DocumentRecrutementController extends AbstractController
         }
 
         return $this->redirectToRoute('document_recrutement_index');
+    }
+
+    /**
+     * @Route("/{id}/download", name="download_doc_file")
+     */
+    public function downloadFileAction(DocumentRecrutement $documentRecrutement,
+                                       DocumentRecrutementRepository $documentRecrutementRepository)
+    {
+        try {
+            $file = $documentRecrutementRepository->find($documentRecrutement->getId());
+            if (!$file) {
+                $array    = array(
+                    'status'  => 0,
+                    'message' => 'File does not exist'
+                );
+                $response = new JsonResponse ($array, 200);
+                return $response;
+            }
+            $displayName    = $file->getScanDoc();
+            $fileName       = $file->getScanDoc();
+            $file_with_path = $this->getParameter('upload_scan_doc') . "/" . $fileName;
+            $response       = new BinaryFileResponse ($file_with_path);
+            $response->headers->set('Content-Type', 'text/plain');
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $displayName);
+            return $response;
+        } catch (Exception $e) {
+            $array    = array(
+                'status'  => 0,
+                'message' => 'Download error'
+            );
+            $response = new JsonResponse ($array, 400);
+            return $response;
+        }
     }
 }

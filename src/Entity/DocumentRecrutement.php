@@ -62,6 +62,11 @@ class DocumentRecrutement
      */
     private $is_deleted = 0;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $scan_doc;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class DocumentRecrutement
     public function setIsDeleted(bool $is_deleted): self
     {
         $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
+    public function getScanDoc(): ?string
+    {
+        return $this->scan_doc;
+    }
+
+    public function setScanDoc(?string $scan_doc): self
+    {
+        $this->scan_doc = $scan_doc;
 
         return $this;
     }

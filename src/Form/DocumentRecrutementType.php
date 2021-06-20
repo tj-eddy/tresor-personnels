@@ -3,10 +3,9 @@
 namespace App\Form;
 
 use App\Entity\DocumentRecrutement;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -58,6 +57,14 @@ class DocumentRecrutementType extends AbstractType
                 ],
                 'label' => "Indice"
             ])
+            ->add('scanDoc', FileType::class, [
+                'mapped'   => false,
+                'required' => false,
+                'attr'  => [
+                    'class' => 'form-control',
+                ],
+                'label' => "Scan de document"
+            ])
             ->add('categorie', ChoiceType::class, [
                 'attr'    => [
                     'class' => 'form-control select-2',
@@ -82,7 +89,9 @@ class DocumentRecrutementType extends AbstractType
                     'placeholder'=> 'Grade'
                 ],
                 'label' => "Grade"
-            ]);
+            ])
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
