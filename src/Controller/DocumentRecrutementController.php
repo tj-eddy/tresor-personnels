@@ -83,7 +83,7 @@ class DocumentRecrutementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="document_recrutement_show", methods={"GET"})
+     * @Route("/show/{id}", name="document_recrutement_show", methods={"GET"})
      */
     public function show(DocumentRecrutement $documentRecrutement): Response
     {
@@ -93,7 +93,7 @@ class DocumentRecrutementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="document_recrutement_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="document_recrutement_edit", methods={"GET","POST"})
      */
     public function edit(SluggerInterface $slugger,
                          DocumentRecrutementRepository $documentRecrutementRepository,
@@ -122,7 +122,7 @@ class DocumentRecrutementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="document_recrutement_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="document_recrutement_delete", methods={"DELETE"})
      */
     public function delete(Request $request, DocumentRecrutement $documentRecrutement): Response
     {
@@ -136,7 +136,7 @@ class DocumentRecrutementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/download", name="download_doc_file")
+     * @Route("/download/{id}", name="download_doc_file")
      */
     public function downloadFileAction(DocumentRecrutement $documentRecrutement,
                                        DocumentRecrutementRepository $documentRecrutementRepository)

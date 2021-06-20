@@ -63,7 +63,7 @@ class FactureSoinController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="facture_soin_show", methods={"GET"})
+     * @Route("/show/{id}", name="facture_soin_show", methods={"GET"})
      */
     public function show(FactureSoin $factureSoin): Response
     {
@@ -73,7 +73,7 @@ class FactureSoinController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="facture_soin_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="facture_soin_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, FactureSoin $factureSoin): Response
     {
@@ -93,7 +93,7 @@ class FactureSoinController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="facture_soin_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="facture_soin_delete", methods={"DELETE"})
      */
     public function delete(Request $request, FactureSoin $factureSoin): Response
     {
@@ -107,7 +107,7 @@ class FactureSoinController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/valide", name="facture_soin_valide")
+     * @Route("/valide/{id}", name="facture_soin_valide")
      * @param $id_fact
      */
     public function validerFactureSoin(FactureSoin $factureSoin)

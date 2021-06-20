@@ -32,7 +32,7 @@ class DiplomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/show-diplome", name="diplome_list", methods={"GET"})
+     * @Route("/show-diplome/{id}", name="diplome_list", methods={"GET"})
      * @param DiplomeRepository $diplomeRepository
      * @param User $user
      * @return Response
@@ -76,7 +76,7 @@ class DiplomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="diplome_show", methods={"GET"})
+     * @Route("/show/{id}", name="diplome_show", methods={"GET"})
      */
     public function show(Diplome $diplome): Response
     {
@@ -86,7 +86,7 @@ class DiplomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="diplome_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="diplome_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Diplome $diplome): Response
     {
@@ -106,7 +106,7 @@ class DiplomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="diplome_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="diplome_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Diplome $diplome): Response
     {

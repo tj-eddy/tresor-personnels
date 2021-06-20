@@ -82,7 +82,7 @@ class DemandeCongeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="demande_conge_show", methods={"GET"})
+     * @Route("/show/{id}", name="demande_conge_show", methods={"GET"})
      */
     public function show(DemandeConge $demandeConge): Response
     {
@@ -92,7 +92,7 @@ class DemandeCongeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="demande_conge_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="demande_conge_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, DemandeConge $demandeConge): Response
     {
@@ -112,7 +112,7 @@ class DemandeCongeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="demande_conge_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="demande_conge_delete", methods={"DELETE"})
      */
     public function delete(Request $request, DemandeConge $demandeConge): Response
     {

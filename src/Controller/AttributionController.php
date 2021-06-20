@@ -98,7 +98,7 @@ class AttributionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="attribution_show", methods={"GET"})
+     * @Route("/show/{id}", name="attribution_show", methods={"GET"})
      */
     public function show(Attribution $attribution): Response
     {
@@ -108,7 +108,7 @@ class AttributionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="attribution_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="attribution_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Attribution $attribution): Response
     {
@@ -128,7 +128,7 @@ class AttributionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="attribution_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="attribution_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Attribution $attribution): Response
     {
