@@ -47,7 +47,7 @@
                             <h6 class="text-overflow m-0">{{ 'welcome'|trans }}</h6>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ path('app_logout') }}" class="dropdown-item">
+                        <a onclick="return confirm('Vous voulez vraiment se deconnecter ? ')" href="{{ path('app_logout') }}" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
                             <span>{{ 'logout'|trans }}</span>
                         </a>

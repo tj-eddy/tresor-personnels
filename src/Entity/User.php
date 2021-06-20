@@ -120,6 +120,11 @@ class User implements UserInterface
      */
     private $factureSoins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pointage::class, mappedBy="user")
+     */
+    private $pointages;
+
 
     public function __construct()
     {
@@ -129,6 +134,7 @@ class User implements UserInterface
         $this->attributions = new ArrayCollection();
         $this->diplomes = new ArrayCollection();
         $this->factureSoins = new ArrayCollection();
+        $this->pointages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -484,6 +490,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($factureSoin->getUser() === $this) {
                 $factureSoin->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pointage[]
+     */
+    public function getPointages(): Collection
+    {
+        return $this->pointages;
+    }
+
+    public function addPointage(Pointage $pointage): self
+    {
+        if (!$this->pointages->contains($pointage)) {
+            $this->pointages[] = $pointage;
+            $pointage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePointage(Pointage $pointage): self
+    {
+        if ($this->pointages->removeElement($pointage)) {
+            // set the owning side to null (unless already changed)
+            if ($pointage->getUser() === $this) {
+                $pointage->setUser(null);
             }
         }
 
