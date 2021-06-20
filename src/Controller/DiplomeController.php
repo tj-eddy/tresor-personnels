@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Diplome;
+use App\Entity\User;
 use App\Form\DiplomeType;
 use App\Repository\DiplomeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,22 @@ class DiplomeController extends AbstractController
         $_is_admin = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
         return $this->render('diplome/index.html.twig', [
             'diplomes' => $_is_admin ? $diplomeRepository->findAll() : $diplome,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/show-diplome", name="diplome_list", methods={"GET"})
+     * @param DiplomeRepository $diplomeRepository
+     * @param User $user
+     * @return Response
+     */
+    public function voirDiplome(DiplomeRepository $diplomeRepository, User $user): Response
+    {
+        $diplome   = $diplomeRepository->findBy([
+            'user' => $user
+        ]);
+        return $this->render('diplome/index.html.twig', [
+            'diplomes' =>  $diplome,
         ]);
     }
 

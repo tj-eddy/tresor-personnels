@@ -14,8 +14,12 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="row">
-                        <div class="col">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <a href="{{ path('diplome_list',{'id': document_recrutement.user.id }) }}" class="btn btn-outline-info"><i class="fa fa-eye"></i> Afficher son diplôme</a>
+
+                        <div class="table-responsive py-4">
+
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
@@ -32,7 +36,7 @@
                                 </tr>
                                 <tr>
                                     <th>Date prise du service</th>
-                                    <td>{{ document_recrutement.user.dateStartService|date|format('%d/%m/%Y') }}</td>
+                                    <td>{{ document_recrutement.user.dateStartService|format('d/m/Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Nombre d'enfant</th>
@@ -41,7 +45,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col">
+                        <div class="table-responsive py-4">
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
@@ -74,6 +78,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <br>
                         </div>
                     </div>
                 </div>
