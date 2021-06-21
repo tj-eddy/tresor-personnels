@@ -4,15 +4,9 @@ namespace App\Entity;
 
 use App\Repository\AttributionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AttributionRepository::class)
- * @UniqueEntity(
- *     fields={"nom_tache"},
- *     errorPath="port",
- *     message="Ce tâche est déjà attribué à l'autre employé ! "
- * )
  */
 class Attribution
 {

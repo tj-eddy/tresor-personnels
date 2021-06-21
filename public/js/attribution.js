@@ -29,74 +29,20 @@ $(document).ready(function () {
                 {name: "a.nom_tache", targets: 2},
                 {name: "a.date_debut", targets: 3},
                 {name: "a.date_fin", targets: 4},
-                {name: "a.username", targets: 5, visible: is_superadmin ? true : false},
+                {name: "a.username", targets: 5, orderable: false, visible: is_superadmin ? true : false},
                 {
-                    name: "u.id",
-                    visible: is_superadmin ? true : false,
+                    name: "id_attribution",
                     targets: 6,
-                    render: function (old_employe, type, row) {
-                        selectUser(old_employe, row[7]);
-                        $('#id-attribution-list tbody').on('click', 'tr', function () {
-                            let row_t = table.row(this).data();
-                            $('.basic-data-select2').on('change', function () {
-                                $.ajax({
-                                    method: 'post',
-                                    data: {
-                                        nouveau_employe: $(this).val(),
-                                        old_employe: old_employe,
-                                        id_attribution: row_t[7]
-                                    },
-                                    datatype: 'json',
-                                    url: change_attribution_ajax,
-                                    beforeSend:function(){
-                                        $('.attribution-wait').removeClass('d-none')
-                                    },
-                                    complete: function () {
-                                        $(document).ajaxStop(function () {
-                                            $('.attribution-wait').addClass('d-none')
-                                            window.location.reload();
-                                        })
-                                    }
-                                })
-                            })
-                        });
-
-                        let action = '<select name="user_id"  class="form-control basic-data-select2"></select>'
-                        return action;
-                    }
+                    visible: is_superadmin ? true:false,
+                    render: function (data,type,row) {
+                        href_edit = edit_path.replace('0', data);
+                        href_delete = delete_path.replace('0', data);
+                        let status_termine = row[0] === 1 ? 'd-none' : '';
+                        return '<a  href="' + href_edit + '" class="btn btn-warning btn-sm ' + status_termine + '"><i class="fa fa-send"></i> Attribuer</a>'
+                    },
+                    orderable: false
                 },
-                {name: "id_attribution", targets: 7, visible: false},
             ]
         }
     );
 });
-
-function selectUser(old_employe, id_attribution) {
-    $('.basic-data-select2').select2({
-        placeholder: '-- Sélectionner --',
-        ajax: {
-            url: url_select_user_ajax,
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                    type: 'public',
-                };
-
-                return query;
-            },
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (obj) {
-                        $('.basic-data-select2').val(obj.id);
-                        return {id: obj.id, text: obj.username};
-                    })
-                };
-            },
-            minimumInputLength: 3,
-        }
-    });
-
-
-}

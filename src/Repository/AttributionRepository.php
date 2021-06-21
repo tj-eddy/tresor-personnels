@@ -40,15 +40,15 @@ class AttributionRepository extends ServiceEntityRepository
 
     public function attributionListArray($_page, $_nb_max_page, $_search, $_order_by)
     {
-        $_order_by = $_order_by ? $_order_by : "a.id DESC";
+        $_order_by  = $_order_by ? $_order_by : "a.id DESC";
         $attributin = $this->getEntityName();
 
 
-        $user      = $this->security->getUser();
-        $roles     = $user->getRoles();
-        $is_admin  = in_array('ROLE_SUPERADMIN', $roles);
+        $user     = $this->security->getUser();
+        $roles    = $user->getRoles();
+        $is_admin = in_array('ROLE_SUPERADMIN', $roles);
 
-        $where      = "";
+        $where = "";
         if (!$is_admin) {
             $id_user = $user->getId();
             $where   .= " AND u.id = $id_user";
@@ -61,7 +61,6 @@ class AttributionRepository extends ServiceEntityRepository
                 DATE_FORMAT(a.date_debut,'%d-%d-%Y %h:%i'),
                 DATE_FORMAT(a.date_fin,'%d-%d-%Y %h:%i'),
                 u.username,
-                u.id,
                 a.id as id_attribution
                 FROM $attributin a
                 LEFT JOIN a.user u 
@@ -89,11 +88,11 @@ class AttributionRepository extends ServiceEntityRepository
     {
         $attribution = $this->getEntityName();
 
-        $user      = $this->security->getUser();
-        $roles     = $user->getRoles();
-        $is_admin  = in_array('ROLE_SUPERADMIN', $roles);
+        $user     = $this->security->getUser();
+        $roles    = $user->getRoles();
+        $is_admin = in_array('ROLE_SUPERADMIN', $roles);
 
-        $where      = "";
+        $where = "";
         if (!$is_admin) {
             $id_user = $user->getId();
             $where   .= " AND u.id = $id_user";
@@ -114,31 +113,34 @@ class AttributionRepository extends ServiceEntityRepository
         return $_query->getOneOrNullResult()['nbTotal'];
     }
 
-    public function updateStatusAttribution($new, $attr_id, $old)
-    {
-        $queryBuilder_new = $this->createQueryBuilder('a');
-        $query_new        = $queryBuilder_new->update('App:Attribution', 'a')
-            ->set('a.date_fin', ':date_fin')
-            ->set('a.user', ':user')
-            ->where('a.id = :id_attr')
-            ->setParameter('date_fin', new \DateTime())
-            ->setParameter('id_attr', $attr_id)
-            ->setParameter('user', $new)
-            ->getQuery();
-        $queryBuilder_old = $this->createQueryBuilder('a');
-        $query_old        = $queryBuilder_old->update('App:Attribution', 'a')
-            ->set('a.date_debut', ':date_debut')
-            ->set('a.user', ':user')
-            ->where('a.id = :id_attr')
-            ->andWhere('a.user = :user')
-            ->setParameter('date_debut', new \DateTime())
-            ->setParameter('id_attr', $attr_id)
-            ->setParameter('user', $old)
-            ->getQuery();
-
-        $query_new->execute();
-        $query_old->execute();
-
-        return true;
-    }
+//    public function updateStatusAttribution($new, $attr_id, $old)
+//    {
+//        dump($new,$old,$attr_id);die;
+//        $queryBuilder_new = $this->createQueryBuilder('a');
+//        $query_new        = $queryBuilder_new->update('App:Attribution', 'a')
+//            ->set('a.date_fin', null)
+//            ->set('a.date_debut', new \DateTime())
+//            ->set('a.user', ':user')
+//            ->set('a.status', 0)
+//            ->where('a.id = :id_attr')
+//            ->setParameter('id_attr', $attr_id)
+//            ->setParameter('user', $new)
+//            ->getQuery();
+//
+//        $queryBuilder_old = $this->createQueryBuilder('a');
+//        $query_old        = $queryBuilder_old->update('App:Attribution', 'a')
+//            ->set('a.date_fin', new \DateTime())
+//            ->set('a.user', ':user')
+//            ->set('a.status', 1)
+//            ->where('a.id = :id_attr')
+//            ->andWhere('a.user = :user')
+//            ->setParameter('id_attr', $attr_id)
+//            ->setParameter('user', $old)
+//            ->getQuery();
+//
+//        $query_new->execute();
+//        $query_old->execute();
+//
+//        return true;
+//    }
 }

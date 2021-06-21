@@ -6,17 +6,33 @@ use App\Entity\Attribution;
 use App\Form\AttributionType;
 use App\Repository\AttributionRepository;
 use App\Repository\UserRepository;
+use App\Service\Tools;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/attribution")
  */
 class AttributionController extends AbstractController
 {
+    private $translator;
+    private $tools;
+
+    /**
+     * UserController constructor.
+     * @param TranslatorInterface $translator
+     * @param Tools $tools
+     */
+    public function __construct(TranslatorInterface $translator, Tools $tools)
+    {
+        $this->translator = $translator;
+        $this->tools      = $tools;
+    }
+
     /**
      * @Route("/", name="attribution_index", methods={"GET"})
      */
@@ -64,28 +80,42 @@ class AttributionController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user            = $userRepository->find($request->request->get('user_id'));
-            $tasks           = $request->request->get('task_selected')[0];
-            $taches          = explode(',', $tasks);
-
+            $user   = $userRepository->find($request->request->get('user_id'));
+            $tasks  = $request->request->get('task_selected')[0];
+            $taches = explode(',', $tasks);
 
             $entityManager = $this->getDoctrine()->getManager();
             $user->setStatusTache(0);
 
             foreach ($taches as $k => $v) {
-                $count_user_task = $attributionRepository->findBy([
-                    'user' => $user
+                $count_user_task        = $attributionRepository->findBy([
+                    'user'   => $user,
+                    'status' => false
                 ]);
-                if (count($count_user_task) < 4) {
-                    $attribution = new Attribution();
-                    $attribution->setUser($user);
-                    $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
-                    $attribution->setDateDebut(new \DateTime());
-                    $attribution->setStatus(0);
-                    $attribution->setNomTache($v);
-                    $entityManager->persist($attribution);
-                    $entityManager->flush();
+                $tache_attribut_encours = $attributionRepository->findOneBy([
+                    'nom_tache' => $v,
+                    'status'    => false
+                ]);
+                if ($tache_attribut_encours) {
+                    $this->addFlash('danger', $this->translator->trans('Tâche en cours pour autre employé !'));
+                    return $this->redirectToRoute('attribution_index');
+                } else {
+                    if (count($count_user_task) < 4) {
+                        $attribution = new Attribution();
+                        $attribution->setUser($user);
+                        $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
+                        $attribution->setDateDebut(new \DateTime());
+                        $attribution->setStatus(0);
+                        $attribution->setNomTache($v);
+                        $entityManager->persist($attribution);
+                        $entityManager->flush();
+                    } else {
+                        $this->addFlash('danger', $this->translator->trans('Cet employé a déjà 4 tache en cours !'));
+                        return $this->redirectToRoute('attribution_index');
+                    }
                 }
+
+
             }
 
             return $this->redirectToRoute('attribution_index');
@@ -110,13 +140,49 @@ class AttributionController extends AbstractController
     /**
      * @Route("/edit/{id}", name="attribution_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Attribution $attribution): Response
+    public function edit(Request $request,
+                         Attribution $attribution,
+                         AttributionRepository $attributionRepository,
+                         UserRepository $userRepository): Response
     {
         $form = $this->createForm(AttributionType::class, $attribution);
         $form->handleRequest($request);
-
+        $entityManager = $this->getDoctrine()->getManager();
+        $attr_apres    = new Attribution();
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $user_to_attribute = $userRepository->find($request->request->get('user_id'));
+            $user_current      = $attribution->getUser();
+            if ($user_current) {
+                // etat attribution avant attribution
+                $attr_avant = $attributionRepository->findOneBy([
+                    'user' => $user_current,
+                    'id'   => $attribution->getId()
+                ]);
+                $attr_avant->setDateFin(new \DateTime());
+                $attr_avant->setStatus(true);
+                $entityManager->persist($attr_avant);
+
+                // etat attribution apres attribution
+                $count_user_task = $attributionRepository->findBy([
+                    'user'   => $user_to_attribute,
+                    'status' => 0
+                ]);
+
+                if ($attr_apres && count($count_user_task) < 4) {
+                    $attr_apres->setDateDebut(new \DateTime());
+                    $attr_apres->setDateFin(null);
+                    $attr_apres->setStatus(false);
+                    $attr_apres->setNomTache($attr_avant->getNomTache());
+                    $attr_apres->setUser($user_to_attribute);
+                    $attr_apres->setNumeroTache($attr_avant->getNumeroTache());
+                    $entityManager->persist($attr_apres);
+                } else {
+                    $this->addFlash('danger', $this->translator->trans('Cet employé a déjà 4 tache en cours'));
+                    return $this->redirectToRoute('attribution_index');
+                }
+
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('attribution_index');
         }
@@ -126,6 +192,7 @@ class AttributionController extends AbstractController
             'form'        => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/delete/{id}", name="attribution_delete", methods={"DELETE"})
@@ -141,33 +208,4 @@ class AttributionController extends AbstractController
         return $this->redirectToRoute('attribution_index');
     }
 
-    /**
-     * @Route("/change-attribution", name="change_attribution_ajax")
-     */
-    public function changeAttribution(Request $request,
-                                      UserRepository $userRepository,
-                                      AttributionRepository $attributionRepository
-    )
-    {
-        $new_id  = $request->request->get('nouveau_employe');
-        $old_id  = $request->request->get('old_employe');
-        $attr_id = $request->request->get('id_attribution');
-
-        $user_old = $userRepository->find($old_id);
-        $user_old->setStatusTache(1);
-        $user_new = $userRepository->find($new_id);
-        $user_new->setStatusTache(0);
-        $attr = $attributionRepository->find($attr_id);
-        if ($attr) {
-            $attr->setUser($user_new);
-            $attributionRepository->updateStatusAttribution($user_new, $attr_id, $user_old);
-        }
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->flush();
-
-        return new JsonResponse([
-            'status' => true,
-        ]);
-    }
 }

@@ -21,9 +21,9 @@
                         <div  class="alert attribution-wait d-none alert-warning alert-dismissible fade show" role="alert">
                           <span class="alert-text"><span style="font-size: 20px" class="fa fa-spinner fa-spin"></span>  Attribution en cours , Veuillez patienter s'il vous plaît ..... </span>
                         </div>
-                        {% for message in app.flashes('success') %}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                        {% for message in app.flashes('danger') %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <span class="alert-icon"><i class="ni ni-bell-55"></i></span>
                                 <span class="alert-text"> {{ message }}</span>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -56,8 +56,8 @@
     {{ parent() }}
     <script>
         var url_admin_attribution_ajax_list = "{{ path('admin_attribution_ajax_list') }}";
-        var change_attribution_ajax = "{{ path('change_attribution_ajax') }}";
-        var edit_path = "{{ path('user_edit',{'id': 0}) }}";
+        {#var change_attribution_ajax = "{{ path('change_attribution_ajax') }}";#}
+        var edit_path = "{{ path('attribution_edit',{'id': 0}) }}";
         var delete_path = "{{ path('user_delete',{'id': 0}) }}";
         var confirm_delete = "{{ 'delete.confirm'|trans }}";
         var url_select_user_ajax = "{{ path('admin_user_ajax_select2') }}";
