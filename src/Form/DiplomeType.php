@@ -22,7 +22,7 @@ class DiplomeType extends AbstractType
             ])
             ->add('annee', TextType::class, [
                 'attr'  => [
-                    'class' => 'form-control date-picker',
+                    'class' => 'form-control date-picker-diplome',
                 ],
                 'label' => "Année d'obtention"
             ])

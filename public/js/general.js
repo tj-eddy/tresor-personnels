@@ -6,4 +6,9 @@ $(function () {
         format: 'dd-mm-yyyy',
         defaultDate: new Date()
     });
+    $('.date-picker-diplome').datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years"
+    });
 });
