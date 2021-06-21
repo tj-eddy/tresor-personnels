@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Diplome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @method Diplome|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,33 +19,28 @@ class DiplomeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Diplome::class);
     }
-
-    // /**
-    //  * @return Diplome[] Returns an array of Diplome objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $form
+     * @param $slugger
+     * @param $diplome
+     */
+    public function ScanDiplome($form, $slugger, $diplome, $params)
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $file = $form->get('scan')->getData();
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename     = $slugger->slug($originalFilename);
+            $newFilename      = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            try {
+                $file->move(
+                    $params,
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                print($e);
+            }
 
-    /*
-    public function findOneBySomeField($value): ?Diplome
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            $diplome->setScan($newFilename);
+        }
     }
-    */
 }

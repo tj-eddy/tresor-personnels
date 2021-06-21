@@ -57,7 +57,14 @@
                                         <td>{{ diplome.etablissement }}</td>
                                         <td>
                                             <a class="btn btn-warning btn-sm"
-                                               href="{{ path('diplome_edit', {'id': diplome.id}) }}">Modifier</a>
+                                               href="{{ path('diplome_edit', {'id': diplome.id}) }}"><i
+                                                        class="fa fa-edit"></i> Modifier</a>
+                                            {% if diplome.scan != "" %}
+                                                <a onclick="return confirm('Voulez vous vraiment télécharger ? ')"
+                                                   class="btn btn-dark btn-sm"
+                                                   href="{{ path('download_diplo_file', {'id': diplome.id}) }}"><i
+                                                            class="fa fa-download"></i> Télécharger</a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 {% else %}

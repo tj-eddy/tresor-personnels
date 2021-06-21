@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Diplome;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,6 +31,14 @@ class DiplomeType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'label' => 'Nom du diplôme'
+            ])
+            ->add('scan', FileType::class, [
+                'mapped'   => false,
+                'required' => false,
+                'attr'     => [
+                    'class' => 'form-control'
+                ],
+                'label'    => "Scan du diplôme",
             ])
             ->add('etablissement', TextType::class, [
                 'attr'  => [

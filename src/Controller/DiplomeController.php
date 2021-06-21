@@ -6,11 +6,16 @@ use App\Entity\Diplome;
 use App\Entity\User;
 use App\Form\DiplomeType;
 use App\Repository\DiplomeRepository;
+use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/diplome")
@@ -27,7 +32,7 @@ class DiplomeController extends AbstractController
         ]);
         $_is_admin = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
         return $this->render('diplome/index.html.twig', [
-            'diplomes' => $_is_admin ? $diplomeRepository->findAll() : $diplome,
+            'diplomes' => $_is_admin ? $diplomeRepository->findBy([], ['id' => 'DESC']) : $diplome,
         ]);
     }
 
@@ -39,18 +44,21 @@ class DiplomeController extends AbstractController
      */
     public function voirDiplome(DiplomeRepository $diplomeRepository, User $user): Response
     {
-        $diplome   = $diplomeRepository->findBy([
+        $diplome = $diplomeRepository->findBy([
             'user' => $user
         ]);
         return $this->render('diplome/index.html.twig', [
-            'diplomes' =>  $diplome,
+            'diplomes' => $diplome,
         ]);
     }
 
     /**
      * @Route("/new", name="diplome_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,
+                        SluggerInterface $slugger,
+                        DiplomeRepository $repository
+    ): Response
     {
         if ($this->isGranted('ROLE_SUPERADMIN')) {
             return $this->redirectToRoute('diplome_index');
@@ -61,7 +69,7 @@ class DiplomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $diplome->setUser($this->getUser());
-            $diplome->setScan('scan');
+            $repository->ScanDiplome($form, $slugger, $diplome, $this->getParameter('upload_scan_diplome'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($diplome);
             $entityManager->flush();
@@ -88,14 +96,17 @@ class DiplomeController extends AbstractController
     /**
      * @Route("/edit/{id}", name="diplome_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Diplome $diplome): Response
+    public function edit(Request $request,
+                         Diplome $diplome,
+                         SluggerInterface $slugger,
+                         DiplomeRepository $repository): Response
     {
         $form = $this->createForm(DiplomeType::class, $diplome);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $repository->ScanDiplome($form, $slugger, $diplome, $this->getParameter('upload_scan_diplome'));
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('diplome_index');
         }
 
@@ -117,5 +128,38 @@ class DiplomeController extends AbstractController
         }
 
         return $this->redirectToRoute('diplome_index');
+    }
+
+    /**
+     * @Route("/download/{id}", name="download_diplo_file")
+     */
+    public function downloadFileAction(Diplome $diplome,
+                                       DiplomeRepository $diplomeRepository)
+    {
+        try {
+            $file = $diplomeRepository->find($diplome->getId());
+            if (!$file) {
+                $array    = array(
+                    'status'  => 0,
+                    'message' => 'File does not exist'
+                );
+                $response = new JsonResponse ($array, 200);
+                return $response;
+            }
+            $displayName    = $file->getScan();
+            $fileName       = $file->getScan();
+            $file_with_path = $this->getParameter('upload_scan_diplome') . $fileName;
+            $response       = new BinaryFileResponse ($file_with_path);
+            $response->headers->set('Content-Type', 'text/plain');
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $displayName);
+            return $response;
+        } catch (Exception $e) {
+            $array    = array(
+                'status'  => 0,
+                'message' => 'Download error'
+            );
+            $response = new JsonResponse ($array, 400);
+            return $response;
+        }
     }
 }
