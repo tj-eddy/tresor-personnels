@@ -58,8 +58,8 @@ class AttributionRepository extends ServiceEntityRepository
                 a.status,
                 a.numero_tache,
                 a.nom_tache,
-                DATE_FORMAT(a.date_debut,'%d-%d-%Y %h:%i'),
-                DATE_FORMAT(a.date_fin,'%d-%d-%Y %h:%i'),
+                DATE_FORMAT(a.date_debut,'%d-%m-%Y %h:%i'),
+                DATE_FORMAT(a.date_fin,'%d-%m-%Y %h:%i'),
                 u.username,
                 a.id as id_attribution
                 FROM $attributin a
