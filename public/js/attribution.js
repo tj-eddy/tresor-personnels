@@ -13,6 +13,7 @@ $(document).ready(function () {
             "ajax": {
                 url: url_admin_attribution_ajax_list,
                 data: function (data) {
+                    data.id_user = user_id;
                     if (data.order[0])
                         data.order_by = data.columns[data.order[0].column].name + ' ' + data.order[0].dir;
                 }
@@ -29,7 +30,7 @@ $(document).ready(function () {
                 {name: "a.nom_tache", targets: 2},
                 {name: "a.date_debut", targets: 3},
                 {name: "a.date_fin", targets: 4},
-                {name: "a.username", targets: 5, orderable: false, visible: is_superadmin ? true : false},
+                {name: "u.username", targets: 5, orderable: false, visible: is_superadmin ? true : false},
                 {
                     name: "id_attribution",
                     targets: 6,
@@ -41,7 +42,7 @@ $(document).ready(function () {
                         return '<a  href="' + href_edit + '" class="btn btn-warning btn-sm ' + status_termine + '"><i class="fa fa-send"></i> Attribuer</a>'
                     },
                     orderable: false
-                },
+                }
             ]
         }
     );

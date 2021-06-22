@@ -6,17 +6,20 @@
                 <br>
                 {{ form_row(form.username) }}
                 <br>
+                {{ form_row(form.prenom) }}
+                <br>
                 {{ form_row(form.dateNaissance) }}
                 <br>
                 {{ form_row(form.email) }}
                 <br>
                 {{ form_row(form.cin) }}
                 {% if is_granted('ROLE_SUPERADMIN') %}
-                <br>
-                {{ form_row(form.dateStartService) }}
+
                 {% endif %}
             </div>
             <div class="col-6">
+                <br>
+                {{ form_row(form.dateStartService) }}
                 {% if not is_granted('ROLE_SUPERADMIN') %}
                     {{ form_row(form.password) }}
                 {% endif %}

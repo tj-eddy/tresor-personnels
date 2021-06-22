@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\DocumentRecrutementType;
 use App\Repository\DocumentRecrutementRepository;
 use App\Repository\UserRepository;
+use App\Service\Tools;
 use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -23,6 +24,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 class DocumentRecrutementController extends AbstractController
 {
+    private $tools;
+
+    public function __construct(Tools $tools)
+    {
+        $this->tools = $tools;
+    }
+
     /**
      * @Route("/", name="document_recrutement_index", methods={"GET"})
      */
@@ -66,6 +74,8 @@ class DocumentRecrutementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user_id = $request->request->get('user_id');
             $user    = $userRepository->find($user_id);
+            $user->setAnciennete($this->tools->getAge($user->getDateStartService()));
+            $user->setAge($this->tools->getAge($user->getDateNaissance()));
             $documentRecrutement->setUser($user);
             $entityManager = $this->getDoctrine()->getManager();
             $documentRecrutementRepository->ScanDocument($form, $slugger, $documentRecrutement, $this->getParameter('upload_scan_doc'));

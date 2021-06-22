@@ -45,7 +45,7 @@
     {{ parent() }}
     <script>
         var url_admin_cv_ajax_list = "{{ path('admin_cv_ajax_list') }}";
-        var show_path = "{{ path('document_recrutement_show',{'id': 0}) }}";
+        var show_path = "{{ path('attribution_index',{'id': 0}) }}";
     </script>
     <script src="{{ asset('js/cv.simplifier.js') }}"></script>
 {% endblock %}

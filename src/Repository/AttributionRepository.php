@@ -38,7 +38,7 @@ class AttributionRepository extends ServiceEntityRepository
         return (int)$_query->getOneOrNullResult()[1] + 1;
     }
 
-    public function attributionListArray($_page, $_nb_max_page, $_search, $_order_by)
+    public function attributionListArray($_page, $_nb_max_page, $_search, $_order_by, $id_passed)
     {
         $_order_by  = $_order_by ? $_order_by : "a.id DESC";
         $attributin = $this->getEntityName();
@@ -49,9 +49,14 @@ class AttributionRepository extends ServiceEntityRepository
         $is_admin = in_array('ROLE_SUPERADMIN', $roles);
 
         $where = "";
+
         if (!$is_admin) {
             $id_user = $user->getId();
             $where   .= " AND u.id = $id_user";
+        }
+
+        if ($is_admin && $id_passed) {
+            $where .= " AND u.id = $id_passed AND a.status = true ";
         }
 
         $_dql = "SELECT 
@@ -68,7 +73,7 @@ class AttributionRepository extends ServiceEntityRepository
                 OR a.nom_tache LIKE :search 
                 OR u.username LIKE :search 
                 OR a.date_debut LIKE :search 
-                OR a.date_fin LIKE :search ) $where
+                OR a.date_fin LIKE :search ) $where 
                 ORDER BY $_order_by";
 
         $_query = $this->_em->createQuery($_dql);

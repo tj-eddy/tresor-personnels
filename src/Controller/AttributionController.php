@@ -38,7 +38,9 @@ class AttributionController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        return $this->render('attribution/index.html.twig');
+        return $this->render('attribution/index.html.twig',[
+            'id_request' => $request->get('id')
+        ]);
     }
 
     /**
@@ -50,8 +52,9 @@ class AttributionController extends AbstractController
         $_nb_max_page = $_request->query->get('length');
         $_search      = $_request->query->get('search')['value'];
         $_order_by    = $_request->query->get('order_by');
+        $user_id    = $_request->query->get('id_user');
 
-        $datas = $attributionRepository->attributionListArray($_page, $_nb_max_page, $_search, $_order_by);
+        $datas = $attributionRepository->attributionListArray($_page, $_nb_max_page, $_search, $_order_by, $user_id);
 
         return new JsonResponse([
             'recordsTotal'    => $datas[1],
@@ -105,7 +108,7 @@ class AttributionController extends AbstractController
 
                     $attribution = new Attribution();
                     $attribution->setUser($user);
-                    $attribution->setNumeroTache('#' .$attributionRepository->generateIdTask());
+                    $attribution->setNumeroTache('#' . $attributionRepository->generateIdTask());
                     $attribution->setDateDebut(new \DateTime());
                     $attribution->setStatus(0);
                     $attribution->setNomTache($v);

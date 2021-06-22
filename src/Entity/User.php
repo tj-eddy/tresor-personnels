@@ -130,6 +130,16 @@ class User implements UserInterface
      */
     private $prenom;
 
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $age;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $anciennete;
+
 
     public function __construct()
     {
@@ -539,6 +549,30 @@ class User implements UserInterface
     public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getAge(): ?string
+    {
+        return $this->age;
+    }
+
+    public function setAge(?string $age): self
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getAnciennete(): ?string
+    {
+        return $this->anciennete;
+    }
+
+    public function setAnciennete(?string $anciennete): self
+    {
+        $this->anciennete = $anciennete;
 
         return $this;
     }

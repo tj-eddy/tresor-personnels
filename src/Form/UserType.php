@@ -41,9 +41,16 @@ class UserType extends AbstractType
                 'label' => 'Nom',
                 'attr'  => [
                     'class'       => 'form-control',
-                    'placeholder' => "Nom complet ... "
+                    'placeholder' => "Nom ..."
                 ],
 
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'attr'  => [
+                    'class'       => 'form-control',
+                    'placeholder' => "Prénom ... "
+                ],
             ])
             ->add('email', EmailType::class, [
                 "label" => "Adresse email",

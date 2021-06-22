@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\DocumentRecrutementRepository;
+use App\Service\Tools;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CvController extends AbstractController
 {
+    private $tools;
+
+    public function __construct(Tools $tools)
+    {
+        $this->tools = $tools;
+    }
+
     /**
      * @Route("/cv-simplifie", name="cv_simplifie")
      */

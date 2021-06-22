@@ -54,6 +54,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 user.Profil,
                 user.matricule ,
                 user.username ,
+                user.prenom ,
                 user.cin,
                 user.date_start_service,
                 user.id
@@ -88,6 +89,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             AND (user.username LIKE :search 
                     OR user.matricule LIKE :search 
                     OR user.cin LIKE :search 
+                    OR user.prenom LIKE :search 
                     OR user.date_start_service LIKE :search 
                     OR user.email LIKE :search)";
 

@@ -115,13 +115,13 @@ class DocumentRecrutementRepository extends ServiceEntityRepository
         $_dql = "SELECT 
                 u.username,
                 u.prenom,
-                u.id as uid,
+                u.age,
                 u.child_number,
-                dm.id as dmid,
+                u.anciennete,
                 u.cin,
                 dm.grade,
                 dm.corps,
-                dm.id 
+                u.id 
                 FROM $document_recrutement dm
                 LEFT JOIN dm.user u
                 WHERE dm.is_deleted = 0

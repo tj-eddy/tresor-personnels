@@ -20,14 +20,22 @@ $(document).ready(function () {
             "columnDefs": [
                 {name: "u.username", targets: 0},
                 {name: "u.prenom", targets: 1},
-                {name: "uid", targets: 2},
+                {
+                    name: "u.age", targets: 2, render: function (data) {
+                        return data + ' ans';
+                    }
+                },
                 {name: "u.child_number", targets: 3},
-                {name: "dmid", targets: 4},
+                {
+                    name: "u.anciennete", targets: 4, render: function (data) {
+                        return data + ' ans';
+                    }
+                },
                 {name: "u.cin", targets: 5},
                 {name: "dm.grade", targets: 6},
                 {name: "dm.corps", targets: 7},
                 {
-                    name: "dm.id",
+                    name: "u.id",
                     targets: 8,
                     render: function (data, type, row) {
                         href_show = show_path.replace('0', data);
@@ -40,3 +48,4 @@ $(document).ready(function () {
         }
     );
 });
+
