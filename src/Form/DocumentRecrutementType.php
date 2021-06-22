@@ -18,8 +18,8 @@ class DocumentRecrutementType extends AbstractType
         $builder
             ->add('num_doc', TextType::class, [
                 'attr'  => [
-                    'class' => 'form-control',
-                    'placeholder'=> 'Numéro de document'
+                    'class'       => 'form-control',
+                    'placeholder' => 'Numéro de document'
                 ],
                 'label' => "Numero de document"
             ])
@@ -35,40 +35,53 @@ class DocumentRecrutementType extends AbstractType
             ])
             ->add('date_doc', TextType::class, [
                 'attr'  => [
-                    'class'    => 'form-control date-picker',
-                    'readonly' => true,
-                    'placeholder'=> 'Date document'
+                    'class'       => 'form-control date-picker',
+                    'readonly'    => true,
+                    'placeholder' => 'Date document'
                 ],
                 'label' => "Date"
             ])
-            ->add('corps', TextType::class, [
-                'attr'  => [
-                    'class' => 'form-control',
-                    'placeholder'=> 'Corps'
+            ->add('corps', ChoiceType::class, [
+                'attr'    => [
+                    'class'       => 'form-control select-2',
+                    'placeholder' => 'Corps'
                 ],
-                'label' => "Corps"
+                'choices' => [
+                    "Sous opérateur"                     => "Sous opérateur",
+                    "Opérateur"                          => "Opérateur",
+                    "Encadreurs"                         => "Encadreurs",
+                    "Technicien Supérieur"               => "Technicien Supérieur",
+                    "Réalisateurs Adjoints"              => "Réalisateurs Adjoints",
+                    "Réalisateurs"                       => "Réalisateurs",
+                    "Concepteur"                         => "Concepteur",
+                    "Contrôleur du Trésor"               => "Contrôleur du Trésor",
+                    "Percepteur Principaux des Finances" => "Percepteur Principaux des Finances",
+                    "Inspecteur du Trésor"               => "Inspecteur du Trésor",
+                    "Comptable du Trésor"                => "Comptable du Trésor"
+                ],
+                'label'   => "Corps"
             ])
             ->add('indice', IntegerType::class, [
                 'attr'  => [
-                    'class'     => 'form-control',
-                    "maxlength" => 3,
-                    "minlength" => 3,
-                    'placeholder'=> 'Indice'
+                    'class'       => 'form-control',
+                    "maxlength"   => 3,
+                    "minlength"   => 3,
+                    'placeholder' => 'Indice'
                 ],
                 'label' => "Indice"
             ])
             ->add('scanDoc', FileType::class, [
                 'mapped'   => false,
                 'required' => false,
-                'attr'  => [
+                'attr'     => [
                     'class' => 'form-control',
                 ],
-                'label' => "Scan de document"
+                'label'    => "Scan de document"
             ])
             ->add('categorie', ChoiceType::class, [
                 'attr'    => [
-                    'class' => 'form-control select-2',
-                    'placeholder'=> 'Catégorie'
+                    'class'       => 'form-control select-2',
+                    'placeholder' => 'Catégorie'
                 ],
                 'choices' => [
                     'Cat I'    => 'I',
@@ -83,15 +96,26 @@ class DocumentRecrutementType extends AbstractType
                 ],
                 'label'   => "Catégorie"
             ])
-            ->add('grade', TextType::class, [
-                'attr'  => [
-                    'class' => 'form-control',
-                    'placeholder'=> 'Grade'
+            ->add('grade', ChoiceType::class, [
+                'attr'    => [
+                    'class'       => 'form-control select-2',
+                    'placeholder' => 'Grade'
                 ],
-                'label' => "Grade"
-            ])
-
-        ;
+                'choices' => [
+                    "Stagiaire"                     => "Stagiaire",
+                    "2ème Classe 1er Échelon"       => "2ème Classe 1er Échelon",
+                    "2ème Classe 2è Échelon"        => "2ème Classe 2è Échelon",
+                    "2ème Classe 3è Échelon"        => "2ème Classe 3è Échelon",
+                    "1ère Classe 1er Échelon"       => "1ère Classe 1er Échelon",
+                    "1ère Classe 2è Échelon"        => "1ère Classe 2è Échelon",
+                    "1ère Classe 3è Échelon"        => "1ère Classe 3è Échelon",
+                    "Classe Principale 1er Échelon" => "Classe Principale 1er Échelon",
+                    "Classe Principale 2è Échelon"  => "Classe Principale 2è Échelon",
+                    "Classe Principale 3è Échelon"  => "Classe Principale 3è Échelon",
+                    "Classe Exceptionnelle"         => "Classe Exceptionnelle"
+                ],
+                'label'   => "Grade"
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
