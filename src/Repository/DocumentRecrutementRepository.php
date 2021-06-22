@@ -99,6 +99,77 @@ class DocumentRecrutementRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $_page
+     * @param $_nb_max_page
+     * @param $_search
+     * @param $_order_by
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function CVListArray($_page, $_nb_max_page, $_search, $_order_by)
+    {
+        $_order_by = $_order_by ? $_order_by : "dm.id DESC";
+
+        $document_recrutement = $this->getEntityName();
+
+        $_dql = "SELECT 
+                u.username,
+                u.prenom,
+                u.id as uid,
+                u.child_number,
+                dm.id as dmid,
+                u.cin,
+                dm.grade,
+                dm.corps,
+                dm.id 
+                FROM $document_recrutement dm
+                LEFT JOIN dm.user u
+                WHERE dm.is_deleted = 0
+                AND (u.username LIKE :search
+                    OR u.prenom LIKE :search
+                    OR u.cin LIKE :search
+                    OR u.child_number LIKE :search
+                    OR dm.corps LIKE :search
+                    OR dm.grade LIKE :search
+                )
+                ORDER BY $_order_by";
+
+        $_query = $this->_em->createQuery($_dql);
+        $_query->setParameter('search', "%$_search%")
+            ->setFirstResult($_page)
+            ->setMaxResults($_nb_max_page);
+
+        return [$_query->getResult(), $this->compteDataCV($_search)];
+    }
+
+    /**
+     * @param $_search
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function compteDataCV($_search)
+    {
+        $document_recrutement = $this->getEntityName();
+
+        $_dql = "
+            SELECT COUNT (dm) as nbTotal 
+            FROM $document_recrutement dm LEFT JOIN dm.user u
+            WHERE dm.is_deleted is null OR  dm.is_deleted = 0
+            AND (u.username LIKE :search
+                    OR u.prenom LIKE :search
+                    OR u.cin LIKE :search
+                    OR u.child_number LIKE :search
+                    OR dm.corps LIKE :search
+                    OR dm.grade LIKE :search
+                )";
+
+        $_query = $this->_em->createQuery($_dql);
+        $_query->setParameter('search', "%$_search%");
+
+        return $_query->getOneOrNullResult()['nbTotal'];
+    }
+
+    /**
      * @param $form
      * @param $slugger
      * @param $documentRecrutement

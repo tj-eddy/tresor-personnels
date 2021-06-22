@@ -125,6 +125,11 @@ class User implements UserInterface
      */
     private $pointages;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
 
     public function __construct()
     {
@@ -522,6 +527,18 @@ class User implements UserInterface
                 $pointage->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(?string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }

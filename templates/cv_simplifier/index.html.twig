@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'document.recrutement'|trans }}{% endblock %}
+
+{% set document_recrutement_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'CV simplifié',
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="id-dm-list">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénoms</th>
+                                    <th>Age</th>
+                                    <th>Nombre d'enfant</th>
+                                    <th>Ancienetté</th>
+                                    <th>CIN</th>
+                                    <th>Grade</th>
+                                    <th>Corps</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var url_admin_cv_ajax_list = "{{ path('admin_cv_ajax_list') }}";
+        var show_path = "{{ path('document_recrutement_show',{'id': 0}) }}";
+    </script>
+    <script src="{{ asset('js/cv.simplifier.js') }}"></script>
+{% endblock %}

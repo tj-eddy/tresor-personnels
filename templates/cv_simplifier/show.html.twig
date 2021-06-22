@@ -1,0 +1,88 @@
+{% extends "base.html.twig" %}
+{% set document_recrutement_link = true %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Document de recrutement pour '~''~ document_recrutement.user.username ,
+            path_link : path('document_recrutement_index') ,
+            title_link : 'return'|trans ,
+        } %}
+    <!-- Page content -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <a href="{{ path('diplome_list',{'id': document_recrutement.user.id }) }}" class="btn btn-outline-info"><i class="fa fa-eye"></i> Afficher son diplôme</a>
+
+                        <div class="table-responsive py-4">
+
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th>Nom</th>
+                                    <td>{{ document_recrutement.user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Matricule</th>
+                                    <td>{{ document_recrutement.user.matricule }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Numéro CIN</th>
+                                    <td>{{ document_recrutement.user.cin }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date prise du service</th>
+                                    <td>{{ document_recrutement.user.dateStartService|format('d/m/Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nombre d'enfant</th>
+                                    <td>{{ document_recrutement.user.childNumber }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive py-4">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th>Numero de document</th>
+                                    <td>{{ document_recrutement.numDoc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Type</th>
+                                    <td>{{ document_recrutement.typeDoc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date du document</th>
+                                    <td>{{ document_recrutement.dateDoc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Corps</th>
+                                    <td>{{ document_recrutement.corps }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Indice</th>
+                                    <td>{{ document_recrutement.indice }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Catégorie</th>
+                                    <td>{{ document_recrutement.categorie }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Grade</th>
+                                    <td>{{ document_recrutement.grade }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

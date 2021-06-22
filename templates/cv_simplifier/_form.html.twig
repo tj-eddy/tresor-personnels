@@ -1,0 +1,44 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-4">
+        {{ form_row(form.num_doc) }}
+        <br>
+        {{ form_row(form.typeDoc) }}
+        <br>
+        {{ form_row(form.date_doc) }}
+    </div>
+    <div class="col-4">
+        {{ form_row(form.indice) }}
+        <br>
+        {{ form_row(form.categorie) }}
+        <br>
+        {{ form_row(form.grade) }}
+
+    </div>
+    <div class="col-4">
+        {% if action_type == 'new' %}
+            <div class="form-group">
+                <label class="form-control-label"
+                       for="example3cols1Input">Employé
+                </label>
+                <select name="user_id" required
+                        class="form-control basic-data-select2">
+                </select>
+            </div>
+        {% else %}
+            <input type="hidden" name="user_id" value="{{ document_recrutement.user.id }}">
+        {% endif %}
+
+        {{ form_row(form.corps) }}
+        <br>
+        {{ form_row(form.scanDoc) }}
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="card-body">
+        <button class="btn btn-primary">{{ action_type == 'edit' ?  'update'|trans : 'save'|trans }}</button>
+    </div>
+</div>
+{{ form_end(form) }}
