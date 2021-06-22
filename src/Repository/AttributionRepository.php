@@ -27,15 +27,15 @@ class AttributionRepository extends ServiceEntityRepository
      * @return int|mixed|string|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getMaxTaskID()
+    public function generateIdTask()
     {
         $attribution = $this->getEntityName();
 
         $_query = $this->_em->createQuery("select 
-                                            max(a.id) 
+                                            count(a.id) 
                                             from $attribution a");
 
-        return $_query->getOneOrNullResult()[1];
+        return (int)$_query->getOneOrNullResult()[1] + 1;
     }
 
     public function attributionListArray($_page, $_nb_max_page, $_search, $_order_by)

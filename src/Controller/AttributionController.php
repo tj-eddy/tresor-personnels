@@ -78,44 +78,43 @@ class AttributionController extends AbstractController
         $form        = $this->createForm(AttributionType::class, $attribution);
         $form->handleRequest($request);
 
-
+        $entityManager = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
             $user   = $userRepository->find($request->request->get('user_id'));
             $tasks  = $request->request->get('task_selected')[0];
             $taches = explode(',', $tasks);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $user->setStatusTache(0);
-
             foreach ($taches as $k => $v) {
-                $count_user_task        = $attributionRepository->findBy([
+                $count_user_task = $attributionRepository->findBy([
                     'user'   => $user,
                     'status' => false
                 ]);
-                $tache_attribut_encours = $attributionRepository->findOneBy([
-                    'nom_tache' => $v,
-                    'status'    => false
-                ]);
-                if ($tache_attribut_encours) {
-                    $this->addFlash('danger', $this->translator->trans('Tâche en cours pour autre employé !'));
-                    return $this->redirectToRoute('attribution_index');
-                } else {
-                    if (count($count_user_task) < 4) {
-                        $attribution = new Attribution();
-                        $attribution->setUser($user);
-                        $attribution->setNumeroTache('Tache n°:' . $attributionRepository->getMaxTaskID());
-                        $attribution->setDateDebut(new \DateTime());
-                        $attribution->setStatus(0);
-                        $attribution->setNomTache($v);
-                        $entityManager->persist($attribution);
+
+                if (count($count_user_task) < 4) {
+                    // etat attribution avant attribution
+                    $attr_avant = $attributionRepository->findOneBy([
+                        'nom_tache' => $v,
+                        'status'    => false
+                    ]);
+                    if ($attr_avant) {
+                        $attr_avant->setDateFin(new \DateTime());
+                        $attr_avant->setStatus(true);
+                        $entityManager->persist($attr_avant);
                         $entityManager->flush();
-                    } else {
-                        $this->addFlash('danger', $this->translator->trans('Cet employé a déjà 4 tache en cours !'));
-                        return $this->redirectToRoute('attribution_index');
                     }
+
+                    $attribution = new Attribution();
+                    $attribution->setUser($user);
+                    $attribution->setNumeroTache('#' .$attributionRepository->generateIdTask());
+                    $attribution->setDateDebut(new \DateTime());
+                    $attribution->setStatus(0);
+                    $attribution->setNomTache($v);
+                    $entityManager->persist($attribution);
+                    $entityManager->flush();
+                } else {
+                    $this->addFlash('danger', $this->translator->trans('Cet employé a déjà 4 tache en cours !'));
+                    return $this->redirectToRoute('attribution_index');
                 }
-
-
             }
 
             return $this->redirectToRoute('attribution_index');
