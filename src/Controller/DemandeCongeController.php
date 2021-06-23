@@ -414,7 +414,9 @@ class DemandeCongeController extends AbstractController
             'nombre_jour_demande' => $this->conversion_chiffre_lettre->Conversion($_conge->getNombreDeJourDemande()),
             'solde_avant_depart'  => $this->conversion_chiffre_lettre->Conversion($_conge->getUser()->getCongeInitial()),
             'current_date'        => (new \DateTime())->format('d/m/Y'),
-            'current_year'        => (new \DateTime())->format('Y')
+            'current_year'        => (new \DateTime())->format('Y'),
+            'nouv_solde'          => ($_conge->getUser()->getCongeInitial()) - ($_conge->getNombreDeJourDemande()),
+            'nouv_solde_lettre'   => $this->conversion_chiffre_lettre->Conversion(($_conge->getUser()->getCongeInitial()) - ($_conge->getNombreDeJourDemande()))
         ]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
