@@ -4,7 +4,7 @@
         <!-- Brand -->
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
-                <h4 style="font-family: 'comic sans ms'">Gestion personnel</h4>
+                <h3 style="font-family: 'comic sans ms'">Gestion personnel</h3>
                 {#                <img src="{{ asset('img/logo.PNG') }}" class="navbar-brand-img" alt="...">#}
             </a>
             <div class="ml-auto">
@@ -64,7 +64,7 @@
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"
                                href="{{ path('demande_conge_new') }}">
                                 <i class="ni ni-user-run"></i>
-                                <span class="nav-link-text">demander un congé</span>
+                                <span class="nav-link-text">Demander un congé</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -143,7 +143,7 @@
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"
                                href="{{ path('demande_conge_index') }}">
                                 <i class="ni ni-user-run"></i>
-                                <span class="nav-link-text">Demandes de congé</span>
+                                <span class="nav-link-text">Congé</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -167,7 +167,6 @@
                                 <span class="nav-link-text">État de décompte des ordres de route </span>
                             </a>
                         </li>
-
                     {% endif %}
                 </ul>
             </div>

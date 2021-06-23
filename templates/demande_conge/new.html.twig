@@ -16,8 +16,7 @@
                     <span class="card-header border-0">
                         Solde restant : <span class="solde-restant"> {{ app.user.congeInitial }} </span> Jours
                         <hr>
-                        <br>        <a href="{{ path('generate_conge_pdf') }}">generate</a>
-
+                        <br>
                         <form>
                             <div class="pl-lg-4">
                                 <div class="row">
@@ -82,6 +81,7 @@
                                 class="fa fa-spinner fa-spin conge-loading d-none">
                         </div> <span class="loading-text">Envoyer votre demande</span>
                     </button>
+                    <a class="allow-pdf-download d-none" href="{{ path('generate_conge_pdf') }}"><img width="100px" height="100px" src="{{ asset('/img/logo_pdf.png') }}" alt="télécharger"></a>
                 </div>
                 </form>
                 <div class="modal message-validation" tabindex="-1" role="dialog">
@@ -117,7 +117,7 @@
                         <div class="modal-content">
                             <div class="modal-body">
                                 <p class="text text-info">Vous avez déjà une congé en <span
-                                            class="badge badge-info">attente de validation</span></p>
+                                            class="badge badge-info">en attente de validation</span></p>
                             </div>
                         </div>
                     </div>
@@ -130,9 +130,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        let generate_pdf = "{{ path('generate_conge_pdf') }}"
-    </script>
     <script>
         $('.basic-data-select2').select2({
             placeholder: '{{ 'select'|trans }}',

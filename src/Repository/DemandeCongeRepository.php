@@ -112,4 +112,21 @@ class DemandeCongeRepository extends ServiceEntityRepository
 
         return $_query->getOneOrNullResult()[1];
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLastIdCongeByUserId($id)
+    {
+        $conge  = $this->getEntityName();
+        $_query = $this->_em->createQuery("select 
+                                            max(dc.id)  as max_conge_id
+                                            from $conge dc 
+                                            left join dc.user u 
+                                            where u.id = $id");
+
+        return $_query->getOneOrNullResult()['max_conge_id'];
+    }
 }

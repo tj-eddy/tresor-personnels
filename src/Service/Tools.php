@@ -8,10 +8,7 @@
 
 namespace App\Service;
 
-use App\Entity\BasicData;
 use Doctrine\ORM\EntityManager;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Security;
 
 /**

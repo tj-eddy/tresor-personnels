@@ -140,6 +140,11 @@ class User implements UserInterface
      */
     private $anciennete;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $num_tel;
+
 
     public function __construct()
     {
@@ -573,6 +578,18 @@ class User implements UserInterface
     public function setAnciennete(?string $anciennete): self
     {
         $this->anciennete = $anciennete;
+
+        return $this;
+    }
+
+    public function getNumTel(): ?string
+    {
+        return $this->num_tel;
+    }
+
+    public function setNumTel(?string $num_tel): self
+    {
+        $this->num_tel = $num_tel;
 
         return $this;
     }

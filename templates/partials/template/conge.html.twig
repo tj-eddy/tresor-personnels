@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,7 +14,7 @@
 </div>
 <br>
 <br>
-<div style="margin-left: 20%;margin-right: 20%">
+<div>
     <div style="text-align: center">
         <table style="width: 90%;">
             <tr style="width:70%;font-size: 12px;">
@@ -40,7 +40,7 @@
                     *******
                 </td>
                 <td style="width:40%;font-weight: bold;text-align: center;border: 1px solid black"><br>
-                   <h2> DEMANDE DE CONGE</h2>
+                    <h2> DEMANDE DE CONGE</h2>
                 </td>
             </tr>
         </table>
@@ -48,60 +48,61 @@
         <table style="width: 50%;">
             <tr>
                 <th style="text-align: left">Nom</th>
-                <td style="text-align: left">:Tsitohina</td>
+                <td style="text-align: left">: {{ conge.user.username ? conge.user.username : "" }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Prénoms</th>
-                <td style="text-align: left">:Donica</td>
+                <td style="text-align: left">: {{ conge.user.prenom ? conge.user.prenom: "" }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">IM</th>
-                <td style="text-align: left">:458741</td>
+                <td style="text-align: left">: {{ conge.user.matricule ? conge.user.matricule : conge.user.cin }}</td>
             </tr>
         </table>
         <br>
         <div style="text-align: left">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             J’ai l’honneur de vous demande de bien vouloir m’accorder un congé allant du <br>
-            21 Décembre 2020 au 24 Décembre 2020, soit Quatre (04) jours.
+            {{ conge.dateDebut|date('d/m/Y') }} au {{ conge.dateFin|date('d/m/Y') }}, soit {{ nombre_jour_demande }}
+            ({{ conge.nombreDeJourDemande }}) jours.
         </div>
         <br>
         <table style="width: 80%;">
             <tr>
                 <th style="text-align: left">Lieux de jouissance</th>
-                <td style="text-align: left">:Ambato</td>
+                <td style="text-align: left">: {{ conge.lieuJouissance ? conge.lieuJouissance : "" }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Motif</th>
-                <td style="text-align: left">:affaire personnelle</td>
+                <td style="text-align: left">: {{ conge.motif ? conge.motif : " " }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Décision congé N°</th>
-                <td style="text-align: left">:1492 du 09/01/2017</td>
+                <td style="text-align: left">: {{ conge.numDemande }} du {{ current_date }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Au titre de l’année</th>
-                <td style="text-align: left">:2016</td>
+                <td style="text-align: left">: {{ current_year }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Solde avant départ </th>
-                <td style="text-align: left">:Cinq (05) jours</td>
+                <td style="text-align: left">: {{ solde_avant_depart }} ({{ conge.user.congeInitial }}) jours</td>
             </tr>
             <tr>
                 <th style="text-align: left">Nombre de jour demandé</th>
-                <td style="text-align: left">:Quatre (04) jours</td>
+                <td style="text-align: left">: {{ nombre_jour_demande }} ({{ conge.nombreDeJourDemande }}) jours</td>
             </tr>
             <tr>
                 <th style="text-align: left">Nouveau solde sur la décision</th>
-                <td style="text-align: left">:Un (01) jour</td>
+                <td style="text-align: left">: Un (01) jour</td>
             </tr>
             <tr>
                 <th style="text-align: left">Numéro à contacter durant le congé</th>
-                <td style="text-align: left">:032 87 471 13</td>
+                <td style="text-align: left">: {{ conge.user.numTel ? conge.user.numTel: ""  }}</td>
             </tr>
             <tr>
                 <th style="text-align: left">Intérim </th>
-                <td style="text-align: left">:ANDRIANATOANDRO</td>
+                <td style="text-align: left">: {{ conge.nomInterim }}</td>
             </tr>
         </table>
         <br>
@@ -129,7 +130,7 @@
                 </td>
                 <td style="width:60%;border: 1px solid black;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Ambositra, le 26 Octobre 2020 <br><br>
+                    Ambositra, le {{ current_date}} <br><br>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;

@@ -99,11 +99,7 @@ function demandeConge() {
                 success: function (response) {
                     if (response.status === true && response.has_conge_attente === false && response.nombre_jour_restant >= 0) {
                         $('.message-success').modal('show')
-                        $.ajax({
-                            method: 'post',
-                            datatype: 'json',
-                            url: generate_pdf,
-                        });
+                        $('.allow-pdf-download').removeClass('d-none')
                         emptyInput()
                     } else if (
                         response.status === true && response.has_conge_attente === false &&

@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\DemandeConge;
+use App\Entity\User;
 use App\Form\DemandeCongeType;
 use App\Repository\DemandeCongeRepository;
 use App\Repository\UserRepository;
+use App\Service\ChiffresEnLettres;
+use ChiffreEnLettre;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +24,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DemandeCongeController extends AbstractController
 {
+    private $conversion_chiffre_lettre;
+
+    public function __construct(ChiffresEnLettres $chiffreEnLettre)
+    {
+        $this->conversion_chiffre_lettre = $chiffreEnLettre;
+    }
+
     /**
      * @Route("/", name="demande_conge_index", methods={"GET"})
      */
@@ -230,20 +240,20 @@ class DemandeCongeController extends AbstractController
             } else {
                 $demande_conge = new DemandeConge();
 
-                $template_send_toadmin = "
-                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
-                des congés " . $type_conge . " pour la période allant du
-                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
-                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
-
-                $email_toadmin = (new Email())
-                    ->from($this->getUser()->getEmail())
-                    ->to('3ddy.rakoto@gmail.com')
-                    ->subject('Demande de congé')
-                    ->text('Demande de congé payé')
-                    ->html($template_send_toadmin);
-
-                $mailer->send($email_toadmin);
+//                $template_send_toadmin = "
+//                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
+//                des congés " . $type_conge . " pour la période allant du
+//                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
+//                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
+//
+//                $email_toadmin = (new Email())
+//                    ->from($this->getUser()->getEmail())
+//                    ->to('3ddy.rakoto@gmail.com')
+//                    ->subject('Demande de congé')
+//                    ->text('Demande de congé payé')
+//                    ->html($template_send_toadmin);
+//
+//                $mailer->send($email_toadmin);
 
                 $demande_conge->setUser($user ? $user : null);
                 $demande_conge->setDateDebut(new \DateTime($date_debut));
@@ -259,14 +269,14 @@ class DemandeCongeController extends AbstractController
                 $entityManager->persist($demande_conge);
                 $entityManager->flush();
 
-                $email = (new Email())
-                    ->from('admin@codeddy.mg')
-                    ->to($this->getUser()->getEmail())
-                    ->subject('Demande de congé')
-                    ->text('Demande de congé payé')
-                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est en cours de validation !</p>');
-
-                $mailer->send($email);
+//                $email = (new Email())
+//                    ->from('admin@codeddy.mg')
+//                    ->to($this->getUser()->getEmail())
+//                    ->subject('Demande de congé')
+//                    ->text('Demande de congé payé')
+//                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est en cours de validation !</p>');
+//
+//                $mailer->send($email);
 
             }
         }
@@ -390,24 +400,32 @@ class DemandeCongeController extends AbstractController
     /**
      * @Route("/generate", name="generate_conge_pdf")
      */
-    public function generateCongePdf()
+    public function generateCongePdf(DemandeCongeRepository $repository)
     {
-        return $this->render('partials/template/conge.html.twig');
-//        $pdfOptions = new Options();
-//        $pdfOptions->set('defaultFont', 'Arial');
-//        $dompdf = new Dompdf($pdfOptions);
-//        $html   = $this->renderView('partials/template/conge.html.twig', [
-//            'title' => "Demande de congé"
-//        ]);
-//        $dompdf->loadHtml($html);
-//        $dompdf->setPaper('A4', 'portrait');
-//        $dompdf->render();
-//        $dompdf->stream("conge.pdf", [
-//            "Attachment" => true
-//        ]);
-//
-//        return new Response('', 200, [
-//            'Content-Type' => 'application/pdf',
-//        ]);
+        $_conge_id = $repository->getLastIdCongeByUserId($this->getUser()->getId());
+        $_conge    = $repository->find($_conge_id);
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+
+        $html = $this->renderView('partials/template/conge.html.twig', [
+            'conge'               => $_conge,
+            'nombre_jour_demande' => $this->conversion_chiffre_lettre->Conversion($_conge->getNombreDeJourDemande()),
+            'solde_avant_depart'  => $this->conversion_chiffre_lettre->Conversion($_conge->getUser()->getCongeInitial()),
+            'current_date'        => (new \DateTime())->format('d/m/Y'),
+            'current_year'        => (new \DateTime())->format('Y')
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        ob_end_clean();
+        $dompdf->stream("conge.pdf", [
+            "Attachment" => true
+        ]);
+
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }
