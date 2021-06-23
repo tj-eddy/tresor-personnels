@@ -73,8 +73,8 @@ class UserType extends AbstractType
                 'attr'  => [
                     'class'       => 'form-control',
                     "placeholder" => "numéro téléphone  ...",
-                    "maxlength"   => 12,
-                    "minlength"   => 12
+                    "maxlength"   => 10,
+                    "minlength"   => 10
                 ]
             ])
             ->add('dateNaissance', TextType::class, [
