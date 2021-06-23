@@ -6,15 +6,15 @@ use App\Entity\DemandeConge;
 use App\Form\DemandeCongeType;
 use App\Repository\DemandeCongeRepository;
 use App\Repository\UserRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/demande/conge")
@@ -59,7 +59,7 @@ class DemandeCongeController extends AbstractController
     public function new(Request $request, DemandeCongeRepository $demandeCongeRepository): Response
     {
         if ($this->isGranted('ROLE_SUPERADMIN')) {
-           return $this->redirectToRoute('demande_conge_index');
+            return $this->redirectToRoute('demande_conge_index');
         }
 
         $demandeConge = new DemandeConge();
@@ -385,5 +385,29 @@ class DemandeCongeController extends AbstractController
         $dat_fin = (string)($jour . '-' . $mois . '-' . $annee);
 
         return $dat_fin;
+    }
+
+    /**
+     * @Route("/generate", name="generate_conge_pdf")
+     */
+    public function generateCongePdf()
+    {
+        return $this->render('partials/template/conge.html.twig');
+//        $pdfOptions = new Options();
+//        $pdfOptions->set('defaultFont', 'Arial');
+//        $dompdf = new Dompdf($pdfOptions);
+//        $html   = $this->renderView('partials/template/conge.html.twig', [
+//            'title' => "Demande de congé"
+//        ]);
+//        $dompdf->loadHtml($html);
+//        $dompdf->setPaper('A4', 'portrait');
+//        $dompdf->render();
+//        $dompdf->stream("conge.pdf", [
+//            "Attachment" => true
+//        ]);
+//
+//        return new Response('', 200, [
+//            'Content-Type' => 'application/pdf',
+//        ]);
     }
 }

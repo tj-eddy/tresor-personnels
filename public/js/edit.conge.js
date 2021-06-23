@@ -97,11 +97,16 @@ function demandeConge() {
                     $('.loading-text').text('En cours ...');
                 },
                 success: function (response) {
-                    if (response.status == true && response.has_conge_attente == false && response.nombre_jour_restant >= 0) {
+                    if (response.status === true && response.has_conge_attente === false && response.nombre_jour_restant >= 0) {
                         $('.message-success').modal('show')
+                        $.ajax({
+                            method: 'post',
+                            datatype: 'json',
+                            url: generate_pdf,
+                        });
                         emptyInput()
                     } else if (
-                        response.status == true && response.has_conge_attente == false &&
+                        response.status === true && response.has_conge_attente === false &&
                         response.nombre_jour_restant < 0) {
                         $('.message-erreur').modal('show')
                     } else {
