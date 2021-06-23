@@ -155,7 +155,7 @@ class DemandeCongeController extends AbstractController
             ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
             ->subject('Demande de congé')
             ->text('Demande de congé payé')
-            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
+            ->html('<p>Bonjour ' . $demandeCongeRepository->find($conge_id)->getUser()->getUsername() . ' <br> Votre demande de congé est validé ! </p>');
 
         $mailer->send($email);
 
@@ -191,7 +191,7 @@ class DemandeCongeController extends AbstractController
             ->to($demandeCongeRepository->find($conge_id)->getUser()->getEmail())
             ->subject('Demande de congé')
             ->text('Demande de congé payé')
-            ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est annulé ! </p>');
+            ->html('<p>Bonjour ' . $demandeCongeRepository->find($conge_id)->getUser()->getUsername() . ' <br> Votre demande de congé est annulé ! </p>');
 
         $mailer->send($email);
 
@@ -240,20 +240,20 @@ class DemandeCongeController extends AbstractController
             } else {
                 $demande_conge = new DemandeConge();
 
-//                $template_send_toadmin = "
-//                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
-//                des congés " . $type_conge . " pour la période allant du
-//                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
-//                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
-//
-//                $email_toadmin = (new Email())
-//                    ->from($this->getUser()->getEmail())
-//                    ->to('3ddy.rakoto@gmail.com')
-//                    ->subject('Demande de congé')
-//                    ->text('Demande de congé payé')
-//                    ->html($template_send_toadmin);
-//
-//                $mailer->send($email_toadmin);
+                $template_send_toadmin = "
+                Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
+                des congés " . $type_conge . " pour la période allant du
+                « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
+                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
+
+                $email_toadmin = (new Email())
+                    ->from($this->getUser()->getEmail())
+                    ->to('3ddy.rakoto@gmail.com')
+                    ->subject('Demande de congé')
+                    ->text('Demande de congé payé')
+                    ->html($template_send_toadmin);
+
+                $mailer->send($email_toadmin);
 
                 $demande_conge->setUser($user ? $user : null);
                 $demande_conge->setDateDebut(new \DateTime($date_debut));
@@ -269,14 +269,14 @@ class DemandeCongeController extends AbstractController
                 $entityManager->persist($demande_conge);
                 $entityManager->flush();
 
-//                $email = (new Email())
-//                    ->from('admin@codeddy.mg')
-//                    ->to($this->getUser()->getEmail())
-//                    ->subject('Demande de congé')
-//                    ->text('Demande de congé payé')
-//                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est en cours de validation !</p>');
-//
-//                $mailer->send($email);
+                $email = (new Email())
+                    ->from('admin@codeddy.mg')
+                    ->to($this->getUser()->getEmail())
+                    ->subject('Demande de congé')
+                    ->text('Demande de congé payé')
+                    ->html('<p>Bonjour ' . $this->getUser()->getUsername() . ' <br> Votre demande de congé est en cours de validation !</p>');
+
+                $mailer->send($email);
 
             }
         }
