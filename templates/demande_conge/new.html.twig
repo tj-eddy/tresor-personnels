@@ -54,8 +54,9 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Nom de
                                                 l'interim</label>
-                                            <input type="text" id="nom-interim" class="form-control"
-                                                   placeholder="Nom de l'interim"/>
+{#                                            <input type="text" id="nom-interim" class="form-control"#}
+                                            {#                                                   placeholder="Nom de l'interim"/>#}
+                                            <select name="" id="nom-interim" class="basic-data-select2-inter"></select>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -81,15 +82,18 @@
                                 class="fa fa-spinner fa-spin conge-loading d-none">
                         </div> <span class="loading-text">Envoyer votre demande</span>
                     </button>
-                    <a class="allow-pdf-download d-none" href="{{ path('generate_conge_pdf') }}"><img width="100px" height="100px" src="{{ asset('/img/logo_pdf.png') }}" alt="télécharger"></a>
+                    <a class="allow-pdf-download d-none" href="{{ path('generate_conge_pdf') }}"><img width="100px"
+                                                                                                      height="100px"
+                                                                                                      src="{{ asset('/img/logo_pdf.png') }}"
+                                                                                                      alt="télécharger"></a>
                 </div>
                 </form>
                 <div class="modal message-validation" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <p class="text text-info">Veuillez verifier votre champs , s'il vous plait
-                                    ! </p>
+                                <h3 class="text text-info">Veuillez vérifier votre champs , s'il vous plait
+                                    ! </h3>
                             </div>
                         </div>
                     </div>
@@ -98,7 +102,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <p class="text text-success">Demande envoyé avec succés !</p>
+                                <h3 class="text text-success">Demande envoyé avec succés !</h3>
                             </div>
                         </div>
                     </div>
@@ -107,7 +111,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <p class="text text-danger">Solde de congé insuffisant !</p>
+                                <h3 class="text text-danger">Solde de congé insuffisant !</h3>
                             </div>
                         </div>
                     </div>
@@ -116,8 +120,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <p class="text text-info">Vous avez déjà une congé en <span
-                                            class="badge badge-info">en attente de validation</span></p>
+                                <h3 class="text text-info">Vous avez déjà une congé en <span
+                                            class="badge badge-info">en attente de validation</span></h3>
                             </div>
                         </div>
                     </div>
@@ -131,7 +135,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('.basic-data-select2').select2({
+        $('.basic-data-select2-inter').select2({
             placeholder: '{{ 'select'|trans }}',
             ajax: {
                 url: "{{ path('admin_user_ajax_select2') }}",
@@ -148,7 +152,7 @@
                 processResults: function (data) {
                     return {
                         results: $.map(data, function (obj) {
-                            return {id: obj.id, text: obj.username};
+                            return {id: obj.username, text: obj.username};
                         })
                     };
                 },
