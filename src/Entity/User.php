@@ -145,6 +145,12 @@ class User implements UserInterface
      */
     private $num_tel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TitreConge::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $titre_conge;
+
 
     public function __construct()
     {
@@ -590,6 +596,18 @@ class User implements UserInterface
     public function setNumTel(?string $num_tel): self
     {
         $this->num_tel = $num_tel;
+
+        return $this;
+    }
+
+    public function getTitreConge(): ?TitreConge
+    {
+        return $this->titre_conge;
+    }
+
+    public function setTitreConge(?TitreConge $titre_conge): self
+    {
+        $this->titre_conge = $titre_conge;
 
         return $this;
     }
