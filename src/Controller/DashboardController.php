@@ -78,8 +78,12 @@ class DashboardController extends AbstractController
     {
         $current_datetime = new \DateTime();
         $entityManager    = $this->getDoctrine()->getManager();
-        $ptg_am = new Pointage();
-        if (date("H") < 11 && $ptg_am->getId() == null ) {
+        $ptg_am           = new Pointage();
+        $last_id_pointage = $this->pointageRepository->getMaxIdPtg($this->getUser()->getId());
+
+        $pointage         = $last_id_pointage  ? $this->pointageRepository->find($last_id_pointage): 0;
+
+        if (date("H") < 11 && ($pointage == 0 || $pointage->getHeureSortieAp())) {
             $ptg_am->setUser($this->getUser());
             $ptg_am->setDateArriveMatinee($current_datetime);
             $entityManager->persist($ptg_am);
@@ -108,4 +112,5 @@ class DashboardController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('admin_dashboard');
     }
+
 }

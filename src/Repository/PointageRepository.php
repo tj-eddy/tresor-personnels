@@ -26,7 +26,7 @@ class PointageRepository extends ServiceEntityRepository
                                             from $ptg p left join p.user u 
                                             where u.id = $user_id");
 
-        return $_query->getOneOrNullResult()['max_id_ptg'];
+        return $_query->getOneOrNullResult()['max_id_ptg'] ?? 0;
     }
 }
 
