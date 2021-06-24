@@ -244,7 +244,7 @@ class DemandeCongeController extends AbstractController
                 Bonjour , <br> <br> Je tiens par la présente à vous informer de mon souhait de prendre
                 des congés " . $type_conge . " pour la période allant du
                 « " . (new \DateTime($date_debut))->format('d/m/Y h:i') . " » au « " . (new \DateTime($date_fin))->format('d/m/Y h:i') . " » inclus,
-                 soit « " . $nombre_jour . " » jours ouvrables <br> <br> Cordialement.";
+                 soit « " . $nombre_jour . " » jours <br> <b>Nom interim</b> : " . $nom_interim . " <br><br> <br> Cordialement. ";
 
                 $email_toadmin = (new Email())
                     ->from($this->getUser()->getEmail())
