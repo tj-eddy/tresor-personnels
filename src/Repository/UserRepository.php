@@ -106,13 +106,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function userSelectArray($term)
     {
         $entity = $this->getEntityName();
-        $_dql = "SELECT u.id, u.username
+        $_dql   = "SELECT u.id, u.username
                 FROM $entity u
                 WHERE u.username LIKE :term";
-
         $_query = $this->_em->createQuery($_dql);
         $_query->setParameter('term', "%$term%");
 
         return $_query->getResult();
+    }
+
+    public function getMaxIdUserByUser($user_id)
+    {
+        $user   = $this->getEntityName();
+        $_query = $this->_em->createQuery("select max(u.id)  as max_id_user
+                                            from $user u 
+                                            where u.id = $user_id");
+
+        return $_query->getOneOrNullResult()['max_id_user'];
     }
 }

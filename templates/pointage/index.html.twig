@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pointage index{% endblock %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Pointage'|trans
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <div class="table-responsive py-4">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr style="background-color: yellow;font-weight: bold">
+                                    <th>Employé</th>
+                                    <th>Date</th>
+                                    <th>Heure arrivée matinée</th>
+                                    <th>Heure sortie matinée</th>
+                                    <th>Heure arrivée après-midi</th>
+                                    {% if is_granted('ROLE_SUPERADMIN') %}
+                                        <th>Heure sortie après-midi</th>
+                                    {% endif %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pointage in pointages %}
+                                    <tr>
+                                        {% if is_granted('ROLE_SUPERADMIN') %}
+                                            <td style="font-size: 15px;font-weight: bold">{{ pointage.user.username }}</td>
+                                        {% endif %}
+                                        <td style="font-weight:bold;text-align: center;font-style: italic">{{ pointage.dateArriveMatinee ? pointage.dateArriveMatinee|date('d/m/Y') : '' }}</td>
+                                        <td style="text-align: center;font-style: italic">{{ pointage.dateArriveMatinee ? pointage.dateArriveMatinee|date('H:i:s') : '' }}</td>
+                                        <td style="text-align: center;font-style: italic">{{ pointage.heureSortieMatinee ? pointage.heureSortieMatinee|date('H:i:s') : '' }}</td>
+                                        <td style="text-align: center;font-style: italic">{{ pointage.heureArriveeAp ? pointage.heureArriveeAp|date('H:i:s') : '' }}</td>
+                                        <td style="text-align: center;font-style: italic">{{ pointage.heureSortieAp ? pointage.heureSortieAp|date('H:i:s') : '' }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

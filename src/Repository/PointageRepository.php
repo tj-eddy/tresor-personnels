@@ -19,32 +19,14 @@ class PointageRepository extends ServiceEntityRepository
         parent::__construct($registry, Pointage::class);
     }
 
-    // /**
-    //  * @return Pointage[] Returns an array of Pointage objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getMaxIdPtg($user_id)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $ptg   = $this->getEntityName();
+        $_query = $this->_em->createQuery("select max(p.id)  as max_id_ptg
+                                            from $ptg p left join p.user u 
+                                            where u.id = $user_id");
 
-    /*
-    public function findOneBySomeField($value): ?Pointage
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $_query->getOneOrNullResult()['max_id_ptg'];
     }
-    */
 }
+
