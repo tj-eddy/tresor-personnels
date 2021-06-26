@@ -37,9 +37,6 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
-//        $session = new Session();
-//        $session->set('user_id', $this->getUser()->getId());
-
         $conge_waiting = $this->demandeCongeRepository->findBy([
             'user'   => $this->getUser(),
             'status' => 0
@@ -70,47 +67,4 @@ class DashboardController extends AbstractController
             ])) : count($conge_cancel)
         ]);
     }
-
-    /**
-     * @Route("/pointage-click", name="pointage-click")
-     */
-    public function pointage()
-    {
-        $current_datetime = new \DateTime();
-        $entityManager    = $this->getDoctrine()->getManager();
-        $ptg_am           = new Pointage();
-        $last_id_pointage = $this->pointageRepository->getMaxIdPtg($this->getUser()->getId());
-
-        $pointage         = $last_id_pointage  ? $this->pointageRepository->find($last_id_pointage): 0;
-
-        if (date("H") < 11 && ($pointage == 0 || $pointage->getHeureSortieAp())) {
-            $ptg_am->setUser($this->getUser());
-            $ptg_am->setDateArriveMatinee($current_datetime);
-            $entityManager->persist($ptg_am);
-        } elseif (date("H") >= 11 && date("H") < 14) {
-            $ptg_sm = $this->pointageRepository->findOneBy([
-                'id' => $this->pointageRepository->getMaxIdPtg($this->getUser()->getId())
-            ]);
-            if ($ptg_sm !== null) {
-                $ptg_sm->setHeureSortieMatinee($current_datetime);
-            }
-        } elseif (date("H") >= 13 && date("H") < 15) {
-            $ptg_ap = $this->pointageRepository->findOneBy([
-                'id' => $this->pointageRepository->getMaxIdPtg($this->getUser()->getId())
-            ]);
-            if ($ptg_ap !== null) {
-                $ptg_ap->setHeureArriveeAp($current_datetime);
-            }
-        } elseif (date("H") >= 15) {
-            $ptg_sp = $this->pointageRepository->findOneBy([
-                'id' => $this->pointageRepository->getMaxIdPtg($this->getUser()->getId())
-            ]);
-            if ($ptg_sp !== null) {
-                $ptg_sp->setHeureSortieAp($current_datetime);
-            }
-        }
-        $entityManager->flush();
-        return $this->redirectToRoute('admin_dashboard');
-    }
-
 }
