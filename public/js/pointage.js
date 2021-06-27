@@ -23,7 +23,8 @@ $(document).ready(function () {
                 {name: "ptg.date_arrive_matinee", targets: 2},
                 {name: "ptg.heure_sortie_matinee", targets: 3},
                 {name: "ptg.heure_arrivee_ap", targets: 4},
-                {name: "ptg.heure_sortie_ap", targets: 5}
+                {name: "ptg.heure_sortie_ap", targets: 5},
+                {name: "ptg.heure_retart", targets: 6},
             ]
         }
     );

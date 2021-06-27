@@ -26,11 +26,11 @@ class PointageController extends AbstractController
         ]);
         $is_admin  = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
         return $this->render('pointage/index.html.twig', [
-            'has_hsa'   => $ptg_exist && $ptg_exist->getHeureSortieAp(),
-            'has_hsm'   => $ptg_exist && $ptg_exist->getHeureSortieMatinee(),
-            'has_haa'   => $ptg_exist && $ptg_exist->getHeureArriveeAp(),
-            'has_ham'   => $ptg_exist && $ptg_exist->getDateArriveMatinee(),
-            'is_admin'  => $is_admin
+            'has_hsa'  => $ptg_exist && $ptg_exist->getHeureSortieAp(),
+            'has_hsm'  => $ptg_exist && $ptg_exist->getHeureSortieMatinee(),
+            'has_haa'  => $ptg_exist && $ptg_exist->getHeureArriveeAp(),
+            'has_ham'  => $ptg_exist && $ptg_exist->getDateArriveMatinee(),
+            'is_admin' => $is_admin
         ]);
     }
 
@@ -67,6 +67,7 @@ class PointageController extends AbstractController
         if ($data['ham'] !== "") {
             $pointage->setUser($this->getUser());
             $pointage->setDateArriveMatinee(new \DateTime());
+            $pointage->setHeureRetart((int)$data['hrtr']);
             $status = true;
             $em->persist($pointage);
         } elseif ($data['hsm'] !== "" && $data['ham'] === "") {
@@ -75,18 +76,22 @@ class PointageController extends AbstractController
             ]);
             $status    = true;
             $ptg_exist->setHeureSortieMatinee(new \DateTime());
+            $ptg_exist->setHeureRetart((int)$ptg_exist->getHeureRetart() + (int)$data['hrtr']);
         } elseif ($data['haa'] !== "" && $data['ham'] === "" && $data['hsm'] === "") {
             $ptg_exist = $pointageRepository->findOneBy([
                 'id' => $pointageRepository->getMaxIdPtg($this->getUser()->getId())
             ]);
             $status    = true;
             $ptg_exist->setHeureArriveeAp(new \DateTime());
+            $ptg_exist->setHeureRetart((int)$ptg_exist->getHeureRetart() + (int)$data['hrtr']);
+
         } elseif ($data['hsa'] !== "" && $data['ham'] === "" && $data['hsm'] === "" && $data['haa'] === "") {
             $ptg_exist = $pointageRepository->findOneBy([
                 'id' => $pointageRepository->getMaxIdPtg($this->getUser()->getId())
             ]);
             $status    = true;
             $ptg_exist->setHeureSortieAp(new \DateTime());
+            $ptg_exist->setHeureRetart((int)$ptg_exist->getHeureRetart() + (int)$data['hrtr']);
         }
         $em->flush();
         return new JsonResponse([

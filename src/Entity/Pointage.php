@@ -42,6 +42,11 @@ class Pointage
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $heure_retart;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Pointage
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getHeureRetart(): ?string
+    {
+        return $this->heure_retart;
+    }
+
+    public function setHeureRetart(?string $heure_retart): self
+    {
+        $this->heure_retart = $heure_retart;
 
         return $this;
     }

@@ -58,7 +58,8 @@ class PointageRepository extends ServiceEntityRepository
                 DATE_FORMAT(ptg.date_arrive_matinee,'%h:%i:%s'),
                 DATE_FORMAT(ptg.heure_sortie_matinee,'%h:%i:%s'),
                 DATE_FORMAT(ptg.heure_arrivee_ap,'%h:%i:%s'),
-                DATE_FORMAT(ptg.heure_sortie_ap,'%h:%i:%s')
+                DATE_FORMAT(ptg.heure_sortie_ap,'%h:%i:%s'),
+                ptg.heure_retart
                 FROM $pointage ptg LEFT JOIN ptg.user usr
                 WHERE  (usr.username LIKE :search 
                 OR ptg.date_arrive_matinee LIKE :search 
