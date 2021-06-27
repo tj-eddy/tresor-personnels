@@ -25,7 +25,10 @@ $(document).ready(function () {
                     $('input').val("");
                 }
             }, complete: function () {
-                checkValInput();
+                $(document).ajaxStop(function () {
+                    window.location.reload();
+                })
+
             }
         });
     });
@@ -80,7 +83,7 @@ function calculRetard() {
         } else if (has_haa) {
             retart = timepick - 16;
         }
-    }else if(timepick > 16){
+    } else if (timepick > 16) {
         retart = timepick - 16;
     }
 
