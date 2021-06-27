@@ -8,7 +8,6 @@ $(document).ready(function () {
     checkValInput();
     var table = $('#id-pointage-list').DataTable();
     $('#ptg-btn').on('click', function () {
-        checkValInput();
         $.ajax({
             method: 'post',
             url: url_pointage,
@@ -18,20 +17,21 @@ $(document).ready(function () {
                 hsm: $("#ptg-hsm").val(),
                 hsa: $("#ptg-hsa").val()
             },
-            beforeSend: function () {
-
-            },
             success: function (response) {
                 if (response.status == true) {
                     table.ajax.reload(null, false);
                     $('input').val("");
                 }
-
+            }, complete: function () {
+                checkValInput();
             }
         });
     });
 });
 
+/**
+ * function checkValInput
+ */
 function checkValInput() {
     if (has_ham && has_hsm && has_haa && has_hsa) {
         $('#ptg-ham').prop('disabled', false);
