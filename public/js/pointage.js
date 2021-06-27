@@ -1,5 +1,5 @@
 $(document).ready(function () {
-   $('#id-pointage-list').DataTable(
+    $('#id-pointage-list').DataTable(
         {
             "language": {
                 url: datatable_language
@@ -18,7 +18,7 @@ $(document).ready(function () {
                 }
             },
             "columnDefs": [
-                {name: "usr.username", targets: 0},
+                {name: "usr.username", targets: 0, visible: is_admin ? true : false},
                 {name: "date_auj", targets: 1},
                 {name: "ptg.date_arrive_matinee", targets: 2},
                 {name: "ptg.heure_sortie_matinee", targets: 3},

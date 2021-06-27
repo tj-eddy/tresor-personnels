@@ -61,6 +61,13 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if p_link is defined %} active {% endif %}"
+                               href="{{ path('pointage_index') }}">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="nav-link-text">Pointage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"
                                href="{{ path('demande_conge_new') }}">
                                 <i class="ni ni-user-run"></i>

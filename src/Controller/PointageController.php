@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/pointage")
@@ -18,15 +19,18 @@ class PointageController extends AbstractController
     /**
      * @Route("/", name="pointage_index", methods={"GET"})
      */
-    public function index(PointageRepository $pointageRepository): Response
+    public function index(PointageRepository $pointageRepository, Security $security): Response
     {
         $ptg_exist = $pointageRepository->findOneBy([
             'id' => $pointageRepository->getMaxIdPtg($this->getUser()->getId())
         ]);
-
+        $is_admin  = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
         return $this->render('pointage/index.html.twig', [
-            'pointages' => $pointageRepository->findAll(),
-            'has_hsa'   => $ptg_exist && $ptg_exist->getHeureSortieAp() ? 1 : 0
+            'has_hsa'   => $ptg_exist && $ptg_exist->getHeureSortieAp(),
+            'has_hsm'   => $ptg_exist && $ptg_exist->getHeureSortieMatinee(),
+            'has_haa'   => $ptg_exist && $ptg_exist->getHeureArriveeAp(),
+            'has_ham'   => $ptg_exist && $ptg_exist->getDateArriveMatinee(),
+            'is_admin'  => $is_admin
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Pointage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Pointage|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,17 +15,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PointageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    /**
+     * PointageRepository constructor.
+     * @param ManagerRegistry $registry
+     * @param Security $security
+     */
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Pointage::class);
+        $this->security = $security;
     }
 
-
+    /**
+     * @param $_page
+     * @param $_nb_max_page
+     * @param $_search
+     * @param $_order_by
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function pointageListArray($_page, $_nb_max_page, $_search, $_order_by)
     {
         $_order_by = $_order_by ? $_order_by : "ptg.id DESC";
 
         $pointage = $this->getEntityName();
+
+        $user     = $this->security->getUser();
+        $roles    = $user->getRoles();
+        $is_admin = in_array('ROLE_SUPERADMIN', $roles);
+
+        $where = "";
+        if (!$is_admin) {
+            $id_user = $user->getId();
+            $where   .= " AND usr.id = $id_user";
+        }
 
         $_dql = "SELECT 
                 usr.username,
@@ -38,7 +64,7 @@ class PointageRepository extends ServiceEntityRepository
                 OR ptg.date_arrive_matinee LIKE :search 
                 OR ptg.heure_sortie_matinee LIKE :search 
                 OR ptg.heure_arrivee_ap LIKE :search 
-                OR ptg.heure_sortie_ap LIKE :search)
+                OR ptg.heure_sortie_ap LIKE :search) $where
                 ORDER BY $_order_by";
 
         $_query = $this->_em->createQuery($_dql);
@@ -57,7 +83,15 @@ class PointageRepository extends ServiceEntityRepository
     public function compteData($_search)
     {
         $pointage = $this->getEntityName();
+        $user     = $this->security->getUser();
+        $roles    = $user->getRoles();
+        $is_admin = in_array('ROLE_SUPERADMIN', $roles);
 
+        $where = "";
+        if (!$is_admin) {
+            $id_user = $user->getId();
+            $where   .= " AND usr.id = $id_user";
+        }
         $_dql = "
             SELECT COUNT (usr) as nbTotal 
             FROM $pointage ptg LEFT JOIN ptg.user usr
@@ -65,7 +99,7 @@ class PointageRepository extends ServiceEntityRepository
                 OR ptg.date_arrive_matinee LIKE :search 
                 OR ptg.heure_sortie_matinee LIKE :search 
                 OR ptg.heure_arrivee_ap LIKE :search 
-                OR ptg.heure_sortie_ap LIKE :search)";
+                OR ptg.heure_sortie_ap LIKE :search) $where";
 
         $_query = $this->_em->createQuery($_dql);
         $_query->setParameter('search', "%$_search%");
@@ -75,7 +109,7 @@ class PointageRepository extends ServiceEntityRepository
 
     public function getMaxIdPtg($user_id)
     {
-        $ptg   = $this->getEntityName();
+        $ptg    = $this->getEntityName();
         $_query = $this->_em->createQuery("select max(p.id)  as max_id_ptg
                                             from $ptg p left join p.user u 
                                             where u.id = $user_id");

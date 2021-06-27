@@ -5,11 +5,10 @@ $(document).ready(function () {
         $('input').not(current_field).val('')
     })
 
-    if (has_hsa){
-        $('input').not($('#ptg-ham')).prop('disabled',true)
-    }
+    checkValInput();
     var table = $('#id-pointage-list').DataTable();
     $('#ptg-btn').on('click', function () {
+        checkValInput();
         $.ajax({
             method: 'post',
             url: url_pointage,
@@ -27,10 +26,31 @@ $(document).ready(function () {
                     table.ajax.reload(null, false);
                     $('input').val("");
                 }
-            },
-            complete: function () {
 
             }
         });
     });
 });
+
+function checkValInput() {
+    if (has_ham && has_hsm && has_haa && has_hsa) {
+        $('#ptg-ham').prop('disabled', false);
+        $('#ptg-hsm').prop('disabled', true);
+        $('#ptg-haa').prop('disabled', true);
+        $('#ptg-hsa').prop('disabled', true);
+    } else if (has_hsa) {
+        $('#ptg-ham').prop('disabled', false);
+        $('#ptg-hsm').prop('disabled', true);
+        $('#ptg-haa').prop('disabled', true);
+        $('#ptg-hsa').prop('disabled', true);
+    } else if (has_ham && has_hsm && has_haa) {
+        $('#ptg-ham').prop('disabled', true);
+        $('#ptg-hsm').prop('disabled', true);
+        $('#ptg-haa').prop('disabled', true);
+    } else if (has_ham && has_hsm) {
+        $('#ptg-ham').prop('disabled', true);
+        $('#ptg-hsm').prop('disabled', true);
+    } else if (has_ham) {
+        $('#ptg-ham').prop('disabled', true);
+    }
+}
