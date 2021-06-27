@@ -14,8 +14,12 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
+                        <a href="#" id="ptg-btn" type="button"><img style="width: 25% ;border-radius: 50%;"
+                                                       src="{{ asset('img/pointage.png') }}"
+                                                       alt=""></a>
                         <div class="table-responsive py-4">
-                            <table class="table table-bordered">
+                            <br>
+                            <table class="table table-bordered" id="id-pointage-list">
                                 <thead>
                                 <tr style="background-color: yellow;font-weight: bold">
                                     <th>Employé</th>
@@ -23,24 +27,20 @@
                                     <th>Heure arrivée matinée</th>
                                     <th>Heure sortie matinée</th>
                                     <th>Heure arrivée après-midi</th>
-                                    {% if is_granted('ROLE_SUPERADMIN') %}
-                                        <th>Heure sortie après-midi</th>
-                                    {% endif %}
+                                    <th>Heure sortie après-midi</th>
+                                </tr>
+                                </thead>
+                                <thead>
+                                <tr style="background-color: yellow;font-weight: bold">
+                                    <th></th>
+                                    <th></th>
+                                    <th><input id="ptg-ham" type="text" class="form-control" readonly></th>
+                                    <th><input id="ptg-hsm" type="text" class="form-control" readonly></th>
+                                    <th><input id="ptg-haa" type="text" class="form-control" readonly></th>
+                                    <th><input id="ptg-hsa" type="text" class="form-control" readonly></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for pointage in pointages %}
-                                    <tr>
-                                        {% if is_granted('ROLE_SUPERADMIN') %}
-                                            <td style="font-size: 15px;font-weight: bold">{{ pointage.user.username }}</td>
-                                        {% endif %}
-                                        <td style="font-weight:bold;text-align: center;font-style: italic">{{ pointage.dateArriveMatinee ? pointage.dateArriveMatinee|date('d/m/Y') : '' }}</td>
-                                        <td style="text-align: center;font-style: italic">{{ pointage.dateArriveMatinee ? pointage.dateArriveMatinee|date('H:i:s') : '' }}</td>
-                                        <td style="text-align: center;font-style: italic">{{ pointage.heureSortieMatinee ? pointage.heureSortieMatinee|date('H:i:s') : '' }}</td>
-                                        <td style="text-align: center;font-style: italic">{{ pointage.heureArriveeAp ? pointage.heureArriveeAp|date('H:i:s') : '' }}</td>
-                                        <td style="text-align: center;font-style: italic">{{ pointage.heureSortieAp ? pointage.heureSortieAp|date('H:i:s') : '' }}</td>
-                                    </tr>
-                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -49,4 +49,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var url_pointage_ajax_list = "{{ path('url_pointage_ajax_list') }}";
+        var url_pointage = "{{ path('url_pointage') }}";
+        var id_current_user = "{{ app.user.id }}";
+        var has_hsa = "{{ has_hsa }}";
+    </script>
+    <script src="{{ asset('js/pointage.js') }}"></script>
+    <script src="{{ asset('js/edit.pointage.js') }}"></script>
 {% endblock %}

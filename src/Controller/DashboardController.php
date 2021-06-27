@@ -37,6 +37,9 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
+//        $session = new Session();
+//        $session->set('user_id', $this->getUser()->getId());
+
         $conge_waiting = $this->demandeCongeRepository->findBy([
             'user'   => $this->getUser(),
             'status' => 0
