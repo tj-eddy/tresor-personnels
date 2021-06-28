@@ -151,6 +151,11 @@ class User implements UserInterface
      */
     private $titre_conge;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrdreRoute::class, mappedBy="user")
+     */
+    private $ordreRoutes;
+
 
     public function __construct()
     {
@@ -161,6 +166,7 @@ class User implements UserInterface
         $this->diplomes = new ArrayCollection();
         $this->factureSoins = new ArrayCollection();
         $this->pointages = new ArrayCollection();
+        $this->ordreRoutes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -608,6 +614,36 @@ class User implements UserInterface
     public function setTitreConge(?TitreConge $titre_conge): self
     {
         $this->titre_conge = $titre_conge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdreRoute[]
+     */
+    public function getOrdreRoutes(): Collection
+    {
+        return $this->ordreRoutes;
+    }
+
+    public function addOrdreRoute(OrdreRoute $ordreRoute): self
+    {
+        if (!$this->ordreRoutes->contains($ordreRoute)) {
+            $this->ordreRoutes[] = $ordreRoute;
+            $ordreRoute->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdreRoute(OrdreRoute $ordreRoute): self
+    {
+        if ($this->ordreRoutes->removeElement($ordreRoute)) {
+            // set the owning side to null (unless already changed)
+            if ($ordreRoute->getUser() === $this) {
+                $ordreRoute->setUser(null);
+            }
+        }
 
         return $this;
     }
