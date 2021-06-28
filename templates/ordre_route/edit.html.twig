@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit OrdreRoute{% endblock %}
+
+{% block body %}
+    <h1>Edit OrdreRoute</h1>
+
+    {{ include('ordre_route/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('ordre_route_index') }}">back to list</a>
+
+    {{ include('ordre_route/_delete_form.html.twig') }}
+{% endblock %}

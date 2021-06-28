@@ -20,7 +20,7 @@ class FactureSoinType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'required' => true,
-                'label'=>'Numéro du facture'
+                'label'=>'Numéro de la facture'
             ])
             ->add('date_fact', TextType::class, [
                 'attr'     => [

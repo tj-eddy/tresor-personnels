@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrdreRoute{% endblock %}
+
+{% block body %}
+    <h1>OrdreRoute</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ordre_route.id }}</td>
+            </tr>
+            <tr>
+                <th>Num_or</th>
+                <td>{{ ordre_route.numOr }}</td>
+            </tr>
+            <tr>
+                <th>Date_or</th>
+                <td>{{ ordre_route.dateOr ? ordre_route.dateOr|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Objet_mission</th>
+                <td>{{ ordre_route.objetMission }}</td>
+            </tr>
+            <tr>
+                <th>Date_debut_mission</th>
+                <td>{{ ordre_route.dateDebutMission ? ordre_route.dateDebutMission|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_fin_mission</th>
+                <td>{{ ordre_route.dateFinMission ? ordre_route.dateFinMission|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Scan_or</th>
+                <td>{{ ordre_route.scanOr }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ ordre_route.status ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ordre_route_index') }}">back to list</a>
+
+    <a href="{{ path('ordre_route_edit', {'id': ordre_route.id}) }}">edit</a>
+
+    {{ include('ordre_route/_delete_form.html.twig') }}
+{% endblock %}

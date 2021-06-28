@@ -87,17 +87,17 @@ class UserType extends AbstractType
         if (in_array('ROLE_SUPERADMIN', $roles)) {
             $builder
                 ->add('dateStartService', TextType::class, [
-                    'label' => 'Date prise de service',
+                    'label' => 'Date de prise de service',
                     'attr'  => [
                         'class'       => 'form-control date-picker',
-                        "placeholder" => "Date prise de service ...",
+                        "placeholder" => "Date de prise de service ...",
                     ]
                 ])
                 ->add('congeInitial', IntegerType::class, [
-                    'label'    => 'Nombre de congé initial',
+                    'label'    => 'Solde congé initiale',
                     'attr'     => [
                         'class'       => 'form-control',
-                        "placeholder" => "Nombre de congé ...",
+                        "placeholder" => "Solde congé initiale ...",
                     ],
                     'required' => false
                 ])

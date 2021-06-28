@@ -4,7 +4,7 @@
         <!-- Brand -->
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
-                <h3 style="font-family: 'comic sans ms'">Gestion personnel</h3>
+                <h3 style="font-family: 'comic sans ms'">Gestions de personnels</h3>
                 {#                <img src="{{ asset('img/logo.PNG') }}" class="navbar-brand-img" alt="...">#}
             </a>
             <div class="ml-auto">
@@ -157,21 +157,21 @@
                             <a class="nav-link {% if p_link is defined %} active {% endif %}"
                                href="{{ path('pointage_index') }}">
                                 <i class="ni ni-chat-round"></i>
-                                <span class="nav-link-text">État de pointage</span>
+                                <span class="nav-link-text">Pointage</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if fs_link is defined %} active {% endif %}"
                                href="{{ path('facture_soin_index') }}">
                                 <i class="ni ni-ambulance"></i>
-                                <span class="nav-link-text">État de decompte de la facture de soins</span>
+                                <span class="nav-link-text">Enregistrement facture de soins</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if or_link is defined %} active {% endif %}"
                                href="{{ path('user_index') }}">
                                 <i class="ni ni-delivery-fast"></i>
-                                <span class="nav-link-text">État de décompte des ordres de route </span>
+                                <span class="nav-link-text">Enregistrement ordre de route </span>
                             </a>
                         </li>
                     {% endif %}

@@ -79,7 +79,7 @@ delete.succesfully: Supression avec succès !
 add.succesfully: Ajout avec succès !
 upade.succesfully: Modification avec succès !
 feffi.succesfully: Création FEFFI avec succès !
-matricule: N°Matricule
-cin: N°CIN
+matricule: Numéro matricule
+cin: Carte d'identité nationale
 child.number: Nombre d'enfant
-date.start.service: Date prise de service
+date.start.service: Date de prise de service

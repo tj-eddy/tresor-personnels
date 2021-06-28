@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrdreRoute index{% endblock %}
+
+{% block body %}
+    <h1>OrdreRoute index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Num_or</th>
+                <th>Date_or</th>
+                <th>Objet_mission</th>
+                <th>Date_debut_mission</th>
+                <th>Date_fin_mission</th>
+                <th>Scan_or</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordre_route in ordre_routes %}
+            <tr>
+                <td>{{ ordre_route.id }}</td>
+                <td>{{ ordre_route.numOr }}</td>
+                <td>{{ ordre_route.dateOr ? ordre_route.dateOr|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ordre_route.objetMission }}</td>
+                <td>{{ ordre_route.dateDebutMission ? ordre_route.dateDebutMission|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ordre_route.dateFinMission ? ordre_route.dateFinMission|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ordre_route.scanOr }}</td>
+                <td>{{ ordre_route.status ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('ordre_route_show', {'id': ordre_route.id}) }}">show</a>
+                    <a href="{{ path('ordre_route_edit', {'id': ordre_route.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ordre_route_new') }}">Create new</a>
+{% endblock %}

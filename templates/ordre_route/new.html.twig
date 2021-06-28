@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New OrdreRoute{% endblock %}
+
+{% block body %}
+    <h1>Create new OrdreRoute</h1>
+
+    {{ include('ordre_route/_form.html.twig') }}
+
+    <a href="{{ path('ordre_route_index') }}">back to list</a>
+{% endblock %}
