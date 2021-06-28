@@ -71,7 +71,14 @@
                             <a class="nav-link {% if conge_link is defined %} active {% endif %}"
                                href="{{ path('demande_conge_new') }}">
                                 <i class="ni ni-user-run"></i>
-                                <span class="nav-link-text">Demander un congé</span>
+                                <span class="nav-link-text">Congé</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if or_link is defined %} active {% endif %}"
+                               href="{{ path('ordre_route_index') }}">
+                                <i class="ni ni-delivery-fast"></i>
+                                <span class="nav-link-text">Ordre de route </span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -169,7 +176,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if or_link is defined %} active {% endif %}"
-                               href="{{ path('user_index') }}">
+                               href="{{ path('ordre_route_index') }}">
                                 <i class="ni ni-delivery-fast"></i>
                                 <span class="nav-link-text">Enregistrement ordre de route </span>
                             </a>

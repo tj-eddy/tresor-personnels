@@ -1,13 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}Edit OrdreRoute{% endblock %}
+{% set fs_link = true %}
 
 {% block body %}
-    <h1>Edit OrdreRoute</h1>
-
-    {{ include('ordre_route/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('ordre_route_index') }}">back to list</a>
-
-    {{ include('ordre_route/_delete_form.html.twig') }}
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Modification une OR'|trans,
+            path_link : path('ordre_route_index') ,
+            title_link : 'return'|trans ,
+        } %}
+    <!-- Page content -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        {{ include('ordre_route/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ordre.route.js') }}"></script>
 {% endblock %}

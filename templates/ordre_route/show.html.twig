@@ -3,48 +3,54 @@
 {% block title %}OrdreRoute{% endblock %}
 
 {% block body %}
-    <h1>OrdreRoute</h1>
+    {% include 'partials/header.html.twig' with
+        {
+            bc_title : 'Enregistrement ordre de route'|trans,
+        } %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <div class="table-responsive py-4 ">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th>Numéro</th>
+                                    <td>{{ ordre_route.numOr }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date OR</th>
+                                    <td>{{ ordre_route.dateOr|date('d/m/Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Objet de mission</th>
+                                    <td>{{ ordre_route.objetMission }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date du début</th>
+                                    <td>{{ ordre_route.dateDebutMission }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date du fin</th>
+                                    <td>{{ ordre_route.dateFinMission }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date du fin</th>
+                                    <td>{{ ordre_route.dureeMission }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ include('ordre_route/_delete_form.html.twig') }}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ordre_route.id }}</td>
-            </tr>
-            <tr>
-                <th>Num_or</th>
-                <td>{{ ordre_route.numOr }}</td>
-            </tr>
-            <tr>
-                <th>Date_or</th>
-                <td>{{ ordre_route.dateOr ? ordre_route.dateOr|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Objet_mission</th>
-                <td>{{ ordre_route.objetMission }}</td>
-            </tr>
-            <tr>
-                <th>Date_debut_mission</th>
-                <td>{{ ordre_route.dateDebutMission ? ordre_route.dateDebutMission|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_fin_mission</th>
-                <td>{{ ordre_route.dateFinMission ? ordre_route.dateFinMission|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Scan_or</th>
-                <td>{{ ordre_route.scanOr }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ ordre_route.status ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+                    </div>
+                </div>
 
-    <a href="{{ path('ordre_route_index') }}">back to list</a>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('ordre_route_edit', {'id': ordre_route.id}) }}">edit</a>
-
-    {{ include('ordre_route/_delete_form.html.twig') }}
 {% endblock %}

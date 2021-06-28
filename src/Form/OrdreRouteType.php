@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\OrdreRoute;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,14 +14,25 @@ class OrdreRouteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('num_or')
-            ->add('date_or')
-            ->add('objet_mission')
-            ->add('date_debut_mission')
-            ->add('date_fin_mission')
-            ->add('scan_or')
-            ->add('status')
-            ->add('user')
+            ->add('num_or', TextType::class, [
+                'label' => "Numéro",
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('objet_mission', TextType::class, [
+                'label' => "Objet",
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+//            ->add('scan_or', FileType::class, [
+//                'label' => "Scan d'ordre de route",
+//                'attr'     => [
+//                    'class' => 'form-control'
+//                ],
+//                'required' => false
+//            ])
         ;
     }
 

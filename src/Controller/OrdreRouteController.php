@@ -31,11 +31,17 @@ class OrdreRouteController extends AbstractController
     public function new(Request $request): Response
     {
         $ordreRoute = new OrdreRoute();
-        $form = $this->createForm(OrdreRouteType::class, $ordreRoute);
+        $form       = $this->createForm(OrdreRouteType::class, $ordreRoute);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $datas   = $request->request->all();
+            $ordreRoute->setUser($this->getUser());
+            $ordreRoute->setDateDebutMission($datas["date_debut"] ? $datas["date_debut"] : null);
+            $ordreRoute->setDateFinMission($datas["date_fin"] ? $datas["date_fin"] : null);
+            $ordreRoute->setDureeMission($datas["duree_mission"] ? $datas["duree_mission"] : null);
+            $ordreRoute->setDecompteOr($datas["decompte_or"] ? $datas["decompte_or"] : null);
             $entityManager->persist($ordreRoute);
             $entityManager->flush();
 
@@ -44,7 +50,7 @@ class OrdreRouteController extends AbstractController
 
         return $this->render('ordre_route/new.html.twig', [
             'ordre_route' => $ordreRoute,
-            'form' => $form->createView(),
+            'form'        => $form->createView(),
         ]);
     }
 
@@ -74,7 +80,7 @@ class OrdreRouteController extends AbstractController
 
         return $this->render('ordre_route/edit.html.twig', [
             'ordre_route' => $ordreRoute,
-            'form' => $form->createView(),
+            'form'        => $form->createView(),
         ]);
     }
 
@@ -83,7 +89,7 @@ class OrdreRouteController extends AbstractController
      */
     public function delete(Request $request, OrdreRoute $ordreRoute): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ordreRoute->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ordreRoute->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ordreRoute);
             $entityManager->flush();

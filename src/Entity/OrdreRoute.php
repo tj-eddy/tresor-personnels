@@ -33,12 +33,12 @@ class OrdreRoute
     private $objet_mission;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $date_debut_mission;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $date_fin_mission;
 
@@ -57,6 +57,21 @@ class OrdreRoute
      */
     private $status = 0;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $duree_mission;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $decompte_or;
+
+    public function __construct()
+    {
+        $this->date_or = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,17 +89,6 @@ class OrdreRoute
         return $this;
     }
 
-    public function getDateOr(): ?\DateTimeInterface
-    {
-        return $this->date_or;
-    }
-
-    public function setDateOr(?\DateTimeInterface $date_or): self
-    {
-        $this->date_or = $date_or;
-
-        return $this;
-    }
 
     public function getObjetMission(): ?string
     {
@@ -94,30 +98,6 @@ class OrdreRoute
     public function setObjetMission(?string $objet_mission): self
     {
         $this->objet_mission = $objet_mission;
-
-        return $this;
-    }
-
-    public function getDateDebutMission(): ?\DateTimeInterface
-    {
-        return $this->date_debut_mission;
-    }
-
-    public function setDateDebutMission(?\DateTimeInterface $date_debut_mission): self
-    {
-        $this->date_debut_mission = $date_debut_mission;
-
-        return $this;
-    }
-
-    public function getDateFinMission(): ?\DateTimeInterface
-    {
-        return $this->date_fin_mission;
-    }
-
-    public function setDateFinMission(?\DateTimeInterface $date_fin_mission): self
-    {
-        $this->date_fin_mission = $date_fin_mission;
 
         return $this;
     }
@@ -156,5 +136,79 @@ class OrdreRoute
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getDureeMission(): ?string
+    {
+        return $this->duree_mission;
+    }
+
+    public function setDureeMission(?string $duree_mission): self
+    {
+        $this->duree_mission = $duree_mission;
+
+        return $this;
+    }
+
+    public function getDecompteOr(): ?float
+    {
+        return $this->decompte_or;
+    }
+
+    public function setDecompteOr(?float $decompte_or): self
+    {
+        $this->decompte_or = $decompte_or;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDebutMission()
+    {
+        return $this->date_debut_mission;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFinMission()
+    {
+        return $this->date_fin_mission;
+    }
+
+
+
+    /**
+     * @param mixed $date_debut_mission
+     */
+    public function setDateDebutMission($date_debut_mission):void
+    {
+        $this->date_debut_mission = $date_debut_mission;
+    }
+
+    /**
+     * @param mixed $date_fin_mission
+     */
+    public function setDateFinMission($date_fin_mission): void
+    {
+        $this->date_fin_mission = $date_fin_mission;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateOr(): \DateTime
+    {
+        return $this->date_or;
+    }
+
+    /**
+     * @param \DateTime $date_or
+     */
+    public function setDateOr(\DateTime $date_or): void
+    {
+        $this->date_or = $date_or;
     }
 }
