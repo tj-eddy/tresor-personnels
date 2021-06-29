@@ -30,17 +30,6 @@
         $('#ordre_route_dateDebutMission').attr('type','datetime-local');
         $('#ordre_route_dateFinMission').attr('type','datetime-local');
         $('#ordre_route_dateOr').attr('type','date');
-        $('#ordre_route_dateOr').attr('required',false);
-    </script>
-    <script>
-        function changeDateFormat() {
-            var x = document.getElementById("ordre_route_dateOr").value.split('-');
-            var or_date = document.getElementById("ordre_route_dateOr");
-
-            or_date.value = x[1]+'/'+x[2]+'/'+x[0]
-            console.log(or_date.value)
-        }
-        changeDateFormat()
     </script>
     <script src="{{ asset('js/ordre.route.js') }}"></script>
 {% endblock %}
