@@ -26,7 +26,8 @@
                             </div>
                         {% endfor %}
                         {% if not is_granted('ROLE_SUPERADMIN') %}
-                            <a href="{{ path('ordre_route_new') }}" class="btn btn-success">Saisir un ordre de route</a>
+                            <a href="{{ path('ordre_route_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Saisir un ordre de route</a>
+                            <a href="{{ path('ordre_route_showall',{'id': app.user.id }) }}" class="btn btn-outline-info"><i class="fa fa-eye"></i> Voir tout</a>
                         {% endif %}
                         <div class="table-responsive py-4 ">
                             <table class="table table-flush" id="ordre-route">
@@ -101,6 +102,7 @@
                     url: datatable_language
                 },
                 "aaSorting": [],
+                "bProcessing": true,
                 "bFilter": true,
                 "lengthMenu": [[10, 50, 100, 500, 1000, 5000, 10000], [10, 50, 100, 500, '1 000', '5 000', '10 000']],
                 "iDisplayLength": 10,

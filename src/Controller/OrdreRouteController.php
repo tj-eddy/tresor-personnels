@@ -68,14 +68,23 @@ class OrdreRouteController extends AbstractController
     /**
      * @Route("/{id}", name="ordre_route_show", methods={"GET"})
      */
-    public function show(OrdreRoute $ordreRoute, DocumentRecrutementRepository $documentRecrutementRepository): Response
+    public function show(OrdreRoute $ordreRoute): Response
     {
-        $document_recrutement = $documentRecrutementRepository->findOneBy(['user' => $ordreRoute->getUser()]);
         return $this->render('ordre_route/show.html.twig', [
-            'ordre_route'          => $ordreRoute,
-            'document_recrutement' => $document_recrutement,
+            'ordre_route' => $ordreRoute,
         ]);
     }
+
+    /**
+     * @Route("/{id}/voir-tout", name="ordre_route_showall", methods={"GET"})
+     */
+    public function showAll(OrdreRouteRepository $ordreRouteRepository): Response
+    {
+        return $this->render('ordre_route/showall.html.twig', [
+            'ordre_routes' => $ordreRouteRepository->findBy(['user' => $this->getUser()]),
+        ]);
+    }
+
 
     /**
      * @Route("/{id}/edit", name="ordre_route_edit", methods={"GET","POST"})
