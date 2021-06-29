@@ -15,15 +15,6 @@
                     <!-- Card header -->
                     <div class="card-header border-0">
                         <div class="table-responsive py-4 ">
-                            <div class="section-head">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                État de compte des indemnités de mission au nom de
-                                « {{ ordre_route.user.username ~' '~ ordre_route.user.prenom }} »
-                                « corps: {{ document_recrutement.corps }} , grade:{{ document_recrutement.grade }} et
-                                indice actuels : {{ document_recrutement.indice }} »
-                            </div>
-                            <br>
                             <table class="table table-bordered">
                                 {% set duree = ordre_route.dureeMission|split('et') %}
                                 <tr>
