@@ -4,19 +4,19 @@
         <div class="row">
             <div class="col-6">
                 {{ form_row(form.num_or) }}<br>
-                {{ form_row(form.objet_mission) }}
+                {{ form_row(form.indice) }}<br>
+                {{ form_row(form.dateOr) }}<br>
+
             </div>
             <div class="col-6">
-                <label for="date_start_end">Date de début et fin</label>
-                <input id="date_start_end" class="form-control" placeholder="Date de début et fin" type="text" name="daterange" value=""/>
-                <br>
-{#                {{ form_row(form.scan_or) }}#}
+                {{ form_row(form.dateDebutMission,{'attr':{'type':'date'}}) }}<br>
+                {{ form_row(form.dateFinMission) }}<br>
+                {{ form_row(form.objet_mission) }}<br>
+                {{ form_row(form.scan_or) }}<br>
             </div>
         </div>
-        <input name="date_debut" type="hidden" id="date-debut"/>
-        <input name="date_fin" type="hidden" id="date-fin"/>
-        <input name="duree_mission" type="hidden" id="duree_mission"/>
-        <input name="decompte_or" type="hidden" id="decompte_or"/>
+        <input name="duree_mission" type="hidden" id="duree_mission" value="{{ edit_or ?? ordre_route.dureeMission }}"/>
+        <input name="decompte_or" type="hidden" id="decompte_or" value="{{ edit_or ?? ordre_route.decompteOr }}"/>
         <br><br>
         <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     </div>

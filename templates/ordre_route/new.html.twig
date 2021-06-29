@@ -26,5 +26,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $('#ordre_route_dateDebutMission').attr('type','datetime-local');
+        $('#ordre_route_dateFinMission').attr('type','datetime-local');
+    </script>
     <script src="{{ asset('js/ordre.route.js') }}"></script>
 {% endblock %}

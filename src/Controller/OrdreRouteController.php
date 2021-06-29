@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/ordre/route")
@@ -18,10 +19,15 @@ class OrdreRouteController extends AbstractController
     /**
      * @Route("/", name="ordre_route_index", methods={"GET"})
      */
-    public function index(OrdreRouteRepository $ordreRouteRepository): Response
+    public function index(OrdreRouteRepository $ordreRouteRepository, Security $security): Response
     {
+        $ordre_routes = $ordreRouteRepository->findBy([
+            'user' => $this->getUser()
+        ]);
+
+        $_is_admin = in_array('ROLE_SUPERADMIN', $security->getUser()->getRoles());
         return $this->render('ordre_route/index.html.twig', [
-            'ordre_routes' => $ordreRouteRepository->findAll(),
+            'ordre_routes' => $_is_admin ? $ordreRouteRepository->findBy([], ['id' => 'DESC']) : $ordre_routes,
         ]);
     }
 
@@ -30,16 +36,16 @@ class OrdreRouteController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $datas         = $request->request->all();
         $ordreRoute = new OrdreRoute();
         $form       = $this->createForm(OrdreRouteType::class, $ordreRoute);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $datas   = $request->request->all();
+
             $ordreRoute->setUser($this->getUser());
-            $ordreRoute->setDateDebutMission($datas["date_debut"] ? $datas["date_debut"] : null);
-            $ordreRoute->setDateFinMission($datas["date_fin"] ? $datas["date_fin"] : null);
+
             $ordreRoute->setDureeMission($datas["duree_mission"] ? $datas["duree_mission"] : null);
             $ordreRoute->setDecompteOr($datas["decompte_or"] ? $datas["decompte_or"] : null);
             $entityManager->persist($ordreRoute);
@@ -50,6 +56,7 @@ class OrdreRouteController extends AbstractController
 
         return $this->render('ordre_route/new.html.twig', [
             'ordre_route' => $ordreRoute,
+            'type'        => 'new_or',
             'form'        => $form->createView(),
         ]);
     }
@@ -73,6 +80,9 @@ class OrdreRouteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $datas         = $request->request->all();
+            $ordreRoute->setDureeMission($datas["duree_mission"] ? $datas["duree_mission"] : null);
+            $ordreRoute->setDecompteOr($datas["decompte_or"] ? $datas["decompte_or"] : null);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ordre_route_index');
@@ -80,6 +90,7 @@ class OrdreRouteController extends AbstractController
 
         return $this->render('ordre_route/edit.html.twig', [
             'ordre_route' => $ordreRoute,
+            'type'        => 'edit_or',
             'form'        => $form->createView(),
         ]);
     }

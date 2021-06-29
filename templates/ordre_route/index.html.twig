@@ -39,6 +39,7 @@
                                     <th>Date du début</th>
                                     <th>Date du fin</th>
                                     <th>Duree du mission</th>
+                                    <th>Indice</th>
                                     <th>Décompte OR(AR)</th>
                                     <th>Actions</th>
                                 </tr>
@@ -48,11 +49,12 @@
                                     <tr>
                                         <th>{{ ordre_route.status == 0 ? '<span class="badge badge-danger">En attente</span>': '<span class="badge badge-success">Validé</span>' }}</th>
                                         <td>{{ ordre_route.numOr }}</td>
-                                        <td>{{ ordre_route.dateOr ? ordre_route.dateOr|date('d/m/Y') : '' }}</td>
+                                        <td>{{ ordre_route.dateOr }}</td>
                                         <td>{{ ordre_route.objetMission }}</td>
-                                        <td>{{ ordre_route.dateDebutMission }}</td>
-                                        <td>{{ ordre_route.dateFinMission }}</td>
+                                        <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
+                                        <td>{{ ordre_route.dateFinMission|replace({'T':' à '}) }}</td>
                                         <td>{{ ordre_route.dureeMission }}</td>
+                                        <td>{{ ordre_route.indice }}</td>
                                         <td>{{ ordre_route.decompteOr|number_format(0,',',' ') }}</td>
                                         <td>
                                             {% if ordre_route.status == 0 %}
@@ -65,7 +67,9 @@
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="9" style="text-align: center">Aucune donnée disponible dans le tableau</td>
+                                        <td colspan="9" style="text-align: center">Aucune donnée disponible dans le
+                                            tableau
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

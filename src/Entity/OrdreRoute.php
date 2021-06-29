@@ -22,25 +22,12 @@ class OrdreRoute
      */
     private $num_or;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $date_or;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $objet_mission;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $date_debut_mission;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $date_fin_mission;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -67,10 +54,26 @@ class OrdreRoute
      */
     private $decompte_or;
 
-    public function __construct()
-    {
-        $this->date_or = new \DateTime();
-    }
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $indice;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $date_or;
+
+    /**
+     * @ORM\Column(type="string",nullable=true, length=255)
+     */
+    private $date_debut_mission;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $date_fin_mission;
+
 
     public function getId(): ?int
     {
@@ -162,53 +165,54 @@ class OrdreRoute
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDateDebutMission()
+
+    public function getIndice(): ?string
     {
-        return $this->date_debut_mission;
+        return $this->indice;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDateFinMission()
+    public function setIndice(?string $indice): self
     {
-        return $this->date_fin_mission;
+        $this->indice = $indice;
+
+        return $this;
     }
 
-
-
-    /**
-     * @param mixed $date_debut_mission
-     */
-    public function setDateDebutMission($date_debut_mission):void
-    {
-        $this->date_debut_mission = $date_debut_mission;
-    }
-
-    /**
-     * @param mixed $date_fin_mission
-     */
-    public function setDateFinMission($date_fin_mission): void
-    {
-        $this->date_fin_mission = $date_fin_mission;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDateOr(): \DateTime
+    public function getDateOr(): ?string
     {
         return $this->date_or;
     }
 
-    /**
-     * @param \DateTime $date_or
-     */
-    public function setDateOr(\DateTime $date_or): void
+    public function setDateOr(?string $date_or): self
     {
         $this->date_or = $date_or;
+
+        return $this;
     }
+
+    public function getDateDebutMission(): ?string
+    {
+        return $this->date_debut_mission;
+    }
+
+    public function setDateDebutMission(string $date_debut_mission): self
+    {
+        $this->date_debut_mission = $date_debut_mission;
+
+        return $this;
+    }
+
+    public function getDateFinMission(): ?string
+    {
+        return $this->date_fin_mission;
+    }
+
+    public function setDateFinMission(?string $date_fin_mission): self
+    {
+        $this->date_fin_mission = $date_fin_mission;
+
+        return $this;
+    }
+
+
 }
