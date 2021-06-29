@@ -108,4 +108,17 @@ class OrdreRouteController extends AbstractController
 
         return $this->redirectToRoute('ordre_route_index');
     }
+    /**
+     * @Route("/{id}/validate-or", name="ordre_route_validate")
+     */
+    public function validateOR(OrdreRoute $ordreRoute)
+    {
+        if($ordreRoute){
+            $entityManager = $this->getDoctrine()->getManager();
+            $ordreRoute->setStatus(true);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('ordre_route_index');
+    }
 }

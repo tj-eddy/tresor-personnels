@@ -23,7 +23,7 @@
                                 </tr>
                                 <tr>
                                     <th>Date OR</th>
-                                    <td>{{ ordre_route.dateOr|date('d/m/Y') }}</td>
+                                    <td>{{ ordre_route.dateOr }}</td>
                                 </tr>
                                 <tr>
                                     <th>Objet de mission</th>
@@ -31,24 +31,28 @@
                                 </tr>
                                 <tr>
                                     <th>Date du début</th>
-                                    <td>{{ ordre_route.dateDebutMission }}</td>
+                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Date du fin</th>
-                                    <td>{{ ordre_route.dateFinMission }}</td>
+                                    <td>{{ ordre_route.dateFinMission|replace({'T':' à '}) }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Date du fin</th>
+                                    <th>Durée du mission</th>
                                     <td>{{ ordre_route.dureeMission }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Décompte OR</th>
+                                    <td>{{ ordre_route.decompteOr }} Ar</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                        {{ include('ordre_route/_delete_form.html.twig') }}
-
+                        {% if not is_granted('ROLE_SUPERADMIN') %}
+                            {{ include('ordre_route/_delete_form.html.twig') }}
+                        {% endif %}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
