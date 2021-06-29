@@ -38,28 +38,33 @@
                                 </tr>
                                 <tr>
                                     <td>{{ ordre_route.numOr }}</td>
-                                    <td>{{ ordre_route.dateOr }}</td>
+                                    <td>{{ ordre_route.dateOr|date("d/m/Y") }}</td>
                                     <td>{{ ordre_route.objetMission }}</td>
-                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
-                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
+                                    <td>{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
+                                    <td>{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
                                     <td>{{ ordre_route.dureeMission }}</td>
                                     <td>
                                         {% for key,d in duree %}
-                                            <span> {{ d }}
+                                            <span>
+                                                {{ ordre_route.decompteOr == 0 ? '': d }}
                                                 {% if 'N' in d %}
-                                                    {% if d != " " %}
-                                                        {% if ordre_route.indice < 800 %}
-                                                            {{ 'x 30 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
-                                                        {% else %}
-                                                            {{ 'x 36 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                                    {% if ordre_route.decompteOr != 0 %}
+                                                        {% if d != " " %}
+                                                            {% if ordre_route.indice < 800 %}
+                                                                {{ 'x 30 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                                            {% else %}
+                                                                {{ 'x 36 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                                            {% endif %}
                                                         {% endif %}
                                                     {% endif %}
                                                 {% else %}
-                                                    {% if d != " " %}
-                                                        {% if ordre_route.indice < 800 %}
-                                                            {{ 'x 10 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
-                                                        {% else %}
-                                                            {{ 'x 12 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                                    {% if ordre_route.decompteOr != 0 %}
+                                                        {% if d != " " %}
+                                                            {% if ordre_route.indice < 800 %}
+                                                                {{ 'x 10 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                                            {% else %}
+                                                                {{ 'x 12 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                                            {% endif %}
                                                         {% endif %}
                                                     {% endif %}
                                                 {% endif %}
