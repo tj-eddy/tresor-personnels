@@ -74,6 +74,16 @@ class OrdreRoute
      */
     private $date_fin_mission;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $montant_p;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $montant_n;
+
 
     public function getId(): ?int
     {
@@ -210,6 +220,30 @@ class OrdreRoute
     public function setDateFinMission(?string $date_fin_mission): self
     {
         $this->date_fin_mission = $date_fin_mission;
+
+        return $this;
+    }
+
+    public function getMontantP(): ?float
+    {
+        return $this->montant_p;
+    }
+
+    public function setMontantP(?float $montant_p): self
+    {
+        $this->montant_p = $montant_p;
+
+        return $this;
+    }
+
+    public function getMontantN(): ?float
+    {
+        return $this->montant_n;
+    }
+
+    public function setMontantN(?float $montant_n): self
+    {
+        $this->montant_n = $montant_n;
 
         return $this;
     }

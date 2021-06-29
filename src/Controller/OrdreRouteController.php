@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\OrdreRoute;
 use App\Form\OrdreRouteType;
+use App\Repository\DocumentRecrutementRepository;
 use App\Repository\OrdreRouteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class OrdreRouteController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $datas         = $request->request->all();
+        $datas      = $request->request->all();
         $ordreRoute = new OrdreRoute();
         $form       = $this->createForm(OrdreRouteType::class, $ordreRoute);
         $form->handleRequest($request);
@@ -48,6 +49,9 @@ class OrdreRouteController extends AbstractController
 
             $ordreRoute->setDureeMission($datas["duree_mission"] ? $datas["duree_mission"] : null);
             $ordreRoute->setDecompteOr($datas["decompte_or"] ? $datas["decompte_or"] : null);
+            $ordreRoute->setMontantN($datas["montant_n"] ? $datas["montant_n"] : null);
+            $ordreRoute->setMontantP($datas["montant_p"] ? $datas["montant_p"] : null);
+
             $entityManager->persist($ordreRoute);
             $entityManager->flush();
 
@@ -64,10 +68,12 @@ class OrdreRouteController extends AbstractController
     /**
      * @Route("/{id}", name="ordre_route_show", methods={"GET"})
      */
-    public function show(OrdreRoute $ordreRoute): Response
+    public function show(OrdreRoute $ordreRoute, DocumentRecrutementRepository $documentRecrutementRepository): Response
     {
+        $document_recrutement = $documentRecrutementRepository->findOneBy(['user' => $ordreRoute->getUser()]);
         return $this->render('ordre_route/show.html.twig', [
-            'ordre_route' => $ordreRoute,
+            'ordre_route'          => $ordreRoute,
+            'document_recrutement' => $document_recrutement,
         ]);
     }
 
@@ -80,9 +86,12 @@ class OrdreRouteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $datas         = $request->request->all();
+            $datas = $request->request->all();
             $ordreRoute->setDureeMission($datas["duree_mission"] ? $datas["duree_mission"] : null);
             $ordreRoute->setDecompteOr($datas["decompte_or"] ? $datas["decompte_or"] : null);
+            $ordreRoute->setMontantN($datas["montant_n"] ? $datas["montant_n"] : null);
+            $ordreRoute->setMontantP($datas["montant_p"] ? $datas["montant_p"] : null);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ordre_route_index');
@@ -108,12 +117,13 @@ class OrdreRouteController extends AbstractController
 
         return $this->redirectToRoute('ordre_route_index');
     }
+
     /**
      * @Route("/{id}/validate-or", name="ordre_route_validate")
      */
     public function validateOR(OrdreRoute $ordreRoute)
     {
-        if($ordreRoute){
+        if ($ordreRoute) {
             $entityManager = $this->getDoctrine()->getManager();
             $ordreRoute->setStatus(true);
             $entityManager->flush();

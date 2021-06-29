@@ -17,6 +17,8 @@
         </div>
         <input name="duree_mission" type="hidden" id="duree_mission" value="{{ edit_or ?? ordre_route.dureeMission }}"/>
         <input name="decompte_or" type="hidden" id="decompte_or" value="{{ edit_or ?? ordre_route.decompteOr }}"/>
+        <input name="montant_n" type="hidden" id="montant_n" value="{{ edit_or ?? ordre_route.montantN }}"/>
+        <input name="montant_p" type="hidden" id="montant_p" value="{{ edit_or ?? ordre_route.montantP }}"/>
         <br><br>
         <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     </div>

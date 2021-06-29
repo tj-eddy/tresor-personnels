@@ -5,12 +5,10 @@ $(function () {
         let duration = getDuration(start, end);
         $('#duree_mission').val(duration[1]);
         $('#decompte_or').val(duration[2]);
+        $('#montant_p').val(duration[3]);
+        $('#montant_n').val(duration[4]);
     })
 });
-
-function emptyValInput() {
-    $('#date_start_end').val('')
-}
 
 /**
  * function durationAsString
@@ -32,14 +30,7 @@ function getDuration(start, end) {
     let montant_p = '';
     let montant_n = '';
     let val_indice = $('#ordre_route_indice').val();
-    if (hours > 8) {
-        if (val_indice < 800) {
-            partial = ' et ' + parseInt(hours / 8) + 'P';
-        } else {
-            partial = ' et ' + parseInt(hours / 8) + 'P';
-            montant_p = parseFloat(parseInt(hours / 8) * 12000)
-        }
-    }
+
     if (days) {
         if (val_indice < 800) {
             normal = days + 'N';
@@ -49,13 +40,24 @@ function getDuration(start, end) {
             montant_n = parseFloat(days * 36000)
         }
     }
+
+    if (hours > 8) {
+        if (val_indice < 800) {
+            partial = days ? ' et ' + parseInt(hours / 8) + 'P' : parseInt(hours / 8) + 'P';
+        } else {
+            partial = days ? ' et ' + parseInt(hours / 8) + 'P' : parseInt(hours / 8) + 'P';
+            montant_p = parseFloat(parseInt(hours / 8) * 12000)
+        }
+    }
     //Get Minutes
     const minutes = duration.minutes();
     const minutesFormatted = `${minutes}m`;
     response = [
         [daysFormatted, hoursFormatted, minutesFormatted].join(''),
         normal + partial,
-        montant_p + montant_n
+        montant_p + montant_n,
+        montant_p,
+        montant_n
     ]
 
     return response;

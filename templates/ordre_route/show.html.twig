@@ -15,42 +15,62 @@
                     <!-- Card header -->
                     <div class="card-header border-0">
                         <div class="table-responsive py-4 ">
+                            <div class="section-head">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                État de compte des indemnités de mission au nom de
+                                « {{ ordre_route.user.username ~' '~ ordre_route.user.prenom }} »
+                                « corps: {{ document_recrutement.corps }} , grade:{{ document_recrutement.grade }} et
+                                indice actuels : {{ document_recrutement.indice }} »
+                            </div>
+                            <br>
                             <table class="table table-bordered">
-                                <tbody>
+                                {% set duree = ordre_route.dureeMission|split('et') %}
                                 <tr>
-                                    <th>Numéro</th>
-                                    <td>{{ ordre_route.numOr }}</td>
-                                </tr>
-                                <tr>
+                                    <th>Numéro OR</th>
                                     <th>Date OR</th>
-                                    <td>{{ ordre_route.dateOr }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Objet de mission</th>
-                                    <td>{{ ordre_route.objetMission }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date du début</th>
-                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date du fin</th>
-                                    <td>{{ ordre_route.dateFinMission|replace({'T':' à '}) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Durée du mission</th>
-                                    <td>{{ ordre_route.dureeMission }}</td>
-                                </tr>
-                                <tr>
+                                    <th>Objet mission</th>
+                                    <th>Début mission</th>
+                                    <th>Fin mission</th>
+                                    <th>Durée mission</th>
                                     <th>Décompte OR</th>
-                                    <td>{{ ordre_route.decompteOr }} Ar</td>
+                                    <th>Montant OR</th>
                                 </tr>
-                                </tbody>
+                                <tr>
+                                    <td>{{ ordre_route.numOr }}</td>
+                                    <td>{{ ordre_route.dateOr }}</td>
+                                    <td>{{ ordre_route.objetMission }}</td>
+                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
+                                    <td>{{ ordre_route.dateDebutMission|replace({'T':' à '}) }}</td>
+                                    <td>{{ ordre_route.dureeMission }}</td>
+                                    <td>
+                                        {% for key,d in duree %}
+                                            <span> {{ d }}
+                                                {% if 'N' in d %}
+                                                    {% if d != " " %}
+                                                        {% if ordre_route.indice < 800 %}
+                                                            {{ 'x 30 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                                        {% else %}
+                                                            {{ 'x 36 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if d != " " %}
+                                                        {% if ordre_route.indice < 800 %}
+                                                            {{ 'x 10 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                                        {% else %}
+                                                            {{ 'x 12 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </span>
+                                            <br>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ ordre_route.decompteOr|number_format(0,'',' ') }}</td>
+                                </tr>
                             </table>
                         </div>
-                        {% if not is_granted('ROLE_SUPERADMIN') %}
-                            {{ include('ordre_route/_delete_form.html.twig') }}
-                        {% endif %}
                     </div>
                 </div>
             </div>
