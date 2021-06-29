@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% set fs_link = true %}
+{% set or_link = true %}
 
 {% block body %}
     {% include 'partials/header.html.twig' with
@@ -29,6 +29,7 @@
     <script>
         $('#ordre_route_dateDebutMission').attr('type','datetime-local');
         $('#ordre_route_dateFinMission').attr('type','datetime-local');
+        $('#ordre_route_dateOr').attr('type','date');
     </script>
     <script src="{{ asset('js/ordre.route.js') }}"></script>
 {% endblock %}

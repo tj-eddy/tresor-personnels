@@ -25,10 +25,10 @@ class OrdreRouteType extends AbstractType
                 ]
             ])
             ->add('dateOr', TextType::class, [
-                'label' => "Date OR",
-                'attr'  => [
+                'label'    => "Date OR",
+                'attr'     => [
                     'class' => 'form-control'
-                ]
+                ],
             ])
             ->add('dateDebutMission', TextType::class, [
                 'label' => "Date du début",
