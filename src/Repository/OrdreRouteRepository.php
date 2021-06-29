@@ -19,32 +19,21 @@ class OrdreRouteRepository extends ServiceEntityRepository
         parent::__construct($registry, OrdreRoute::class);
     }
 
-    // /**
-    //  * @return OrdreRoute[] Returns an array of OrdreRoute objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * function getSumDecompteOR
+     * @param $id
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getSumDecompteOR($id)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $ordre_route  = $this->getEntityName();
+        $_query = $this->_em->createQuery("select 
+                                            sum(ord.decompte_or)  as sum_dor
+                                            from $ordre_route ord 
+                                            left join ord.user u 
+                                            where u.id = $id");
 
-    /*
-    public function findOneBySomeField($value): ?OrdreRoute
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $_query->getOneOrNullResult()['sum_dor'];
     }
-    */
 }

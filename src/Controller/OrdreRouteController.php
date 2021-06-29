@@ -168,7 +168,7 @@ class OrdreRouteController extends AbstractController
         $html = $this->renderView('ordre_route/template_or.html.twig', [
             'ordre_routes'         => $ordreRouteRepository->findBy(['user' => $user]),
             'template_pdf'         => true,
-            'montant_total_lettre' => $this->conversion_chiffre_lettre->Conversion(372000),
+            'montant_total_lettre' => $this->conversion_chiffre_lettre->Conversion($ordreRouteRepository->getSumDecompteOR($user->getId())),
             'document_recrutement' => $documentRecrutementRepository->findOneBy(['user' => $user])
         ]);
         $dompdf->loadHtml($html);

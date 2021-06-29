@@ -76,5 +76,5 @@
 
 {% if template_pdf %}
     <br><br>
-    Arrêté le présent état à la somme de {{ montant_total_lettre }} ({{ montant_total|number_format(0,'',' ') }})
+    Arrêté le présent état à la somme de <b>{{ montant_total_lettre }} Ariary </b> ({{ montant_total|number_format(0,'',' ') ~' Ar'}})
 {% endif %}
