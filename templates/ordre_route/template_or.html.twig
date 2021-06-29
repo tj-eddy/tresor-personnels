@@ -1,0 +1,80 @@
+{% if template_pdf %}
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;État de compte des indemnités de mission au nom
+        de {{ document_recrutement.user.username ? document_recrutement.user.username : '' ~ ' ' ~ document_recrutement.user.prenom ? document_recrutement.user.prenom : '' }}
+        <br>
+        <br><br>
+        <b>Corps</b> : {{ document_recrutement.corps ? document_recrutement.corps : '' }} <br>
+        <b>Grade</b> : {{ document_recrutement.grade ? document_recrutement.grade : '' }} <br>
+        <b>Indice actuels </b> : {{ document_recrutement.indice ? document_recrutement.indice:'' }} <br>
+    </p>
+{% endif %}
+<div class="table-responsive py-4 ">
+    {% set montant_total = 0 %}
+    <table class="table table-bordered" style=" border-collapse: collapse;">
+        <tr>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Numéro OR</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Date OR</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Objet mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Début mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Fin mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Durée mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Décompte OR</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Montant OR</th>
+        </tr>
+        {% for ordre_route in ordre_routes %}
+            <tr>
+                {% set duree = ordre_route.dureeMission|split('et') %}
+                {% set montant_total = montant_total + ordre_route.decompteOr %}
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.numOr }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateOr|date("d/m/Y") }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.objetMission }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dureeMission }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">
+                    {% for key,d in duree %}
+                        <span>
+                          {{ ordre_route.decompteOr == 0 ? '': d }}
+                            {% if 'N' in d %}
+                                {% if ordre_route.decompteOr != 0 %}
+                                    {% if d != " " %}
+                                        {% if ordre_route.indice < 800 %}
+                                            {{ 'x 30 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                        {% else %}
+                                            {{ 'x 36 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {% if ordre_route.decompteOr != 0 %}
+                                    {% if d != " " %}
+                                        {% if ordre_route.indice < 800 %}
+                                            {{ 'x 10 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                        {% else %}
+                                            {{ 'x 12 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                                            </span>
+                        <br>
+                    {% endfor %}
+                </td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.decompteOr|number_format(0,'',' ') }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="7"
+                style="padding:8px;font-size: 12px ;border: 1px solid black;text-align: center;font-weight: bold">
+                Montant total
+            </td>
+            <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ montant_total|number_format(0,'',' ') }}</td>
+        </tr>
+    </table>
+</div>
+
+{% if template_pdf %}
+    <br><br>
+    Arrêté le présent état à la somme de {{ montant_total_lettre }} ({{ montant_total|number_format(0,'',' ') }})
+{% endif %}

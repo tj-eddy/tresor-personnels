@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\OrdreRoute;
+use App\Entity\User;
 use App\Form\OrdreRouteType;
 use App\Repository\DocumentRecrutementRepository;
 use App\Repository\OrdreRouteRepository;
+use App\Service\ChiffresEnLettres;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +21,13 @@ use Symfony\Component\Security\Core\Security;
  */
 class OrdreRouteController extends AbstractController
 {
+    private $conversion_chiffre_lettre;
+
+    public function __construct(ChiffresEnLettres $chiffreEnLettre)
+    {
+        $this->conversion_chiffre_lettre = $chiffreEnLettre;
+    }
+
     /**
      * @Route("/", name="ordre_route_index", methods={"GET"})
      */
@@ -82,6 +93,7 @@ class OrdreRouteController extends AbstractController
     {
         return $this->render('ordre_route/showall.html.twig', [
             'ordre_routes' => $ordreRouteRepository->findBy(['user' => $this->getUser()]),
+            'template_pdf' => false,
         ]);
     }
 
@@ -139,5 +151,36 @@ class OrdreRouteController extends AbstractController
         }
 
         return $this->redirectToRoute('ordre_route_index');
+    }
+
+    /**
+     * @Route("/{id}/generate-or", name="generate_or_pdf")
+     */
+    public function generateORPdf(OrdreRouteRepository $ordreRouteRepository,
+                                  User $user,
+                                  DocumentRecrutementRepository $documentRecrutementRepository
+    )
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+
+        $html = $this->renderView('ordre_route/template_or.html.twig', [
+            'ordre_routes'         => $ordreRouteRepository->findBy(['user' => $user]),
+            'template_pdf'         => true,
+            'montant_total_lettre' => $this->conversion_chiffre_lettre->Conversion(372000),
+            'document_recrutement' => $documentRecrutementRepository->findOneBy(['user' => $user])
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        ob_end_clean();
+        $dompdf->stream("ordre_de_route.pdf", [
+            "Attachment" => true
+        ]);
+
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

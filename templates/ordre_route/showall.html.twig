@@ -14,67 +14,12 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <div class="table-responsive py-4 ">
-                            {% set montant_total = 0 %}
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Numéro OR</th>
-                                    <th>Date OR</th>
-                                    <th>Objet mission</th>
-                                    <th>Début mission</th>
-                                    <th>Fin mission</th>
-                                    <th>Durée mission</th>
-                                    <th>Décompte OR</th>
-                                    <th>Montant OR</th>
-                                </tr>
-                                {% for ordre_route in ordre_routes %}
-                                    <tr>
-                                        {% set duree = ordre_route.dureeMission|split('et') %}
-                                        {% set montant_total = montant_total + ordre_route.decompteOr %}
-                                        <td>{{ ordre_route.numOr }}</td>
-                                        <td>{{ ordre_route.dateOr|date("d/m/Y") }}</td>
-                                        <td>{{ ordre_route.objetMission }}</td>
-                                        <td>{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
-                                        <td>{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
-                                        <td>{{ ordre_route.dureeMission }}</td>
-                                        <td>
-                                            {% for key,d in duree %}
-                                                <span>
-                                                {{ ordre_route.decompteOr == 0 ? '': d }}
-                                                    {% if 'N' in d %}
-                                                        {% if ordre_route.decompteOr != 0 %}
-                                                            {% if d != " " %}
-                                                                {% if ordre_route.indice < 800 %}
-                                                                    {{ 'x 30 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
-                                                                {% else %}
-                                                                    {{ 'x 36 000 = '~ ordre_route.montantN|number_format(0,'',' ') }}
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {% if ordre_route.decompteOr != 0 %}
-                                                            {% if d != " " %}
-                                                                {% if ordre_route.indice < 800 %}
-                                                                    {{ 'x 10 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
-                                                                {% else %}
-                                                                    {{ 'x 12 000 = '~ ordre_route.montantP|number_format(0,'',' ') }}
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% endif %}
-                                            </span>
-                                                <br>
-                                            {% endfor %}
-                                        </td>
-                                        <td>{{ ordre_route.decompteOr|number_format(0,'',' ') }}</td>
-                                    </tr>
-                                {% endfor %}
-                                <tr>
-                                    <td colspan="7" style="text-align: center;font-weight: bold">Montant total</td>
-                                    <td>{{ montant_total|number_format(0,'',' ') }}</td>
-                                </tr>
-                            </table>
-                        </div>
+                        <a class="allow-pdf-download" href="{{ path('generate_or_pdf',{'id': app.user.id}) }}"><img
+                                    width="100px"
+                                    height="100px"
+                                    src="{{ asset('/img/logo_pdf.png') }}"
+                                    alt="télécharger"></a>
+                        {% include 'ordre_route/template_or.html.twig' %}
                     </div>
                 </div>
             </div>
