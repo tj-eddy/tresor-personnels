@@ -44,6 +44,7 @@ function getDuration(start, end) {
     if (hours > 8) {
         if (val_indice < 800) {
             partial = days ? ' et ' + parseInt(hours / 8) + 'P' : parseInt(hours / 8) + 'P';
+            montant_p = parseFloat(parseInt(hours / 8) * 10000)
         } else {
             partial = days ? ' et ' + parseInt(hours / 8) + 'P' : parseInt(hours / 8) + 'P';
             montant_p = parseFloat(parseInt(hours / 8) * 12000)
