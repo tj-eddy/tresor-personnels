@@ -39,7 +39,7 @@ $(document).ready(function () {
                     targets: 8,
                     render: function (data, type, row) {
                         href_show = show_path.replace('0', data);
-                        return '<a href="' + href_show + '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>Tâches déjà occupées</a>'
+                        return '<a href="' + href_show + '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>Voir tâches déjà occupées</a>'
                     },
                     orderable: false
                 },

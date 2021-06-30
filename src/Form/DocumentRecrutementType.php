@@ -21,7 +21,7 @@ class DocumentRecrutementType extends AbstractType
                     'class'       => 'form-control',
                     'placeholder' => 'Numéro de document'
                 ],
-                'label' => "Numero de document"
+                'label' => "Numéro de document"
             ])
             ->add('typeDoc', ChoiceType::class, [
                 'attr'    => [
