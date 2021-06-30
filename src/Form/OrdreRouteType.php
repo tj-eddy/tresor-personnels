@@ -56,7 +56,7 @@ class OrdreRouteType extends AbstractType
                 'required' => false
             ])
             ->add('indice', IntegerType::class, [
-                'label'    => "Indice",
+                'label'    => "Indice sur OR",
                 'attr'     => [
                     'class' => 'form-control'
                 ],
