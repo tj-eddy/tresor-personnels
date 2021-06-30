@@ -12,9 +12,10 @@
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Numéro OR</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Date OR</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Objet mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Indice sur OR</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Début mission</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Fin mission</th>
-            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Durée mission</th>
+            <th style="padding :8px;font-size: 12px ;border: 1px solid black">Durée de la mission</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Décompte OR</th>
             <th style="padding :8px;font-size: 12px ;border: 1px solid black">Montant OR</th>
         </tr>
@@ -25,6 +26,7 @@
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.numOr }}</td>
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateOr|date("d/m/Y") }}</td>
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.objetMission }}</td>
+                <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.indice }}</td>
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateDebutMission|date("d/m/Y à H:i ") }}</td>
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dateFinMission|date("d/m/Y à H:i ") }}</td>
                 <td style="padding:8px;font-size: 12px ;border: 1px solid black">{{ ordre_route.dureeMission }}</td>
