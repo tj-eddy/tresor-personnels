@@ -14,40 +14,43 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="row">
-                        <div class="col">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th>Nom</th>
-                                    <td>{{ user.username }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Age</th>
-                                    <td>{{ age }} ans</td>
-                                </tr>
-                                <tr>
-                                    <th>Matricule</th>
-                                    <td>{{ user.matricule }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Numéro CIN</th>
-                                    <td>{{ user.cin }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date prise du service</th>
-                                    <td>{{ user.dateStartService|date('d/m/Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Ancienneté</th>
-                                    <td>{{ anciennete }} </td>
-                                </tr>
-                                <tr>
-                                    <th>Nombre d'enfant</th>
-                                    <td>{{ user.childNumber }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Age</th>
+                                        <td>{{ age }} ans</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Matricule</th>
+                                        <td>{{ user.matricule }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Numéro CIN</th>
+                                        <td>{{ user.cin }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date prise du service</th>
+                                        <td>{{ user.dateStartService|date('d/m/Y') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ancienneté</th>
+                                        <td>{{ anciennete }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre d'enfant</th>
+                                        <td>{{ user.childNumber }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
