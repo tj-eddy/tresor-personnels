@@ -1,12 +1,8 @@
 {% if template_pdf %}
     <p>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;État de compte des indemnités de mission au nom
-        de {{ document_recrutement.user.username ? document_recrutement.user.username : '' ~ ' ' ~ document_recrutement.user.prenom ? document_recrutement.user.prenom : '' }}
-        <br>
-        <br><br>
-        <b>Corps</b> : {{ document_recrutement.corps ? document_recrutement.corps : '' }} <br>
-        <b>Grade</b> : {{ document_recrutement.grade ? document_recrutement.grade : '' }} <br>
-        <b>Indice actuels </b> : {{ document_recrutement.indice ? document_recrutement.indice:'' }} <br>
+        de {{ document_recrutement.user.username ? document_recrutement.user.username : '' ~ ' ' ~ document_recrutement.user.prenom ? document_recrutement.user.prenom : '' }},
+        {{ document_recrutement.corps ? document_recrutement.corps : '' }},{{ document_recrutement.grade ? document_recrutement.grade : '' }}, {{ document_recrutement.indice ? document_recrutement.indice:'' }}
     </p>
 {% endif %}
 <div class="table-responsive py-4 ">
